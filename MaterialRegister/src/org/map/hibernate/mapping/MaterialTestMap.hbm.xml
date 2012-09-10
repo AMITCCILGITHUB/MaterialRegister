@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 26, 2012 8:42:37 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class catalog="metalplants" name="org.map.hibernate.ddo.MaterialTestMap" table="materialtestmap" dynamic-update="true">
+        <composite-id class="org.map.hibernate.ddo.MaterialTestMapId" name="id">
+            <key-property name="ctNumber" type="string">
+                <column length="64" name="Ct_Number"/>
+            </key-property>
+            <key-property name="testCode" type="int">
+                <column name="Test_Code"/>
+            </key-property>
+        </composite-id>
+        <property name="testName" type="string">
+            <column length="64" name="Test_Name"/>
+        </property>
+        <property name="testValue" type="int">
+            <column name="Test_Value" not-null="true"/>
+        </property>
+        <property name="status" type="string">
+            <column length="8" name="Status" not-null="true"/>
+        </property>
+        <property name="createdBy" type="string">
+            <column length="32" name="Created_By" not-null="true"/>
+        </property>
+        <property name="createdDate" type="java.util.Date">
+            <column length="19" name="Created_Date" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

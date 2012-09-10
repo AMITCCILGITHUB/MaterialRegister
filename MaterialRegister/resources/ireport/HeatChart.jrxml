@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HeatChart" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="838" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<field name="equipment" class="java.lang.String"/>
+	<field name="customer" class="java.lang.String"/>
+	<field name="poDetails" class="java.lang.String"/>
+	<field name="drawingNumber" class="java.lang.String"/>
+	<field name="surveyor" class="java.lang.String"/>
+	<field name="heatchartsheets" class="java.util.Set"/>
+	<title>
+		<band height="96" splitType="Stretch">
+			<line>
+				<reportElement x="672" y="33" width="1" height="40"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="838" height="33"/>
+				<box leftPadding="2"/>
+				<textElement>
+					<font fontName="Book Antiqua" size="24"/>
+				</textElement>
+				<text><![CDATA[Heat Chart]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="33" width="168" height="20" backcolor="#5ED7FF"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Equipment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="336" y="53" width="168" height="20" backcolor="#5ED7FF"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Surveyor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="53" width="168" height="20" backcolor="#5ED7FF"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Drawing Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="336" y="33" width="168" height="20" backcolor="#5ED7FF"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<text><![CDATA[Customer]]></text>
+			</staticText>
+			<line>
+				<reportElement x="336" y="33" width="1" height="40"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="673" y="33" width="164" height="20" backcolor="#5ED7FF"/>
+				<textElement/>
+				<text><![CDATA[PO Details]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="168" y="33" width="168" height="20"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{equipment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="504" y="33" width="168" height="20"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{customer}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="167" y="33" width="1" height="40"/>
+			</line>
+			<textField>
+				<reportElement x="673" y="53" width="168" height="20"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{poDetails}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="168" y="53" width="168" height="20"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{drawingNumber}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="503" y="33" width="1" height="40"/>
+			</line>
+			<textField>
+				<reportElement x="504" y="53" width="168" height="20"/>
+				<box leftPadding="2"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{surveyor}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="53" width="835" height="1"/>
+			</line>
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="33" width="837" height="40"/>
+			</rectangle>
+		</band>
+	</title>
+	<detail>
+		<band height="200">
+			<subreport>
+				<reportElement x="2" y="0" width="837" height="200"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{heatchartsheets})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "/HeatChartSheet.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd-MMM-yy">
+				<reportElement x="0" y="0" width="838" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

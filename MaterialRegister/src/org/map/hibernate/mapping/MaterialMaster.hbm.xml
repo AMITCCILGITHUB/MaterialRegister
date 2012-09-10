@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 26, 2012 8:43:05 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class catalog="metalplants" name="org.map.hibernate.ddo.MaterialMaster" table="materialmaster" dynamic-update="true">
+        <id name="ctNumber" type="string">
+            <column length="64" name="Ct_Number"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="inspectionAgency" type="string">
+            <column length="128" name="Inspection_Agency"/>
+        </property>
+        <property name="item" type="string">
+            <column length="128" name="Item" not-null="true"/>
+        </property>
+        <property name="size" type="string">
+            <column length="64" name="Size" not-null="true"/>
+        </property>
+        <property name="quantity" type="int">
+            <column name="Quantity" not-null="true"/>
+        </property>
+        <property name="heatNumber" type="string">
+            <column length="128" name="Heat_Number"/>
+        </property>
+        <property name="plateNumber" type="string">
+            <column length="128" name="Plate_Number"/>
+        </property>
+        <property name="specification" type="string">
+            <column length="128" name="Specification"/>
+        </property>
+        <property name="customer" type="string">
+            <column length="128" name="Customer"/>
+        </property>
+        <property name="equipments" type="string">
+            <column length="128" name="Equipments"/>
+        </property>
+        <property name="laboratory" type="string">
+            <column length="128" name="Laboratory" not-null="true"/>
+        </property>
+        <property name="reportNumber" type="string">
+            <column length="128" name="Report_Number" not-null="true"/>
+        </property>
+        <property name="reportDate" type="string">
+            <column length="64" name="Report_Date" not-null="true"/>
+        </property>
+        <property name="result" type="string">
+            <column length="128" name="Result" not-null="true"/>
+        </property>
+        <property name="remarks" type="string">
+            <column length="128" name="Remarks"/>
+        </property>
+        <property name="witnessedBy" type="string">
+            <column length="128" name="Witnessed_By"/>
+        </property>
+        <property name="failureReason" type="string">
+            <column length="256" name="Failure_Reason"/>
+        </property>        
+        <property name="status" type="string">
+            <column length="8" name="Status" not-null="true"/>
+        </property>
+        <property name="createdBy" type="string">
+            <column length="32" name="Created_By" not-null="true"/>
+        </property>
+        <property name="createdDate" type="java.util.Date">
+            <column length="19" name="Created_Date" not-null="true"/>
+        </property>
+        <set name="tests" table="materialtestmap" inverse="true" cascade="all" order-by="substring(substring_index(Ct_Number, '-', 1), 6) asc">
+            <key>
+                <column length="64" name="Ct_Number" not-null="true"/>
+            </key>
+            <one-to-many class="org.map.hibernate.ddo.MaterialTestMap"/>
+            <filter name="printFilter" condition="Test_Value = 1"/>
+        </set>
+    </class>
+    <sql-query name="nextCtNumberQuery">
+        <![CDATA[select concat('MP', date_format(current_timestamp(), '%y'), '/', count(substring(Ct_Number, 3, 2)) + 1) FROM materialmaster]]>
+    </sql-query>
+    <sql-query name="searchCtNumberQuery">
+        <return alias="stock" class="org.map.hibernate.ddo.MaterialMaster"/>
+        <![CDATA[select * from materialmaster where substring(substring_index(Ct_Number, '-', 1), 6) between :fromCtNumber and :toCtNumber]]>
+    </sql-query>
+    <filter-def name="printFilter"></filter-def>
+</hibernate-mapping>
