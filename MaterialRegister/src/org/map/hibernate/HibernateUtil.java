@@ -1,23 +1,35 @@
 package org.map.hibernate;
 
 import java.io.File;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 
 public class HibernateUtil {
 
-    private static final SessionFactory sessionFactory;
+	private static final SessionFactory sessionFactory;
+	private static ServiceRegistry serviceRegistry;
 
-    static {
-        try {
-            File confFile = new File("resources/hibernate.cfg.xml");
-            sessionFactory = new Configuration().configure(confFile).buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+	static {
+		try {
+			File hCfgFile = new File("resources/hibernate.cfg.xml");
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
+			Configuration hCfg = new Configuration();
+			hCfg.configure(hCfgFile);
+
+			serviceRegistry = new ServiceRegistryBuilder().applySettings(
+					hCfg.getProperties()).buildServiceRegistry();
+			sessionFactory = hCfg.buildSessionFactory(serviceRegistry);
+
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
+
+	public static SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
 }

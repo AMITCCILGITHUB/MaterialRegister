@@ -1,88 +1,92 @@
 package org.map.hibernate.ddo;
 
 import java.io.Serializable;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class UserMaster implements Serializable {
 
-    private SimpleStringProperty userName;
-    private SimpleStringProperty password;
-    private SimpleStringProperty role;
-    private SimpleStringProperty userStatus;
+	private static final long serialVersionUID = 1L;
 
-    public UserMaster() {
-        this.userName = new SimpleStringProperty("");
-        this.password = new SimpleStringProperty("");
-        this.role = new SimpleStringProperty("");
-        this.userStatus = new SimpleStringProperty("TRUE");
-    }
+	private SimpleStringProperty userName;
+	private SimpleStringProperty password;
+	private SimpleStringProperty role;
+	private SimpleStringProperty userStatus;
 
-    public UserMaster(String userName, String password, String role, String userStatus) {
-        this.userName = new SimpleStringProperty(userName);
-        this.password = new SimpleStringProperty(password);
-        this.role = new SimpleStringProperty(role);
-        this.userStatus = new SimpleStringProperty(userStatus);
-    }
+	public UserMaster() {
+		this.userName = new SimpleStringProperty("");
+		this.password = new SimpleStringProperty("");
+		this.role = new SimpleStringProperty("");
+		this.userStatus = new SimpleStringProperty("TRUE");
+	}
 
-    public String getUserName() {
-        return this.userName.get();
-    }
+	public UserMaster(String userName, String password, String role,
+			String userStatus) {
+		this.userName = new SimpleStringProperty(userName);
+		this.password = new SimpleStringProperty(password);
+		this.role = new SimpleStringProperty(role);
+		this.userStatus = new SimpleStringProperty(userStatus);
+	}
 
-    public void setUserName(String userName) {
-        this.userName.set(userName);
-    }
+	public String getUserName() {
+		return this.userName.get();
+	}
 
-    public SimpleStringProperty userNameProperty() {
-        return this.userName;
-    }
+	public void setUserName(String userName) {
+		this.userName.set(userName);
+	}
 
-    public String getPassword() {
-        return this.password.get();
-    }
+	public SimpleStringProperty userNameProperty() {
+		return this.userName;
+	}
 
-    public void setPassword(String password) {
-        this.password.set(password);
-    }
+	public String getPassword() {
+		return this.password.get();
+	}
 
-    public SimpleStringProperty passwordProperty() {
-        return this.password;
-    }
+	public void setPassword(String password) {
+		this.password.set(password);
+	}
 
-    public String getRole() {
-        return this.role.get();
-    }
+	public SimpleStringProperty passwordProperty() {
+		return this.password;
+	}
 
-    public void setRole(String role) {
-        this.role.set(role);
-    }
+	public String getRole() {
+		return this.role.get();
+	}
 
-    public SimpleStringProperty roleProperty() {
-        return this.role;
-    }
+	public void setRole(String role) {
+		this.role.set(role);
+	}
 
-    public String getUserStatus() {
-        return this.userStatus.get();
-    }
+	public SimpleStringProperty roleProperty() {
+		return this.role;
+	}
 
-    public void setUserStatus(String userStatus) {
-        this.userStatus.set(userStatus);
-    }
+	public String getUserStatus() {
+		return this.userStatus.get();
+	}
 
-    public SimpleStringProperty UserStatusProperty() {
-        return this.userStatus;
-    }
+	public void setUserStatus(String userStatus) {
+		this.userStatus.set(userStatus);
+	}
 
-    public void resetUserMaster() {
-        setUserName("");
-        setPassword("");
-        setRole("");
-        setUserStatus("TRUE");
-    }
+	public SimpleStringProperty UserStatusProperty() {
+		return this.userStatus;
+	}
 
-    public void resetUserMaster(UserMaster um) {
-        setUserName(um.getUserName());
-        setPassword(um.getPassword());
-        setRole(um.getRole());
-        setUserStatus(um.getUserStatus());
-    }
+	public void resetUserMaster() {
+		setUserName("");
+		setPassword("");
+		setRole("");
+		setUserStatus("TRUE");
+	}
+
+	public void resetUserMaster(UserMaster um) {
+		setUserName(um.getUserName());
+		setPassword(um.getPassword());
+		setRole(um.getRole());
+		setUserStatus(um.getUserStatus());
+	}
 }

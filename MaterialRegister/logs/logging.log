@@ -1,1 +1,897 @@
-2012-09-10 13:44:43,254  INFO MaterialLogger:32 - Application Started
+2012-09-10 19:38:53,249 DEBUG Configuration:3431 - Process annotated classes
+2012-09-10 19:38:53,250 DEBUG Configuration:1409 - Processing fk mappings (*ToOne and JoinedSubclass)
+2012-09-10 19:38:53,250 DEBUG Configuration:1589 - Processing extends queue
+2012-09-10 19:38:53,250 DEBUG Configuration:1643 - Processing extends queue
+2012-09-10 19:38:53,251 DEBUG Configuration:1592 - Processing collection mappings
+2012-09-10 19:38:53,251 DEBUG CollectionSecondPass:64 - Second pass for collection: org.map.hibernate.ddo.MaterialMaster.tests
+2012-09-10 19:38:53,251 DEBUG HbmBinder:2498 - Mapping collection: org.map.hibernate.ddo.MaterialMaster.tests -> materialtestmap
+2012-09-10 19:38:53,251 DEBUG CollectionSecondPass:80 - Mapped collection key: Ct_Number, one-to-many: org.map.hibernate.ddo.MaterialTestMap
+2012-09-10 19:38:53,251 DEBUG CollectionSecondPass:64 - Second pass for collection: org.map.hibernate.ddo.HeatChartMaster.heatchartsheets
+2012-09-10 19:38:53,251 DEBUG HbmBinder:2498 - Mapping collection: org.map.hibernate.ddo.HeatChartMaster.heatchartsheets -> heatchartsheets
+2012-09-10 19:38:53,252 DEBUG CollectionSecondPass:80 - Mapped collection key: Chart_Number, one-to-many: org.map.hibernate.ddo.HeatChartSheets
+2012-09-10 19:38:53,252 DEBUG Configuration:1602 - Processing native query and ResultSetMapping mappings
+2012-09-10 19:38:53,253 DEBUG NamedSQLQuerySecondPass:125 - Named SQL query: nextCtNumberQuery -> select concat('MP', date_format(current_timestamp(), '%y'), '/', count(substring(Ct_Number, 3, 2)) + 1) FROM materialmaster
+2012-09-10 19:38:53,254 DEBUG NamedSQLQuerySecondPass:125 - Named SQL query: searchCtNumberQuery -> select * from materialmaster where substring(substring_index(Ct_Number, '-', 1), 6) between :fromCtNumber and :toCtNumber
+2012-09-10 19:38:53,256 DEBUG NamedSQLQuerySecondPass:125 - Named SQL query: nextHcNumberQuery -> select concat('HC', date_format(current_timestamp(), '%y'), '/', count(substring(Chart_Number, 3, 2)) + 1) from heatchartmaster
+2012-09-10 19:38:53,257 DEBUG NamedSQLQuerySecondPass:125 - Named SQL query: searchHcNumberQuery -> select * from heatchartmaster where substring(substring_index(Chart_Number, '-', 1), 6) between :fromHcNumber and :toHcNumber
+2012-09-10 19:38:53,257 DEBUG Configuration:1610 - Processing association property references
+2012-09-10 19:38:53,257 DEBUG Configuration:1632 - Processing foreign key constraints
+2012-09-10 19:38:53,257 DEBUG Configuration:1700 - Resolving reference to class: org.map.hibernate.ddo.HeatChartMaster
+2012-09-10 19:38:53,257 DEBUG Configuration:1700 - Resolving reference to class: org.map.hibernate.ddo.MaterialMaster
+2012-09-10 19:38:53,257 DEBUG Configuration:1700 - Resolving reference to class: org.map.hibernate.ddo.MaterialMaster
+2012-09-10 19:38:53,278  INFO DriverManagerConnectionProviderImpl:96 - HHH000402: Using Hibernate built-in connection pool (not for production use!)
+2012-09-10 19:38:53,283  INFO DriverManagerConnectionProviderImpl:130 - HHH000115: Hibernate connection pool size: 512
+2012-09-10 19:38:53,283  INFO DriverManagerConnectionProviderImpl:133 - HHH000006: Autocommit mode: true
+2012-09-10 19:38:53,284  INFO DriverManagerConnectionProviderImpl:147 - HHH000401: using driver [com.mysql.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/metalplants]
+2012-09-10 19:38:53,284  INFO DriverManagerConnectionProviderImpl:150 - HHH000046: Connection properties: {user=root, password=tiger, autocommit=true}
+2012-09-10 19:38:53,301 DEBUG DriverManagerConnectionProviderImpl:192 - Opening new JDBC connection
+2012-09-10 19:38:53,487 DEBUG DriverManagerConnectionProviderImpl:202 - Created connection to: jdbc:mysql://localhost:3306/metalplants, Isolation Level: 4
+2012-09-10 19:38:53,487 DEBUG JdbcServicesImpl:121 - Database ->
+       name : MySQL
+    version : 5.5.27
+      major : 5
+      minor : 5
+2012-09-10 19:38:53,488 DEBUG JdbcServicesImpl:127 - Driver ->
+       name : MySQL-AB JDBC Driver
+    version : mysql-connector-java-5.1.21 ( Revision: ${bzr.revision-id} )
+      major : 5
+      minor : 1
+2012-09-10 19:38:53,488 DEBUG JdbcServicesImpl:133 - JDBC version : 4.0
+2012-09-10 19:38:53,499  INFO Dialect:125 - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2012-09-10 19:38:53,513 DEBUG SettingsFactory:102 - Automatic flush during beforeCompletion(): disabled
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:108 - Automatic session close at end of transaction: disabled
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:119 - JDBC batch size: 15
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:125 - JDBC batch updates for versioned data: disabled
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:135 - Scrollable result sets: enabled
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:141 - Wrap result sets: disabled
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:147 - JDBC3 getGeneratedKeys(): enabled
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:159 - multi-tenancy strategy : NONE
+2012-09-10 19:38:53,514 DEBUG SettingsFactory:165 - Connection release mode: auto
+2012-09-10 19:38:53,515  INFO TransactionFactoryInitiator:68 - HHH000399: Using default transaction strategy (direct JDBC transactions)
+2012-09-10 19:38:53,517 DEBUG SettingsFactory:201 - Maximum outer join fetch depth: 2
+2012-09-10 19:38:53,517 DEBUG SettingsFactory:207 - Default batch fetch size: 1
+2012-09-10 19:38:53,517 DEBUG SettingsFactory:213 - Generate SQL with comments: disabled
+2012-09-10 19:38:53,517 DEBUG SettingsFactory:219 - Order SQL updates by primary key: disabled
+2012-09-10 19:38:53,517 DEBUG SettingsFactory:225 - Order SQL inserts for batching: disabled
+2012-09-10 19:38:53,517 DEBUG SettingsFactory:450 - Query translator: org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory
+2012-09-10 19:38:53,518  INFO ASTQueryTranslatorFactory:48 - HHH000397: Using ASTQueryTranslatorFactory
+2012-09-10 19:38:53,519 DEBUG SettingsFactory:235 - Query language substitutions: {}
+2012-09-10 19:38:53,519 DEBUG SettingsFactory:241 - JPA-QL strict compliance: disabled
+2012-09-10 19:38:53,519 DEBUG SettingsFactory:249 - Second-level cache: enabled
+2012-09-10 19:38:53,519 DEBUG SettingsFactory:255 - Query cache: disabled
+2012-09-10 19:38:53,519 DEBUG SettingsFactory:390 - Cache region factory : org.hibernate.cache.internal.NoCachingRegionFactory
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:400 - org.hibernate.cache.internal.NoCachingRegionFactory did not provide constructor accepting java.util.Properties; attempting no-arg constructor.
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:270 - Optimize cache for minimal puts: disabled
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:285 - Structured second-level cache entries: disabled
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:294 - Statistics: disabled
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:300 - Deleted entity synthetic identifier rollback: disabled
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:324 - Default entity-mode: pojo
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:330 - Named query checking : enabled
+2012-09-10 19:38:53,520 DEBUG SettingsFactory:336 - Check Nullability in Core (should be disabled when Bean Validation is on): enabled
+2012-09-10 19:38:53,527 DEBUG SessionFactoryImpl:223 - Building session factory
+2012-09-10 19:38:53,538 DEBUG SessionFactoryImpl:275 - Session factory constructed with filter configurations : {printFilter=org.hibernate.engine.spi.FilterDefinition@c073fd}
+2012-09-10 19:38:53,538 DEBUG SessionFactoryImpl:276 - Instantiating session factory with properties: {javafx.version=2.2.1, java.runtime.name=Java(TM) SE Runtime Environment, hibernate.connection.password=tiger, sun.boot.library.path=C:\Program Files\Java\jre7\bin, java.vm.version=23.3-b01, hibernate.connection.username=root, java.vm.vendor=Oracle Corporation, java.vendor.url=http://java.oracle.com/, path.separator=;, java.vm.name=Java HotSpot(TM) Client VM, file.encoding.pkg=sun.io, user.script=, user.country=US, sun.java.launcher=SUN_STANDARD, sun.os.patch.level=Service Pack 1, java.vm.specification.name=Java Virtual Machine Specification, user.dir=C:\Users\User\git\org.apandey.materialregister\MaterialRegister, java.runtime.version=1.7.0_07-b11, java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment, javafx.runtime.version=2.2.1-b03, java.endorsed.dirs=C:\Program Files\Java\jre7\lib\endorsed, os.arch=x86, hibernate.connection.autocommit=true, java.io.tmpdir=C:\Users\User\AppData\Local\Temp\, line.separator=
+, java.vm.specification.vendor=Oracle Corporation, user.variant=, os.name=Windows 7, sun.jnu.encoding=Cp1252, java.library.path=C:\Program Files\Java\jre7\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Program Files/Java/jre7/bin/client;C:/Program Files/Java/jre7/bin;C:/Program Files/Java/jre7/lib/i386;C:\Perl\site\bin;C:\Perl\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Java\jdk1.7.0_06\bin;C:\Program Files\Java\jre7\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\MySQL\MySQL Server 5.5\bin;C:\Program Files\Bazaar;C:\Program Files\Graphviz 2.28\bin;C\php;C\php\ext;;C:\Program Files\eclipse;;., java.specification.name=Java Platform API Specification, java.class.version=51.0, hibernate.connection.pool_size=512, sun.management.compiler=HotSpot Client Compiler, os.version=6.1, user.home=C:\Users\User, user.timezone=Asia/Calcutta, java.awt.printerjob=sun.awt.windows.WPrinterJob, java.specification.version=1.7, file.encoding=Cp1252, hibernate.format_sql=true, hibernate.connection.driver_class=com.mysql.jdbc.Driver, user.name=administrator, java.class.path=C:\Users\User\git\org.apandey.materialregister\MaterialRegister\bin;C:\Program Files\Java\jre7\lib\jfxrt.jar;C:\Users\User\workspace\libs\hibernate lib\required\antlr-2.7.7.jar;C:\Users\User\workspace\libs\hibernate lib\required\dom4j-1.6.1.jar;C:\Users\User\workspace\libs\hibernate lib\required\hibernate-commons-annotations-4.0.1.Final.jar;C:\Users\User\workspace\libs\hibernate lib\required\hibernate-core-4.1.7.Final.jar;C:\Users\User\workspace\libs\hibernate lib\required\hibernate-jpa-2.0-api-1.0.1.Final.jar;C:\Users\User\workspace\libs\hibernate lib\required\javassist-3.15.0-GA.jar;C:\Users\User\workspace\libs\hibernate lib\required\jboss-logging-3.1.0.GA.jar;C:\Users\User\workspace\libs\hibernate lib\required\jboss-transaction-api_1.1_spec-1.0.0.Final.jar;C:\Users\User\workspace\libs\hibernate lib\envers\hibernate-envers-4.1.7.Final.jar;C:\Users\User\workspace\libs\hibernate lib\jpa\hibernate-entitymanager-4.1.7.Final.jar;C:\Users\User\workspace\libs\hibernate lib\optional\c3p0\c3p0-0.9.1.jar;C:\Users\User\workspace\libs\hibernate lib\optional\c3p0\hibernate-c3p0-4.1.7.Final.jar;C:\Users\User\workspace\libs\ireport lib\jasperreports-4.7.0.jar;C:\Users\User\workspace\libs\ireport lib\jasperreports-applet-4.7.0.jar;C:\Users\User\workspace\libs\ireport lib\jasperreports-fonts-4.7.0.jar;C:\Users\User\workspace\libs\ireport lib\jasperreports-javaflow-4.7.0.jar;C:\Users\User\workspace\libs\itext lib\itextpdf-5.3.2.jar;C:\Users\User\workspace\libs\itext lib\itext-pdfa-5.3.2.jar;C:\Users\User\workspace\libs\itext lib\itext-xtra-5.3.2.jar;C:\Users\User\workspace\libs\poi lib\poi-3.8-20120326.jar;C:\Users\User\workspace\libs\poi lib\lib\commons-logging-1.1.jar;C:\Users\User\workspace\libs\poi lib\lib\junit-3.8.1.jar;C:\Users\User\workspace\libs\poi lib\lib\log4j-1.2.13.jar;C:\Users\User\workspace\libs\poi lib\ooxml-lib\dom4j-1.6.1.jar;C:\Users\User\workspace\libs\poi lib\ooxml-lib\stax-api-1.0.1.jar;C:\Users\User\workspace\libs\poi lib\ooxml-lib\xmlbeans-2.3.0.jar;C:\Users\User\workspace\libs\poi lib\poi-excelant-3.8-20120326.jar;C:\Users\User\workspace\libs\poi lib\poi-ooxml-3.8-20120326.jar;C:\Users\User\workspace\libs\poi lib\poi-ooxml-schemas-3.8-20120326.jar;C:\Users\User\workspace\libs\poi lib\poi-scratchpad-3.8-20120326.jar;C:\Users\User\workspace\libs\mysql-connector-java-5.1.21-bin.jar, hibernate.bytecode.use_reflection_optimizer=false, hibernate.show_sql=true, java.vm.specification.version=1.7, sun.arch.data.model=32, java.home=C:\Program Files\Java\jre7, sun.java.command=org.map.login.Login, hibernate.dialect=org.hibernate.dialect.MySQLDialect, hibernate.connection.url=jdbc:mysql://localhost:3306/metalplants, java.specification.vendor=Oracle Corporation, user.language=en, awt.toolkit=sun.awt.windows.WToolkit, java.vm.info=mixed mode, sharing, java.version=1.7.0_07, java.ext.dirs=C:\Program Files\Java\jre7\lib\ext;C:\Windows\Sun\Java\lib\ext, sun.boot.class.path=C:\Program Files\Java\jre7\lib\resources.jar;C:\Program Files\Java\jre7\lib\rt.jar;C:\Program Files\Java\jre7\lib\sunrsasign.jar;C:\Program Files\Java\jre7\lib\jsse.jar;C:\Program Files\Java\jre7\lib\jce.jar;C:\Program Files\Java\jre7\lib\charsets.jar;C:\Program Files\Java\jre7\lib\jfr.jar;C:\Program Files\Java\jre7\classes, java.vendor=Oracle Corporation, file.separator=\, java.vendor.url.bug=http://bugreport.sun.com/bugreport/, sun.cpu.endian=little, sun.io.unicode.encoding=UnicodeLittle, sun.desktop=windows, sun.cpu.isalist=pentium_pro+mmx pentium_pro pentium+mmx pentium i486 i386 i86}
+2012-09-10 19:38:53,626 DEBUG Configuration:3401 - Processing hbm.xml files
+2012-09-10 19:38:53,626 DEBUG Configuration:3431 - Process annotated classes
+2012-09-10 19:38:53,626 DEBUG Configuration:1409 - Processing fk mappings (*ToOne and JoinedSubclass)
+2012-09-10 19:38:53,627 DEBUG Configuration:1589 - Processing extends queue
+2012-09-10 19:38:53,627 DEBUG Configuration:1643 - Processing extends queue
+2012-09-10 19:38:53,627 DEBUG Configuration:1592 - Processing collection mappings
+2012-09-10 19:38:53,627 DEBUG Configuration:1602 - Processing native query and ResultSetMapping mappings
+2012-09-10 19:38:53,627 DEBUG Configuration:1610 - Processing association property references
+2012-09-10 19:38:53,627 DEBUG Configuration:1632 - Processing foreign key constraints
+2012-09-10 19:38:53,627 DEBUG Configuration:1700 - Resolving reference to class: org.map.hibernate.ddo.HeatChartMaster
+2012-09-10 19:38:53,627 DEBUG Configuration:1700 - Resolving reference to class: org.map.hibernate.ddo.MaterialMaster
+2012-09-10 19:38:53,627 DEBUG Configuration:1700 - Resolving reference to class: org.map.hibernate.ddo.MaterialMaster
+2012-09-10 19:38:53,628 DEBUG DefaultIdentifierGeneratorFactory:107 - Setting dialect [org.hibernate.dialect.MySQLDialect]
+2012-09-10 19:38:53,629 DEBUG DefaultIdentifierGeneratorFactory:107 - Setting dialect [org.hibernate.dialect.MySQLDialect]
+2012-09-10 19:38:53,629 DEBUG DefaultIdentifierGeneratorFactory:107 - Setting dialect [org.hibernate.dialect.MySQLDialect]
+2012-09-10 19:38:53,705 DEBUG AbstractEntityPersister:3486 - Static SQL for entity: org.map.hibernate.ddo.ValidationMaster
+2012-09-10 19:38:53,705 DEBUG AbstractEntityPersister:3491 -  Version select: select Validation_Type, Validation_Code from metalplants.validationmaster where Validation_Type =? and Validation_Code =?
+2012-09-10 19:38:53,705 DEBUG AbstractEntityPersister:3494 -  Snapshot select: select validation_.Validation_Type, validation_.Validation_Code, validation_.Validation_Name as Validation3_4_, validation_.Validation_Desc as Validation4_4_, validation_.Validation_Status as Validation5_4_, validation_.Created_By as Created6_4_, validation_.Created_Date as Created7_4_ from metalplants.validationmaster validation_ where validation_.Validation_Type=? and validation_.Validation_Code=?
+2012-09-10 19:38:53,705 DEBUG AbstractEntityPersister:3497 -  Insert 0: insert into metalplants.validationmaster (Validation_Name, Validation_Desc, Validation_Status, Created_By, Created_Date, Validation_Type, Validation_Code) values (?, ?, ?, ?, ?, ?, ?)
+2012-09-10 19:38:53,706 DEBUG AbstractEntityPersister:3498 -  Update 0: update metalplants.validationmaster set Validation_Name=?, Validation_Desc=?, Validation_Status=?, Created_By=?, Created_Date=? where Validation_Type=? and Validation_Code=?
+2012-09-10 19:38:53,706 DEBUG AbstractEntityPersister:3499 -  Delete 0: delete from metalplants.validationmaster where Validation_Type=? and Validation_Code=?
+2012-09-10 19:38:53,720 DEBUG AbstractEntityPersister:3486 - Static SQL for entity: org.map.hibernate.ddo.MaterialMaster
+2012-09-10 19:38:53,720 DEBUG AbstractEntityPersister:3491 -  Version select: select Ct_Number from metalplants.materialmaster where Ct_Number =?
+2012-09-10 19:38:53,720 DEBUG AbstractEntityPersister:3494 -  Snapshot select: select materialma_.Ct_Number, materialma_.Inspection_Agency as Inspection2_0_, materialma_.Item as Item0_, materialma_.Size as Size0_, materialma_.Quantity as Quantity0_, materialma_.Heat_Number as Heat6_0_, materialma_.Plate_Number as Plate7_0_, materialma_.Specification as Specific8_0_, materialma_.Customer as Customer0_, materialma_.Equipments as Equipments0_, materialma_.Laboratory as Laboratory0_, materialma_.Report_Number as Report12_0_, materialma_.Report_Date as Report13_0_, materialma_.Result as Result0_, materialma_.Remarks as Remarks0_, materialma_.Witnessed_By as Witnessed16_0_, materialma_.Failure_Reason as Failure17_0_, materialma_.Status as Status0_, materialma_.Created_By as Created19_0_, materialma_.Created_Date as Created20_0_ from metalplants.materialmaster materialma_ where materialma_.Ct_Number=?
+2012-09-10 19:38:53,721 DEBUG AbstractEntityPersister:3497 -  Insert 0: insert into metalplants.materialmaster (Inspection_Agency, Item, Size, Quantity, Heat_Number, Plate_Number, Specification, Customer, Equipments, Laboratory, Report_Number, Report_Date, Result, Remarks, Witnessed_By, Failure_Reason, Status, Created_By, Created_Date, Ct_Number) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2012-09-10 19:38:53,721 DEBUG AbstractEntityPersister:3498 -  Update 0: update metalplants.materialmaster set Inspection_Agency=?, Item=?, Size=?, Quantity=?, Heat_Number=?, Plate_Number=?, Specification=?, Customer=?, Equipments=?, Laboratory=?, Report_Number=?, Report_Date=?, Result=?, Remarks=?, Witnessed_By=?, Failure_Reason=?, Status=?, Created_By=?, Created_Date=? where Ct_Number=?
+2012-09-10 19:38:53,721 DEBUG AbstractEntityPersister:3499 -  Delete 0: delete from metalplants.materialmaster where Ct_Number=?
+2012-09-10 19:38:53,725 DEBUG AbstractEntityPersister:3486 - Static SQL for entity: org.map.hibernate.ddo.HeatChartMaster
+2012-09-10 19:38:53,725 DEBUG AbstractEntityPersister:3491 -  Version select: select Chart_Number from metalplants.heatchartmaster where Chart_Number =?
+2012-09-10 19:38:53,725 DEBUG AbstractEntityPersister:3494 -  Snapshot select: select heatchartm_.Chart_Number, heatchartm_.Equipment as Equipment3_, heatchartm_.Customer as Customer3_, heatchartm_.Po_Details as Po4_3_, heatchartm_.Drawing_Number as Drawing5_3_, heatchartm_.Surveyor as Surveyor3_, heatchartm_.Status as Status3_, heatchartm_.Created_By as Created8_3_, heatchartm_.Created_Date as Created9_3_ from metalplants.heatchartmaster heatchartm_ where heatchartm_.Chart_Number=?
+2012-09-10 19:38:53,725 DEBUG AbstractEntityPersister:3497 -  Insert 0: insert into metalplants.heatchartmaster (Equipment, Customer, Po_Details, Drawing_Number, Surveyor, Status, Created_By, Created_Date, Chart_Number) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2012-09-10 19:38:53,725 DEBUG AbstractEntityPersister:3498 -  Update 0: update metalplants.heatchartmaster set Equipment=?, Customer=?, Po_Details=?, Drawing_Number=?, Surveyor=?, Status=?, Created_By=?, Created_Date=? where Chart_Number=?
+2012-09-10 19:38:53,726 DEBUG AbstractEntityPersister:3499 -  Delete 0: delete from metalplants.heatchartmaster where Chart_Number=?
+2012-09-10 19:38:53,728 DEBUG AbstractEntityPersister:3486 - Static SQL for entity: org.map.hibernate.ddo.UserMaster
+2012-09-10 19:38:53,728 DEBUG AbstractEntityPersister:3491 -  Version select: select User_Name from metalplants.usermaster where User_Name =?
+2012-09-10 19:38:53,728 DEBUG AbstractEntityPersister:3494 -  Snapshot select: select usermaster_.User_Name, usermaster_.Password as Password5_, usermaster_.Role as Role5_, usermaster_.User_Status as User4_5_ from metalplants.usermaster usermaster_ where usermaster_.User_Name=?
+2012-09-10 19:38:53,728 DEBUG AbstractEntityPersister:3497 -  Insert 0: insert into metalplants.usermaster (Password, Role, User_Status, User_Name) values (?, ?, ?, ?)
+2012-09-10 19:38:53,729 DEBUG AbstractEntityPersister:3498 -  Update 0: update metalplants.usermaster set Password=?, Role=?, User_Status=? where User_Name=?
+2012-09-10 19:38:53,729 DEBUG AbstractEntityPersister:3499 -  Delete 0: delete from metalplants.usermaster where User_Name=?
+2012-09-10 19:38:53,733 DEBUG AbstractEntityPersister:3486 - Static SQL for entity: org.map.hibernate.ddo.HeatChartSheets
+2012-09-10 19:38:53,733 DEBUG AbstractEntityPersister:3491 -  Version select: select Chart_Number, Sheet_Number, Ct_Number from metalplants.heatchartsheets where Chart_Number =? and Sheet_Number =? and Ct_Number =?
+2012-09-10 19:38:53,733 DEBUG AbstractEntityPersister:3494 -  Snapshot select: select heatcharts_.Chart_Number, heatcharts_.Sheet_Number, heatcharts_.Ct_Number, heatcharts_.Sequence_Number as Sequence4_2_, heatcharts_.Part_Number as Part5_2_, heatcharts_.Part_Name as Part6_2_, heatcharts_.Specied_Size as Specied7_2_, heatcharts_.Specied_Grade as Specied8_2_, heatcharts_.Status as Status2_, heatcharts_.Created_By as Created10_2_, heatcharts_.Created_Date as Created11_2_ from metalplants.heatchartsheets heatcharts_ where heatcharts_.Chart_Number=? and heatcharts_.Sheet_Number=? and heatcharts_.Ct_Number=?
+2012-09-10 19:38:53,734 DEBUG AbstractEntityPersister:3497 -  Insert 0: insert into metalplants.heatchartsheets (Sequence_Number, Part_Number, Part_Name, Specied_Size, Specied_Grade, Status, Created_By, Created_Date, Chart_Number, Sheet_Number, Ct_Number) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2012-09-10 19:38:53,734 DEBUG AbstractEntityPersister:3498 -  Update 0: update metalplants.heatchartsheets set Sequence_Number=?, Part_Number=?, Part_Name=?, Specied_Size=?, Specied_Grade=?, Status=?, Created_By=?, Created_Date=? where Chart_Number=? and Sheet_Number=? and Ct_Number=?
+2012-09-10 19:38:53,734 DEBUG AbstractEntityPersister:3499 -  Delete 0: delete from metalplants.heatchartsheets where Chart_Number=? and Sheet_Number=? and Ct_Number=?
+2012-09-10 19:38:53,737 DEBUG AbstractEntityPersister:3486 - Static SQL for entity: org.map.hibernate.ddo.MaterialTestMap
+2012-09-10 19:38:53,737 DEBUG AbstractEntityPersister:3491 -  Version select: select Ct_Number, Test_Code from metalplants.materialtestmap where Ct_Number =? and Test_Code =?
+2012-09-10 19:38:53,737 DEBUG AbstractEntityPersister:3494 -  Snapshot select: select materialte_.Ct_Number, materialte_.Test_Code, materialte_.Test_Name as Test3_1_, materialte_.Test_Value as Test4_1_, materialte_.Status as Status1_, materialte_.Created_By as Created6_1_, materialte_.Created_Date as Created7_1_ from metalplants.materialtestmap materialte_ where materialte_.Ct_Number=? and materialte_.Test_Code=?
+2012-09-10 19:38:53,737 DEBUG AbstractEntityPersister:3497 -  Insert 0: insert into metalplants.materialtestmap (Test_Name, Test_Value, Status, Created_By, Created_Date, Ct_Number, Test_Code) values (?, ?, ?, ?, ?, ?, ?)
+2012-09-10 19:38:53,737 DEBUG AbstractEntityPersister:3498 -  Update 0: update metalplants.materialtestmap set Test_Name=?, Test_Value=?, Status=?, Created_By=?, Created_Date=? where Ct_Number=? and Test_Code=?
+2012-09-10 19:38:53,737 DEBUG AbstractEntityPersister:3499 -  Delete 0: delete from metalplants.materialtestmap where Ct_Number=? and Test_Code=?
+2012-09-10 19:38:53,743 DEBUG AbstractCollectionPersister:669 - Static SQL for collection: org.map.hibernate.ddo.MaterialMaster.tests
+2012-09-10 19:38:53,743 DEBUG AbstractCollectionPersister:670 -  Row insert: update metalplants.materialtestmap set Ct_Number=? where Ct_Number=? and Test_Code=?
+2012-09-10 19:38:53,743 DEBUG AbstractCollectionPersister:672 -  Row delete: update metalplants.materialtestmap set Ct_Number=null where Ct_Number=? and Test_Code=?
+2012-09-10 19:38:53,744 DEBUG AbstractCollectionPersister:673 -  One-shot delete: update metalplants.materialtestmap set Ct_Number=null where Ct_Number=?
+2012-09-10 19:38:53,765  WARN TemplateRenderer:103 - HHH000174: Function template anticipated 3 arguments, but 2 arguments encountered
+2012-09-10 19:38:53,770 DEBUG AbstractCollectionPersister:669 - Static SQL for collection: org.map.hibernate.ddo.HeatChartMaster.heatchartsheets
+2012-09-10 19:38:53,771 DEBUG AbstractCollectionPersister:670 -  Row insert: update metalplants.heatchartsheets set Chart_Number=? where Chart_Number=? and Sheet_Number=? and Ct_Number=?
+2012-09-10 19:38:53,771 DEBUG AbstractCollectionPersister:672 -  Row delete: update metalplants.heatchartsheets set Chart_Number=null where Chart_Number=? and Sheet_Number=? and Ct_Number=?
+2012-09-10 19:38:53,771 DEBUG AbstractCollectionPersister:673 -  One-shot delete: update metalplants.heatchartsheets set Chart_Number=null where Chart_Number=?
+2012-09-10 19:38:53,783 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [NONE]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=?
+2012-09-10 19:38:53,784 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [READ]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=?
+2012-09-10 19:38:53,784 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [UPGRADE]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=? for update
+2012-09-10 19:38:53,784 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [UPGRADE_NOWAIT]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=? for update
+2012-09-10 19:38:53,784 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [FORCE]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=? for update
+2012-09-10 19:38:53,785 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [PESSIMISTIC_READ]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=? lock in share mode
+2012-09-10 19:38:53,785 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [PESSIMISTIC_WRITE]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=? for update
+2012-09-10 19:38:53,785 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [PESSIMISTIC_FORCE_INCREMENT]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=? for update
+2012-09-10 19:38:53,785 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [OPTIMISTIC]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=?
+2012-09-10 19:38:53,786 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.ValidationMaster [OPTIMISTIC_FORCE_INCREMENT]: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=?
+2012-09-10 19:38:53,790 DEBUG Loader:56 - Static select for action ACTION_MERGE on entity org.map.hibernate.ddo.ValidationMaster: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=?
+2012-09-10 19:38:53,790 DEBUG Loader:56 - Static select for action ACTION_REFRESH on entity org.map.hibernate.ddo.ValidationMaster: select validation0_.Validation_Type as Validation1_4_0_, validation0_.Validation_Code as Validation2_4_0_, validation0_.Validation_Name as Validation3_4_0_, validation0_.Validation_Desc as Validation4_4_0_, validation0_.Validation_Status as Validation5_4_0_, validation0_.Created_By as Created6_4_0_, validation0_.Created_Date as Created7_4_0_ from metalplants.validationmaster validation0_ where validation0_.Validation_Type=? and validation0_.Validation_Code=?
+2012-09-10 19:38:53,791 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [NONE]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=?
+2012-09-10 19:38:53,791 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [READ]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=?
+2012-09-10 19:38:53,791 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [UPGRADE]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=? for update
+2012-09-10 19:38:53,792 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [UPGRADE_NOWAIT]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=? for update
+2012-09-10 19:38:53,792 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [FORCE]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=? for update
+2012-09-10 19:38:53,792 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [PESSIMISTIC_READ]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=? lock in share mode
+2012-09-10 19:38:53,793 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [PESSIMISTIC_WRITE]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=? for update
+2012-09-10 19:38:53,793 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [PESSIMISTIC_FORCE_INCREMENT]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=? for update
+2012-09-10 19:38:53,793 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [OPTIMISTIC]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=?
+2012-09-10 19:38:53,797 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialMaster [OPTIMISTIC_FORCE_INCREMENT]: select materialma0_.Ct_Number as Ct1_0_0_, materialma0_.Inspection_Agency as Inspection2_0_0_, materialma0_.Item as Item0_0_, materialma0_.Size as Size0_0_, materialma0_.Quantity as Quantity0_0_, materialma0_.Heat_Number as Heat6_0_0_, materialma0_.Plate_Number as Plate7_0_0_, materialma0_.Specification as Specific8_0_0_, materialma0_.Customer as Customer0_0_, materialma0_.Equipments as Equipments0_0_, materialma0_.Laboratory as Laboratory0_0_, materialma0_.Report_Number as Report12_0_0_, materialma0_.Report_Date as Report13_0_0_, materialma0_.Result as Result0_0_, materialma0_.Remarks as Remarks0_0_, materialma0_.Witnessed_By as Witnessed16_0_0_, materialma0_.Failure_Reason as Failure17_0_0_, materialma0_.Status as Status0_0_, materialma0_.Created_By as Created19_0_0_, materialma0_.Created_Date as Created20_0_0_ from metalplants.materialmaster materialma0_ where materialma0_.Ct_Number=?
+2012-09-10 19:38:53,800 DEBUG Loader:56 - Static select for action ACTION_MERGE on entity org.map.hibernate.ddo.MaterialMaster: select materialma0_.Ct_Number as Ct1_0_1_, materialma0_.Inspection_Agency as Inspection2_0_1_, materialma0_.Item as Item0_1_, materialma0_.Size as Size0_1_, materialma0_.Quantity as Quantity0_1_, materialma0_.Heat_Number as Heat6_0_1_, materialma0_.Plate_Number as Plate7_0_1_, materialma0_.Specification as Specific8_0_1_, materialma0_.Customer as Customer0_1_, materialma0_.Equipments as Equipments0_1_, materialma0_.Laboratory as Laboratory0_1_, materialma0_.Report_Number as Report12_0_1_, materialma0_.Report_Date as Report13_0_1_, materialma0_.Result as Result0_1_, materialma0_.Remarks as Remarks0_1_, materialma0_.Witnessed_By as Witnessed16_0_1_, materialma0_.Failure_Reason as Failure17_0_1_, materialma0_.Status as Status0_1_, materialma0_.Created_By as Created19_0_1_, materialma0_.Created_Date as Created20_0_1_, tests1_.Ct_Number as Ct1_0_3_, tests1_.Ct_Number as Ct1_1_3_, tests1_.Test_Code as Test2_1_3_, tests1_.Ct_Number as Ct1_1_0_, tests1_.Test_Code as Test2_1_0_, tests1_.Test_Name as Test3_1_0_, tests1_.Test_Value as Test4_1_0_, tests1_.Status as Status1_0_, tests1_.Created_By as Created6_1_0_, tests1_.Created_Date as Created7_1_0_ from metalplants.materialmaster materialma0_ left outer join metalplants.materialtestmap tests1_ on materialma0_.Ct_Number=tests1_.Ct_Number where materialma0_.Ct_Number=? order by substring(substring_index(tests1_.Ct_Number, '-', 1), 6) asc
+2012-09-10 19:38:53,801 DEBUG Loader:56 - Static select for action ACTION_REFRESH on entity org.map.hibernate.ddo.MaterialMaster: select materialma0_.Ct_Number as Ct1_0_1_, materialma0_.Inspection_Agency as Inspection2_0_1_, materialma0_.Item as Item0_1_, materialma0_.Size as Size0_1_, materialma0_.Quantity as Quantity0_1_, materialma0_.Heat_Number as Heat6_0_1_, materialma0_.Plate_Number as Plate7_0_1_, materialma0_.Specification as Specific8_0_1_, materialma0_.Customer as Customer0_1_, materialma0_.Equipments as Equipments0_1_, materialma0_.Laboratory as Laboratory0_1_, materialma0_.Report_Number as Report12_0_1_, materialma0_.Report_Date as Report13_0_1_, materialma0_.Result as Result0_1_, materialma0_.Remarks as Remarks0_1_, materialma0_.Witnessed_By as Witnessed16_0_1_, materialma0_.Failure_Reason as Failure17_0_1_, materialma0_.Status as Status0_1_, materialma0_.Created_By as Created19_0_1_, materialma0_.Created_Date as Created20_0_1_, tests1_.Ct_Number as Ct1_0_3_, tests1_.Ct_Number as Ct1_1_3_, tests1_.Test_Code as Test2_1_3_, tests1_.Ct_Number as Ct1_1_0_, tests1_.Test_Code as Test2_1_0_, tests1_.Test_Name as Test3_1_0_, tests1_.Test_Value as Test4_1_0_, tests1_.Status as Status1_0_, tests1_.Created_By as Created6_1_0_, tests1_.Created_Date as Created7_1_0_ from metalplants.materialmaster materialma0_ left outer join metalplants.materialtestmap tests1_ on materialma0_.Ct_Number=tests1_.Ct_Number where materialma0_.Ct_Number=? order by substring(substring_index(tests1_.Ct_Number, '-', 1), 6) asc
+2012-09-10 19:38:53,801 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [NONE]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=?
+2012-09-10 19:38:53,801 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [READ]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=?
+2012-09-10 19:38:53,802 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [UPGRADE]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=? for update
+2012-09-10 19:38:53,802 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [UPGRADE_NOWAIT]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=? for update
+2012-09-10 19:38:53,802 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [FORCE]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=? for update
+2012-09-10 19:38:53,803 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [PESSIMISTIC_READ]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=? lock in share mode
+2012-09-10 19:38:53,803 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [PESSIMISTIC_WRITE]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=? for update
+2012-09-10 19:38:53,803 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [PESSIMISTIC_FORCE_INCREMENT]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=? for update
+2012-09-10 19:38:53,803 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [OPTIMISTIC]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=?
+2012-09-10 19:38:53,804 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartMaster [OPTIMISTIC_FORCE_INCREMENT]: select heatchartm0_.Chart_Number as Chart1_3_0_, heatchartm0_.Equipment as Equipment3_0_, heatchartm0_.Customer as Customer3_0_, heatchartm0_.Po_Details as Po4_3_0_, heatchartm0_.Drawing_Number as Drawing5_3_0_, heatchartm0_.Surveyor as Surveyor3_0_, heatchartm0_.Status as Status3_0_, heatchartm0_.Created_By as Created8_3_0_, heatchartm0_.Created_Date as Created9_3_0_ from metalplants.heatchartmaster heatchartm0_ where heatchartm0_.Chart_Number=?
+2012-09-10 19:38:53,804 DEBUG Loader:56 - Static select for action ACTION_MERGE on entity org.map.hibernate.ddo.HeatChartMaster: select heatchartm0_.Chart_Number as Chart1_3_1_, heatchartm0_.Equipment as Equipment3_1_, heatchartm0_.Customer as Customer3_1_, heatchartm0_.Po_Details as Po4_3_1_, heatchartm0_.Drawing_Number as Drawing5_3_1_, heatchartm0_.Surveyor as Surveyor3_1_, heatchartm0_.Status as Status3_1_, heatchartm0_.Created_By as Created8_3_1_, heatchartm0_.Created_Date as Created9_3_1_, heatcharts1_.Chart_Number as Chart1_3_3_, heatcharts1_.Chart_Number as Chart1_2_3_, heatcharts1_.Sheet_Number as Sheet2_2_3_, heatcharts1_.Ct_Number as Ct3_2_3_, heatcharts1_.Chart_Number as Chart1_2_0_, heatcharts1_.Sheet_Number as Sheet2_2_0_, heatcharts1_.Ct_Number as Ct3_2_0_, heatcharts1_.Sequence_Number as Sequence4_2_0_, heatcharts1_.Part_Number as Part5_2_0_, heatcharts1_.Part_Name as Part6_2_0_, heatcharts1_.Specied_Size as Specied7_2_0_, heatcharts1_.Specied_Grade as Specied8_2_0_, heatcharts1_.Status as Status2_0_, heatcharts1_.Created_By as Created10_2_0_, heatcharts1_.Created_Date as Created11_2_0_ from metalplants.heatchartmaster heatchartm0_ left outer join metalplants.heatchartsheets heatcharts1_ on heatchartm0_.Chart_Number=heatcharts1_.Chart_Number where heatchartm0_.Chart_Number=? order by heatcharts1_.Sequence_Number asc
+2012-09-10 19:38:53,805 DEBUG Loader:56 - Static select for action ACTION_REFRESH on entity org.map.hibernate.ddo.HeatChartMaster: select heatchartm0_.Chart_Number as Chart1_3_1_, heatchartm0_.Equipment as Equipment3_1_, heatchartm0_.Customer as Customer3_1_, heatchartm0_.Po_Details as Po4_3_1_, heatchartm0_.Drawing_Number as Drawing5_3_1_, heatchartm0_.Surveyor as Surveyor3_1_, heatchartm0_.Status as Status3_1_, heatchartm0_.Created_By as Created8_3_1_, heatchartm0_.Created_Date as Created9_3_1_, heatcharts1_.Chart_Number as Chart1_3_3_, heatcharts1_.Chart_Number as Chart1_2_3_, heatcharts1_.Sheet_Number as Sheet2_2_3_, heatcharts1_.Ct_Number as Ct3_2_3_, heatcharts1_.Chart_Number as Chart1_2_0_, heatcharts1_.Sheet_Number as Sheet2_2_0_, heatcharts1_.Ct_Number as Ct3_2_0_, heatcharts1_.Sequence_Number as Sequence4_2_0_, heatcharts1_.Part_Number as Part5_2_0_, heatcharts1_.Part_Name as Part6_2_0_, heatcharts1_.Specied_Size as Specied7_2_0_, heatcharts1_.Specied_Grade as Specied8_2_0_, heatcharts1_.Status as Status2_0_, heatcharts1_.Created_By as Created10_2_0_, heatcharts1_.Created_Date as Created11_2_0_ from metalplants.heatchartmaster heatchartm0_ left outer join metalplants.heatchartsheets heatcharts1_ on heatchartm0_.Chart_Number=heatcharts1_.Chart_Number where heatchartm0_.Chart_Number=? order by heatcharts1_.Sequence_Number asc
+2012-09-10 19:38:53,805 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [NONE]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=?
+2012-09-10 19:38:53,805 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [READ]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=?
+2012-09-10 19:38:53,805 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [UPGRADE]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=? for update
+2012-09-10 19:38:53,805 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [UPGRADE_NOWAIT]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=? for update
+2012-09-10 19:38:53,806 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [FORCE]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=? for update
+2012-09-10 19:38:53,806 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [PESSIMISTIC_READ]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=? lock in share mode
+2012-09-10 19:38:53,806 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [PESSIMISTIC_WRITE]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=? for update
+2012-09-10 19:38:53,806 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [PESSIMISTIC_FORCE_INCREMENT]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=? for update
+2012-09-10 19:38:53,806 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [OPTIMISTIC]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=?
+2012-09-10 19:38:53,807 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.UserMaster [OPTIMISTIC_FORCE_INCREMENT]: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=?
+2012-09-10 19:38:53,807 DEBUG Loader:56 - Static select for action ACTION_MERGE on entity org.map.hibernate.ddo.UserMaster: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=?
+2012-09-10 19:38:53,807 DEBUG Loader:56 - Static select for action ACTION_REFRESH on entity org.map.hibernate.ddo.UserMaster: select usermaster0_.User_Name as User1_5_0_, usermaster0_.Password as Password5_0_, usermaster0_.Role as Role5_0_, usermaster0_.User_Status as User4_5_0_ from metalplants.usermaster usermaster0_ where usermaster0_.User_Name=?
+2012-09-10 19:38:53,807 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [NONE]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=?
+2012-09-10 19:38:53,808 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [READ]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=?
+2012-09-10 19:38:53,808 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [UPGRADE]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=? for update
+2012-09-10 19:38:53,808 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [UPGRADE_NOWAIT]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=? for update
+2012-09-10 19:38:53,808 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [FORCE]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=? for update
+2012-09-10 19:38:53,809 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [PESSIMISTIC_READ]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=? lock in share mode
+2012-09-10 19:38:53,809 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [PESSIMISTIC_WRITE]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=? for update
+2012-09-10 19:38:53,809 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [PESSIMISTIC_FORCE_INCREMENT]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=? for update
+2012-09-10 19:38:53,809 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [OPTIMISTIC]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=?
+2012-09-10 19:38:53,810 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.HeatChartSheets [OPTIMISTIC_FORCE_INCREMENT]: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=?
+2012-09-10 19:38:53,810 DEBUG Loader:56 - Static select for action ACTION_MERGE on entity org.map.hibernate.ddo.HeatChartSheets: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=?
+2012-09-10 19:38:53,810 DEBUG Loader:56 - Static select for action ACTION_REFRESH on entity org.map.hibernate.ddo.HeatChartSheets: select heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? and heatcharts0_.Sheet_Number=? and heatcharts0_.Ct_Number=?
+2012-09-10 19:38:53,810 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [NONE]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=?
+2012-09-10 19:38:53,811 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [READ]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=?
+2012-09-10 19:38:53,811 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [UPGRADE]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=? for update
+2012-09-10 19:38:53,811 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [UPGRADE_NOWAIT]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=? for update
+2012-09-10 19:38:53,811 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [FORCE]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=? for update
+2012-09-10 19:38:53,811 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [PESSIMISTIC_READ]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=? lock in share mode
+2012-09-10 19:38:53,812 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [PESSIMISTIC_WRITE]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=? for update
+2012-09-10 19:38:53,812 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [PESSIMISTIC_FORCE_INCREMENT]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=? for update
+2012-09-10 19:38:53,812 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [OPTIMISTIC]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=?
+2012-09-10 19:38:53,812 DEBUG Loader:123 - Static select for entity org.map.hibernate.ddo.MaterialTestMap [OPTIMISTIC_FORCE_INCREMENT]: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=?
+2012-09-10 19:38:53,812 DEBUG Loader:56 - Static select for action ACTION_MERGE on entity org.map.hibernate.ddo.MaterialTestMap: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=?
+2012-09-10 19:38:53,813 DEBUG Loader:56 - Static select for action ACTION_REFRESH on entity org.map.hibernate.ddo.MaterialTestMap: select materialte0_.Ct_Number as Ct1_1_0_, materialte0_.Test_Code as Test2_1_0_, materialte0_.Test_Name as Test3_1_0_, materialte0_.Test_Value as Test4_1_0_, materialte0_.Status as Status1_0_, materialte0_.Created_By as Created6_1_0_, materialte0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap materialte0_ where materialte0_.Ct_Number=? and materialte0_.Test_Code=?
+2012-09-10 19:38:53,817 DEBUG OneToManyLoader:82 - Static select for one-to-many org.map.hibernate.ddo.MaterialMaster.tests: select tests0_.Ct_Number as Ct1_0_1_, tests0_.Ct_Number as Ct1_1_1_, tests0_.Test_Code as Test2_1_1_, tests0_.Ct_Number as Ct1_1_0_, tests0_.Test_Code as Test2_1_0_, tests0_.Test_Name as Test3_1_0_, tests0_.Test_Value as Test4_1_0_, tests0_.Status as Status1_0_, tests0_.Created_By as Created6_1_0_, tests0_.Created_Date as Created7_1_0_ from metalplants.materialtestmap tests0_ where tests0_.Ct_Number=? order by substring(substring_index(tests0_.Ct_Number, '-', 1), 6) asc
+2012-09-10 19:38:53,818 DEBUG OneToManyLoader:82 - Static select for one-to-many org.map.hibernate.ddo.HeatChartMaster.heatchartsheets: select heatcharts0_.Chart_Number as Chart1_3_1_, heatcharts0_.Chart_Number as Chart1_2_1_, heatcharts0_.Sheet_Number as Sheet2_2_1_, heatcharts0_.Ct_Number as Ct3_2_1_, heatcharts0_.Chart_Number as Chart1_2_0_, heatcharts0_.Sheet_Number as Sheet2_2_0_, heatcharts0_.Ct_Number as Ct3_2_0_, heatcharts0_.Sequence_Number as Sequence4_2_0_, heatcharts0_.Part_Number as Part5_2_0_, heatcharts0_.Part_Name as Part6_2_0_, heatcharts0_.Specied_Size as Specied7_2_0_, heatcharts0_.Specied_Grade as Specied8_2_0_, heatcharts0_.Status as Status2_0_, heatcharts0_.Created_By as Created10_2_0_, heatcharts0_.Created_Date as Created11_2_0_ from metalplants.heatchartsheets heatcharts0_ where heatcharts0_.Chart_Number=? order by heatcharts0_.Sequence_Number asc
+2012-09-10 19:38:53,833 DEBUG SessionFactoryRegistry:62 - Initializing SessionFactoryRegistry : org.hibernate.internal.SessionFactoryRegistry@6bc833
+2012-09-10 19:38:53,835 DEBUG SessionFactoryRegistry:75 - Registering SessionFactory: 066d94d5-70e8-4894-af5d-b56ec4005160 (<unnamed>)
+2012-09-10 19:38:53,835 DEBUG SessionFactoryRegistry:82 - Not binding SessionFactory to JNDI, no JNDI name configured
+2012-09-10 19:38:53,835 DEBUG SessionFactoryImpl:484 - Instantiated session factory
+2012-09-10 19:38:53,835 DEBUG SessionFactoryImpl:1021 - Checking 0 named HQL queries
+2012-09-10 19:38:53,835 DEBUG SessionFactoryImpl:1044 - Checking 4 named SQL queries
+2012-09-10 19:38:53,835 DEBUG SessionFactoryImpl:1053 - Checking named SQL query: searchCtNumberQuery
+2012-09-10 19:38:53,842 DEBUG SessionFactoryImpl:1053 - Checking named SQL query: searchHcNumberQuery
+2012-09-10 19:38:53,842 DEBUG SessionFactoryImpl:1053 - Checking named SQL query: nextCtNumberQuery
+2012-09-10 19:38:53,843 DEBUG SessionFactoryImpl:1053 - Checking named SQL query: nextHcNumberQuery
+2012-09-10 19:38:53,848 DEBUG StatisticsInitiator:110 - Statistics initialized [enabled=false]
+2012-09-10 19:38:53,873 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861338
+2012-09-10 19:38:53,873 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:38:53,873 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:38:53,873 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:38:53,873 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:38:53,874 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:38:53,913 DEBUG SQL:104 - 
+    select
+        this_.User_Name as User1_5_0_,
+        this_.Password as Password5_0_,
+        this_.Role as Role5_0_,
+        this_.User_Status as User4_5_0_ 
+    from
+        metalplants.usermaster this_ 
+    where
+        this_.User_Name=? 
+        and this_.Password=?
+2012-09-10 19:38:53,944 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:38:53,947 DEBUG Loader:1348 - Result row: EntityKey[org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:53,952 DEBUG TwoPhaseLoad:158 - Resolving associations for [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:53,953 DEBUG TwoPhaseLoad:297 - Done materializing entity [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:53,954 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:38:53,954 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:38:53,954 DEBUG AbstractFlushingEventListener:143 - Processing flush-time cascades
+2012-09-10 19:38:53,955 DEBUG AbstractFlushingEventListener:183 - Dirty checking collections
+2012-09-10 19:38:53,957 DEBUG AbstractFlushingEventListener:117 - Flushed: 0 insertions, 0 updates, 0 deletions to 1 objects
+2012-09-10 19:38:53,957 DEBUG AbstractFlushingEventListener:124 - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2012-09-10 19:38:53,958 DEBUG EntityPrinter:114 - Listing entities:
+2012-09-10 19:38:53,958 DEBUG EntityPrinter:121 - org.map.hibernate.ddo.UserMaster{userStatus=TRUE, role=Admin, userName=Admin, password=1}
+2012-09-10 19:38:53,961 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:38:53,961 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:38:53,962 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:38:53,962 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:38:53,962 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:38:53,968  INFO MaterialLogger:32 - User Admin validated successfully.
+2012-09-10 19:38:53,968 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861339
+2012-09-10 19:38:53,969 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:38:53,969 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:38:53,969 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:38:53,969 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:38:53,969 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:38:53,972 DEBUG Loader:1965 - Loading entity: [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:53,972 DEBUG SQL:104 - 
+    select
+        usermaster0_.User_Name as User1_5_0_,
+        usermaster0_.Password as Password5_0_,
+        usermaster0_.Role as Role5_0_,
+        usermaster0_.User_Status as User4_5_0_ 
+    from
+        metalplants.usermaster usermaster0_ 
+    where
+        usermaster0_.User_Name=?
+2012-09-10 19:38:53,973 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:38:53,973 DEBUG Loader:1348 - Result row: EntityKey[org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:53,974 DEBUG TwoPhaseLoad:158 - Resolving associations for [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:53,974 DEBUG TwoPhaseLoad:297 - Done materializing entity [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:53,974 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:38:53,974 DEBUG Loader:1989 - Done entity load
+2012-09-10 19:38:53,974 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:38:53,975 DEBUG AbstractFlushingEventListener:143 - Processing flush-time cascades
+2012-09-10 19:38:53,975 DEBUG AbstractFlushingEventListener:183 - Dirty checking collections
+2012-09-10 19:38:53,975 DEBUG AbstractFlushingEventListener:117 - Flushed: 0 insertions, 0 updates, 0 deletions to 1 objects
+2012-09-10 19:38:53,975 DEBUG AbstractFlushingEventListener:124 - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2012-09-10 19:38:53,975 DEBUG EntityPrinter:114 - Listing entities:
+2012-09-10 19:38:53,975 DEBUG EntityPrinter:121 - org.map.hibernate.ddo.UserMaster{userStatus=TRUE, role=Admin, userName=Admin, password=1}
+2012-09-10 19:38:53,976 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:38:53,976 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:38:53,976 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:38:53,976 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:38:53,976 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:38:55,691 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861356
+2012-09-10 19:38:55,692 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:38:55,692 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:38:55,693 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:38:55,693 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:38:55,693 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:38:55,699 DEBUG SQL:104 - 
+    select
+        distinct this_.Validation_Name as y0_ 
+    from
+        metalplants.validationmaster this_ 
+    where
+        this_.Validation_Type=?
+2012-09-10 19:38:55,715 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:38:55,715 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:38:55,716 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:38:55,716 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:38:55,717 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:38:55,717 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:38:55,717 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:38:56,370 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861363
+2012-09-10 19:38:56,370 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:38:56,371 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:38:56,371 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:38:56,371 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:38:56,371 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:38:56,373 DEBUG SQL:104 - 
+    select
+        this_.User_Name as User1_5_0_,
+        this_.Password as Password5_0_,
+        this_.Role as Role5_0_,
+        this_.User_Status as User4_5_0_ 
+    from
+        metalplants.usermaster this_
+2012-09-10 19:38:56,374 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:38:56,374 DEBUG Loader:1348 - Result row: EntityKey[org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:56,375 DEBUG TwoPhaseLoad:158 - Resolving associations for [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:56,375 DEBUG TwoPhaseLoad:297 - Done materializing entity [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:56,375 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:38:56,375 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:38:56,376 DEBUG AbstractFlushingEventListener:143 - Processing flush-time cascades
+2012-09-10 19:38:56,376 DEBUG AbstractFlushingEventListener:183 - Dirty checking collections
+2012-09-10 19:38:56,376 DEBUG AbstractFlushingEventListener:117 - Flushed: 0 insertions, 0 updates, 0 deletions to 1 objects
+2012-09-10 19:38:56,376 DEBUG AbstractFlushingEventListener:124 - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2012-09-10 19:38:56,377 DEBUG EntityPrinter:114 - Listing entities:
+2012-09-10 19:38:56,377 DEBUG EntityPrinter:121 - org.map.hibernate.ddo.UserMaster{userStatus=TRUE, role=Admin, userName=Admin, password=1}
+2012-09-10 19:38:56,378 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:38:56,378 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:38:56,378 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:38:56,379 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:38:56,379 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:38:57,177 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861371
+2012-09-10 19:38:57,178 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:38:57,178 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:38:57,178 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:38:57,179 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:38:57,179 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:38:57,181 DEBUG SQL:104 - 
+    select
+        this_.User_Name as User1_5_0_,
+        this_.Password as Password5_0_,
+        this_.Role as Role5_0_,
+        this_.User_Status as User4_5_0_ 
+    from
+        metalplants.usermaster this_
+2012-09-10 19:38:57,197 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:38:57,198 DEBUG Loader:1348 - Result row: EntityKey[org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:57,198 DEBUG TwoPhaseLoad:158 - Resolving associations for [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:57,199 DEBUG TwoPhaseLoad:297 - Done materializing entity [org.map.hibernate.ddo.UserMaster#Admin]
+2012-09-10 19:38:57,199 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:38:57,200 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:38:57,200 DEBUG AbstractFlushingEventListener:143 - Processing flush-time cascades
+2012-09-10 19:38:57,200 DEBUG AbstractFlushingEventListener:183 - Dirty checking collections
+2012-09-10 19:38:57,219 DEBUG AbstractFlushingEventListener:117 - Flushed: 0 insertions, 0 updates, 0 deletions to 1 objects
+2012-09-10 19:38:57,219 DEBUG AbstractFlushingEventListener:124 - Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2012-09-10 19:38:57,220 DEBUG EntityPrinter:114 - Listing entities:
+2012-09-10 19:38:57,220 DEBUG EntityPrinter:121 - org.map.hibernate.ddo.UserMaster{userStatus=TRUE, role=Admin, userName=Admin, password=1}
+2012-09-10 19:38:57,221 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:38:57,221 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:38:57,222 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:38:57,223 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:38:57,223 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:38:58,811 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861388
+2012-09-10 19:38:58,812 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:38:58,812 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:38:58,813 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:38:58,813 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:38:58,813 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:38:58,815 DEBUG SQL:104 - 
+    select
+        distinct this_.Validation_Type as y0_ 
+    from
+        metalplants.validationmaster this_
+2012-09-10 19:38:58,816 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:38:58,816 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:38:58,817 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:38:58,818 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:38:58,818 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:38:58,819 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:38:58,819 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:38:59,420 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861394
+2012-09-10 19:38:59,421 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:38:59,421 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:38:59,422 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:38:59,422 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:38:59,422 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:38:59,424 DEBUG SQL:104 - 
+    select
+        distinct this_.Validation_Type as y0_ 
+    from
+        metalplants.validationmaster this_
+2012-09-10 19:38:59,425 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:38:59,425 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:38:59,426 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:38:59,427 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:38:59,427 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:38:59,428 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:38:59,428 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:00,312 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861403
+2012-09-10 19:39:00,313 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:00,313 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:00,314 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:00,314 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:00,314 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:00,328 DEBUG SQL:104 - 
+    select
+        concat('MP',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Ct_Number,
+        3,
+        2)) + 1) 
+    FROM
+        materialmaster
+2012-09-10 19:39:00,334 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:00,335 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:00,335 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:00,336 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:00,336 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:00,337 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:00,337 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:00,337 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:00,337 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:00,404 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861404
+2012-09-10 19:39:00,404 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:00,405 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:00,405 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:00,405 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:00,406 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:00,408 DEBUG SQL:104 - 
+    select
+        this_.Validation_Type as Validation1_4_0_,
+        this_.Validation_Code as Validation2_4_0_,
+        this_.Validation_Name as Validation3_4_0_,
+        this_.Validation_Desc as Validation4_4_0_,
+        this_.Validation_Status as Validation5_4_0_,
+        this_.Created_By as Created6_4_0_,
+        this_.Created_Date as Created7_4_0_ 
+    from
+        metalplants.validationmaster this_ 
+    where
+        this_.Validation_Type=?
+2012-09-10 19:39:00,410 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:00,410 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:00,411 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:00,412 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:00,412 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:00,413 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:00,413 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:01,099 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861410
+2012-09-10 19:39:01,099 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:01,099 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:01,099 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:01,100 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:01,100 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:01,101 DEBUG SQL:104 - 
+    select
+        this_.Ct_Number as Ct1_0_0_,
+        this_.Inspection_Agency as Inspection2_0_0_,
+        this_.Item as Item0_0_,
+        this_.Size as Size0_0_,
+        this_.Quantity as Quantity0_0_,
+        this_.Heat_Number as Heat6_0_0_,
+        this_.Plate_Number as Plate7_0_0_,
+        this_.Specification as Specific8_0_0_,
+        this_.Customer as Customer0_0_,
+        this_.Equipments as Equipments0_0_,
+        this_.Laboratory as Laboratory0_0_,
+        this_.Report_Number as Report12_0_0_,
+        this_.Report_Date as Report13_0_0_,
+        this_.Result as Result0_0_,
+        this_.Remarks as Remarks0_0_,
+        this_.Witnessed_By as Witnessed16_0_0_,
+        this_.Failure_Reason as Failure17_0_0_,
+        this_.Status as Status0_0_,
+        this_.Created_By as Created19_0_0_,
+        this_.Created_Date as Created20_0_0_ 
+    from
+        metalplants.materialmaster this_ 
+    where
+        this_.Ct_Number=?
+2012-09-10 19:39:01,102 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:01,103 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:01,103 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:01,103 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:01,104 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:01,104 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:01,104 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:01,979 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861419
+2012-09-10 19:39:01,980 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:01,980 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:01,980 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:01,980 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:01,980 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:01,982 DEBUG SQL:104 - 
+    select
+        this_.Ct_Number as Ct1_0_0_,
+        this_.Inspection_Agency as Inspection2_0_0_,
+        this_.Item as Item0_0_,
+        this_.Size as Size0_0_,
+        this_.Quantity as Quantity0_0_,
+        this_.Heat_Number as Heat6_0_0_,
+        this_.Plate_Number as Plate7_0_0_,
+        this_.Specification as Specific8_0_0_,
+        this_.Customer as Customer0_0_,
+        this_.Equipments as Equipments0_0_,
+        this_.Laboratory as Laboratory0_0_,
+        this_.Report_Number as Report12_0_0_,
+        this_.Report_Date as Report13_0_0_,
+        this_.Result as Result0_0_,
+        this_.Remarks as Remarks0_0_,
+        this_.Witnessed_By as Witnessed16_0_0_,
+        this_.Failure_Reason as Failure17_0_0_,
+        this_.Status as Status0_0_,
+        this_.Created_By as Created19_0_0_,
+        this_.Created_Date as Created20_0_0_ 
+    from
+        metalplants.materialmaster this_ 
+    where
+        this_.Ct_Number=?
+2012-09-10 19:39:01,983 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:01,983 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:01,984 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:01,984 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:01,984 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:01,985 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:01,985 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:02,613 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861426
+2012-09-10 19:39:02,614 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:02,614 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:02,615 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:02,615 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:02,616 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:02,619 DEBUG SQL:104 - 
+    select
+        this_.Ct_Number as Ct1_0_0_,
+        this_.Inspection_Agency as Inspection2_0_0_,
+        this_.Item as Item0_0_,
+        this_.Size as Size0_0_,
+        this_.Quantity as Quantity0_0_,
+        this_.Heat_Number as Heat6_0_0_,
+        this_.Plate_Number as Plate7_0_0_,
+        this_.Specification as Specific8_0_0_,
+        this_.Customer as Customer0_0_,
+        this_.Equipments as Equipments0_0_,
+        this_.Laboratory as Laboratory0_0_,
+        this_.Report_Number as Report12_0_0_,
+        this_.Report_Date as Report13_0_0_,
+        this_.Result as Result0_0_,
+        this_.Remarks as Remarks0_0_,
+        this_.Witnessed_By as Witnessed16_0_0_,
+        this_.Failure_Reason as Failure17_0_0_,
+        this_.Status as Status0_0_,
+        this_.Created_By as Created19_0_0_,
+        this_.Created_Date as Created20_0_0_ 
+    from
+        metalplants.materialmaster this_
+2012-09-10 19:39:02,621 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:02,622 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:02,622 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:02,623 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:02,624 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:02,624 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:02,625 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:03,516 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861435
+2012-09-10 19:39:03,517 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:03,546 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:03,547 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:03,547 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:03,547 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:03,548 DEBUG SQL:104 - 
+    select
+        concat('HC',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Chart_Number,
+        3,
+        2)) + 1) 
+    from
+        heatchartmaster
+2012-09-10 19:39:03,549 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:03,549 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:03,550 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:03,550 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:03,550 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:03,551 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:03,551 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:03,551 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:03,551 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:04,612 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861446
+2012-09-10 19:39:04,613 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:04,613 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:04,613 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:04,613 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:04,614 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:04,614 DEBUG SQL:104 - 
+    select
+        concat('HC',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Chart_Number,
+        3,
+        2)) + 1) 
+    from
+        heatchartmaster
+2012-09-10 19:39:04,615 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:04,616 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:04,616 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:04,616 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:04,616 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:04,617 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:04,617 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:04,617 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:04,617 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:05,464 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861454
+2012-09-10 19:39:05,464 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:05,465 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:05,465 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:05,465 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:05,466 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:05,467 DEBUG SQL:104 - 
+    select
+        concat('HC',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Chart_Number,
+        3,
+        2)) + 1) 
+    from
+        heatchartmaster
+2012-09-10 19:39:05,468 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:05,468 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:05,469 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:05,469 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:05,470 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:05,470 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:05,471 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:05,471 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:05,472 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:08,227 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861482
+2012-09-10 19:39:08,227 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:08,227 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:08,227 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:08,227 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:08,228 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:08,229 DEBUG SQL:104 - 
+    select
+        concat('HC',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Chart_Number,
+        3,
+        2)) + 1) 
+    from
+        heatchartmaster
+2012-09-10 19:39:08,230 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:08,231 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:08,231 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:08,231 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:08,232 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:08,232 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:08,232 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:08,233 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:08,233 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:09,237 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861492
+2012-09-10 19:39:09,238 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:09,238 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:09,238 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:09,239 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:09,239 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:09,240 DEBUG SQL:104 - 
+    select
+        concat('HC',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Chart_Number,
+        3,
+        2)) + 1) 
+    from
+        heatchartmaster
+2012-09-10 19:39:09,242 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:09,242 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:09,243 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:09,243 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:09,244 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:09,244 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:09,245 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:09,245 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:09,245 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:10,477 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861504
+2012-09-10 19:39:10,478 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:10,478 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:10,478 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:10,479 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:10,479 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:10,480 DEBUG SQL:104 - 
+    select
+        concat('HC',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Chart_Number,
+        3,
+        2)) + 1) 
+    from
+        heatchartmaster
+2012-09-10 19:39:10,482 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:10,483 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:10,483 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:10,484 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:10,484 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:10,485 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:10,486 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:10,486 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:10,486 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:12,173 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861521
+2012-09-10 19:39:12,173 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:12,174 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:12,174 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:12,175 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:12,175 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:12,177 DEBUG SQL:104 - 
+    select
+        this_.Ct_Number as Ct1_0_0_,
+        this_.Inspection_Agency as Inspection2_0_0_,
+        this_.Item as Item0_0_,
+        this_.Size as Size0_0_,
+        this_.Quantity as Quantity0_0_,
+        this_.Heat_Number as Heat6_0_0_,
+        this_.Plate_Number as Plate7_0_0_,
+        this_.Specification as Specific8_0_0_,
+        this_.Customer as Customer0_0_,
+        this_.Equipments as Equipments0_0_,
+        this_.Laboratory as Laboratory0_0_,
+        this_.Report_Number as Report12_0_0_,
+        this_.Report_Date as Report13_0_0_,
+        this_.Result as Result0_0_,
+        this_.Remarks as Remarks0_0_,
+        this_.Witnessed_By as Witnessed16_0_0_,
+        this_.Failure_Reason as Failure17_0_0_,
+        this_.Status as Status0_0_,
+        this_.Created_By as Created19_0_0_,
+        this_.Created_Date as Created20_0_0_ 
+    from
+        metalplants.materialmaster this_
+2012-09-10 19:39:12,178 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:12,179 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:12,180 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:12,180 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:12,181 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:12,181 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:12,182 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:13,102 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861531
+2012-09-10 19:39:13,102 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:13,103 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:13,103 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:13,103 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:13,103 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:13,104 DEBUG SQL:104 - 
+    select
+        this_.Ct_Number as Ct1_0_0_,
+        this_.Inspection_Agency as Inspection2_0_0_,
+        this_.Item as Item0_0_,
+        this_.Size as Size0_0_,
+        this_.Quantity as Quantity0_0_,
+        this_.Heat_Number as Heat6_0_0_,
+        this_.Plate_Number as Plate7_0_0_,
+        this_.Specification as Specific8_0_0_,
+        this_.Customer as Customer0_0_,
+        this_.Equipments as Equipments0_0_,
+        this_.Laboratory as Laboratory0_0_,
+        this_.Report_Number as Report12_0_0_,
+        this_.Report_Date as Report13_0_0_,
+        this_.Result as Result0_0_,
+        this_.Remarks as Remarks0_0_,
+        this_.Witnessed_By as Witnessed16_0_0_,
+        this_.Failure_Reason as Failure17_0_0_,
+        this_.Status as Status0_0_,
+        this_.Created_By as Created19_0_0_,
+        this_.Created_Date as Created20_0_0_ 
+    from
+        metalplants.materialmaster this_ 
+    where
+        this_.Ct_Number=?
+2012-09-10 19:39:13,105 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:13,106 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:13,106 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:13,106 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:13,106 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:13,107 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:13,107 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:13,980 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861539
+2012-09-10 19:39:13,980 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:13,981 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:13,981 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:13,981 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:13,982 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:13,984 DEBUG SQL:104 - 
+    select
+        this_.Ct_Number as Ct1_0_0_,
+        this_.Inspection_Agency as Inspection2_0_0_,
+        this_.Item as Item0_0_,
+        this_.Size as Size0_0_,
+        this_.Quantity as Quantity0_0_,
+        this_.Heat_Number as Heat6_0_0_,
+        this_.Plate_Number as Plate7_0_0_,
+        this_.Specification as Specific8_0_0_,
+        this_.Customer as Customer0_0_,
+        this_.Equipments as Equipments0_0_,
+        this_.Laboratory as Laboratory0_0_,
+        this_.Report_Number as Report12_0_0_,
+        this_.Report_Date as Report13_0_0_,
+        this_.Result as Result0_0_,
+        this_.Remarks as Remarks0_0_,
+        this_.Witnessed_By as Witnessed16_0_0_,
+        this_.Failure_Reason as Failure17_0_0_,
+        this_.Status as Status0_0_,
+        this_.Created_By as Created19_0_0_,
+        this_.Created_Date as Created20_0_0_ 
+    from
+        metalplants.materialmaster this_ 
+    where
+        this_.Ct_Number=?
+2012-09-10 19:39:13,985 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:13,985 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:13,986 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:13,986 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:13,986 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:13,986 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:13,987 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:14,685 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861546
+2012-09-10 19:39:14,686 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:14,686 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:14,686 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:14,687 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:14,687 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:14,688 DEBUG SQL:104 - 
+    select
+        concat('MP',
+        date_format(current_timestamp(),
+        '%y'),
+        '/',
+        count(substring(Ct_Number,
+        3,
+        2)) + 1) 
+    FROM
+        materialmaster
+2012-09-10 19:39:14,690 DEBUG Loader:853 - Result set row: 0
+2012-09-10 19:39:14,690 DEBUG Loader:1348 - Result row: 
+2012-09-10 19:39:14,691 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:14,691 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:14,692 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:14,692 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:14,693 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:14,694 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:14,694 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection
+2012-09-10 19:39:14,696 DEBUG SessionImpl:312 - Opened session at timestamp: 13472861546
+2012-09-10 19:39:14,696 DEBUG AbstractTransactionImpl:158 - begin
+2012-09-10 19:39:14,697 DEBUG LogicalConnectionImpl:295 - Obtaining JDBC connection
+2012-09-10 19:39:14,697 DEBUG LogicalConnectionImpl:301 - Obtained JDBC connection
+2012-09-10 19:39:14,697 DEBUG JdbcTransaction:69 - initial autocommit status: true
+2012-09-10 19:39:14,698 DEBUG JdbcTransaction:71 - disabling autocommit
+2012-09-10 19:39:14,700 DEBUG SQL:104 - 
+    select
+        this_.Validation_Type as Validation1_4_0_,
+        this_.Validation_Code as Validation2_4_0_,
+        this_.Validation_Name as Validation3_4_0_,
+        this_.Validation_Desc as Validation4_4_0_,
+        this_.Validation_Status as Validation5_4_0_,
+        this_.Created_By as Created6_4_0_,
+        this_.Created_Date as Created7_4_0_ 
+    from
+        metalplants.validationmaster this_ 
+    where
+        this_.Validation_Type=?
+2012-09-10 19:39:14,701 DEBUG StatefulPersistenceContext:1007 - Initializing non-lazy collections
+2012-09-10 19:39:14,702 DEBUG AbstractTransactionImpl:173 - committing
+2012-09-10 19:39:14,702 DEBUG JdbcTransaction:113 - committed JDBC Connection
+2012-09-10 19:39:14,703 DEBUG JdbcTransaction:126 - re-enabling autocommit
+2012-09-10 19:39:14,703 DEBUG LogicalConnectionImpl:314 - Releasing JDBC connection
+2012-09-10 19:39:14,704 DEBUG LogicalConnectionImpl:332 - Released JDBC connection
+2012-09-10 19:39:14,704 DEBUG ConnectionProxyHandler:219 - HHH000163: Logical connection releasing its physical connection

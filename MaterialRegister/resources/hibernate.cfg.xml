@@ -4,7 +4,7 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3307/metalplants</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/metalplants</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">tiger</property>
     <property name="hibernate.connection.pool_size">512</property>
@@ -12,11 +12,11 @@
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.connection.autocommit">true</property>
     
-    <mapping resource="org/map/hibernate/mapping/MaterialMaster.hbm.xml"/>
-    <mapping resource="org/map/hibernate/mapping/MaterialTestMap.hbm.xml"/>
-    <mapping resource="org/map/hibernate/mapping/HeatChartSheets.hbm.xml"/>
-    <mapping resource="org/map/hibernate/mapping/HeatChartMaster.hbm.xml"/>
-    <mapping resource="org/map/hibernate/mapping/ValidationMaster.hbm.xml"/>
-    <mapping resource="org/map/hibernate/mapping/UserMaster.hbm.xml"/>
+    <mapping resource="mapping/MaterialMaster.hbm.xml"/>
+    <mapping resource="mapping/MaterialTestMap.hbm.xml"/>
+    <mapping resource="mapping/HeatChartSheets.hbm.xml"/>
+    <mapping resource="mapping/HeatChartMaster.hbm.xml"/>
+    <mapping resource="mapping/ValidationMaster.hbm.xml"/>
+    <mapping resource="mapping/UserMaster.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

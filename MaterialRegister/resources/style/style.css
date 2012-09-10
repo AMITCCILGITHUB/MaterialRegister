@@ -3,7 +3,7 @@
     -fx-padding: 1px;
 }
 #ModalDimmer {
-    -fx-background-color: rgb(0,0,0,0.5);
+    -fx-background-color: rgba(0, 0, 0, 0.5);
 }
 #ProxyDialog {
     -fx-background-color: black, white, 
@@ -77,7 +77,7 @@
 }
 .search-menu-item-popup-region { -fx-opacity: 0; }
 .search-menu-item:hover .search-menu-item-popup-region , .search-menu-item:focused .search-menu-item-popup-region {
-    -fx-opacity: 100%;
+    -fx-opacity: 1;
 }
 #search-info-box {
     -fx-padding: -30 -6 -8 -2;
@@ -788,7 +788,7 @@
 }
 .result-menu-item-popup-region { -fx-opacity: 0; }
 .result-menu-item:hover .result-menu-item-popup-region , .result-menu-item:focused .result-menu-item-popup-region {
-    -fx-opacity: 100%;
+    -fx-opacity: 1;
 }
 
 #page-toolbar #LogoutButton {

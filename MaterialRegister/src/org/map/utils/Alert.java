@@ -1,22 +1,40 @@
 package org.map.utils;
 
+import java.net.MalformedURLException;
+
 import javafx.stage.Stage;
 
 public class Alert extends MessagePopUp {
 
-    private Alert(Stage parentStage, String title, String type, String message) {
-        super(parentStage, title, type, message);
-    }
+	private Alert(Stage parentStage, String title, String type, String message)
+			throws MalformedURLException {
+		super(parentStage, title, type, message);
+	}
 
-    private Alert(Stage parentStage, String title, String type, String message, double width) {
-        super(parentStage, title, type, message, width);
-    }
+	private Alert(Stage parentStage, String title, String type, String message,
+			double width) throws MalformedURLException {
+		super(parentStage, title, type, message, width);
+	}
 
-    public static void showAlert(Stage parentStage, String title, String type, String message) {
-        Alert alert = new Alert(parentStage, title, type, message);
-    }
+	public static Alert showAlert(Stage parentStage, String title, String type,
+			String message) {
+		Alert alert = null;
+		try {
+			alert = new Alert(parentStage, title, type, message);
+		} catch (Exception ex) {
 
-    public static void showAlert(Stage parentStage, String title, String type, String message, double width) {
-        Alert alert = new Alert(parentStage, title, type, message, width);
-    }
+		}
+		return alert;
+	}
+
+	public static Alert showAlert(Stage parentStage, String title, String type,
+			String message, double width) {
+		Alert alert = null;
+		try {
+			alert = new Alert(parentStage, title, type, message, width);
+		} catch (Exception ex) {
+
+		}
+		return alert;
+	}
 }
