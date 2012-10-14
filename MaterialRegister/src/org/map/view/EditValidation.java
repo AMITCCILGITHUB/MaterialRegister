@@ -32,11 +32,13 @@ public class EditValidation {
 	private double V_SPACE = 20;
 
 	public Node createView() {
+
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
@@ -64,7 +66,7 @@ public class EditValidation {
 
 			final VBox validationBottom = new VBox(V_SPACE);
 			final ObservableList<String> validationResult = FXCollections
-					.emptyObservableList();
+					.observableArrayList();
 			final ListView<String> validationResultListView = new ListView<>(
 					validationResult);
 			validationResultListView.setPrefSize(300, 234);
@@ -109,6 +111,7 @@ public class EditValidation {
 						@Override
 						public void changed(ObservableValue observable,
 								Object oldValue, Object newValue) {
+
 							Object selectedValue = validationTypeListView
 									.getSelectionModel().getSelectedItem();
 							if (selectedValue != null) {
@@ -125,6 +128,7 @@ public class EditValidation {
 						@Override
 						public void changed(ObservableValue observable,
 								Object oldValue, Object newValue) {
+
 							Object selectedValue = validationResultListView
 									.getSelectionModel().getSelectedItem();
 							if (selectedValue != null) {
@@ -146,15 +150,28 @@ public class EditValidation {
 
 				@Override
 				public void handle(ActionEvent e) {
-					ValidationData.updateValidationTypes(validation);
+					if (validationNameBox.getText().trim().length() > 0) {
+						if (validationDescBox.getText().trim().length() > 0) {
+							validation.setValidationDesc(validation
+									.getValidationName());
+						}
+
+						ValidationData.updateValidationTypes(validation);
+
+						Alert.showAlert(MaterialRegister.getMaterialRegister()
+								.getPrimaryStage(), "Alert", "Alert",
+								"Validation updated successfully.");
+					} else {
+						Alert.showAlert(MaterialRegister.getMaterialRegister()
+								.getPrimaryStage(), "Error", "Error",
+								"Please enter validation name");
+					}
 				}
 			});
 			buttons.getChildren().addAll(updateButton);
 
 			validationRight.getChildren().addAll(validationType,
 					validationCode, validationName, validationDesc, buttons);
-			// main.getChildren().addAll(validationType, validationCode,
-			// validationName, validationDesc, buttons);
 			validationBox.getChildren().addAll(validationTop, validationBottom,
 					validationRight);
 			main.getChildren().addAll(validationBox);

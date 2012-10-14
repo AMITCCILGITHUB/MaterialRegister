@@ -8,6 +8,7 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -27,11 +28,13 @@ public class AddUser {
 	private double V_SPACE = 20;
 
 	public Node createView() {
+
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
@@ -86,6 +89,7 @@ public class AddUser {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					if (userNameTextBox.getText().trim().length() > 0) {
 						if (passwordBox.getText().trim().length() > 0
 								&& confirmPasswordBox.getText().trim().length() > 0) {
@@ -93,6 +97,13 @@ public class AddUser {
 									confirmPasswordBox.getText())) {
 								if (roleChoiceBox.getText().trim().length() > 0) {
 									UserData.insertUser(newUser);
+									Alert.showAlert(MaterialRegister
+											.getMaterialRegister()
+											.getPrimaryStage(), "Alert",
+											"Alert",
+											"User details saved successfully.");
+									MaterialRegister.getMaterialRegister()
+											.reloadPage("Add User");
 								} else {
 									Alert.showAlert(MaterialRegister
 											.getMaterialRegister()
@@ -125,12 +136,14 @@ public class AddUser {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					newUser.resetUserMaster();
 				}
 			});
 			buttons.getChildren().addAll(submitButton, resetButton);
 
 			main.getChildren().addAll(userDetailsVBox, buttons);
+			VBox.setVgrow(main, Priority.ALWAYS);
 
 			ScrollPane scrollPane = new ScrollPane();
 			scrollPane.getStyleClass().add("noborder-scroll-pane");

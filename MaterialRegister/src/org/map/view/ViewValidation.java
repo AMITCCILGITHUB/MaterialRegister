@@ -28,11 +28,13 @@ public class ViewValidation {
 	private double V_SPACE = 20;
 
 	public Node createView() {
+
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
@@ -61,7 +63,7 @@ public class ViewValidation {
 
 			final VBox validationRight = new VBox(V_SPACE);
 			final ObservableList<String> validationResult = FXCollections
-					.observableArrayList("");
+					.observableArrayList();
 			final ListView<String> validationResultListView = new ListView<>(
 					validationResult);
 			validationResultListView.setPrefSize(300, 234);
@@ -75,6 +77,7 @@ public class ViewValidation {
 						@Override
 						public void changed(ObservableValue observable,
 								Object oldValue, Object newValue) {
+
 							Object selectedValue = validationTypeListView
 									.getSelectionModel().getSelectedItem();
 							if (selectedValue != null) {
@@ -91,6 +94,7 @@ public class ViewValidation {
 						@Override
 						public void changed(ObservableValue observable,
 								Object oldValue, Object newValue) {
+
 							Object selectedValue = validationResultListView
 									.getSelectionModel().getSelectedItem();
 							if (selectedValue != null) {
@@ -113,6 +117,7 @@ public class ViewValidation {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 				}
 			});
 

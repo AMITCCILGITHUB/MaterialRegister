@@ -32,6 +32,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import org.map.logger.LoggerUtil;
+
 public class MessagePopUp {
 
 	private Stage stage;
@@ -51,12 +53,14 @@ public class MessagePopUp {
 
 	public MessagePopUp(Stage parentStage, String title, String type,
 			String message, double width) throws MalformedURLException {
+
 		this(parentStage, title, type, message);
 		setWrapWidth(width);
 	}
 
 	public MessagePopUp(final Stage parentStage, String title, String type,
 			String message) throws MalformedURLException {
+
 		this.root = new StackPane();
 		this.root.autosize();
 
@@ -66,8 +70,8 @@ public class MessagePopUp {
 			File popupStyle = new File("resources/style/popup.css");
 			this.scene.getStylesheets().add(
 					popupStyle.toURI().toURL().toExternalForm());
-		} catch (Exception ex) {
-
+		} catch (Exception e) {
+			LoggerUtil.getLogger().debug(e);
 		}
 		this.scene.setFill(Color.TRANSPARENT);
 
@@ -84,6 +88,7 @@ public class MessagePopUp {
 
 			@Override
 			protected void layoutChildren() {
+
 				super.layoutChildren();
 				stage.setWidth(getWidth());
 				stage.setHeight(getHeight() + 20);
@@ -115,6 +120,7 @@ public class MessagePopUp {
 
 			@Override
 			public void handle(ActionEvent actionEvent) {
+
 				closePopUp();
 			}
 		});
@@ -183,6 +189,7 @@ public class MessagePopUp {
 
 			@Override
 			public void handle(ActionEvent actionEvent) {
+
 				closePopUp();
 			}
 		});
@@ -195,6 +202,7 @@ public class MessagePopUp {
 
 			@Override
 			public void changed(ObservableValue arg0, Object arg1, Object arg2) {
+
 				stage.setX(Double.valueOf(arg2.toString()));
 			}
 		});
@@ -203,6 +211,7 @@ public class MessagePopUp {
 
 			@Override
 			public void changed(ObservableValue arg0, Object arg1, Object arg2) {
+
 				stage.setY(Double.valueOf(arg2.toString())
 						+ parentStage.getScene().getHeight() + 20);
 			}
@@ -210,30 +219,37 @@ public class MessagePopUp {
 	}
 
 	protected Stage getStage() {
+
 		return this.stage;
 	}
 
 	public double getWrapWidth() {
+
 		return wrapWidth.get();
 	}
 
 	public final void setWrapWidth(double wrapWidth) {
+
 		this.wrapWidth.set(wrapWidth);
 	}
 
 	public SimpleDoubleProperty wrapWidthProperty() {
+
 		return wrapWidth;
 	}
 
 	public HBox getActionBox() {
+
 		return actionBox;
 	}
 
 	public final void addDragListeners(final Node n) {
+
 		n.setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				startDragX = me.getSceneX();
 				startDragY = me.getSceneY();
 				root.setStyle("-fx-opacity:.7;");
@@ -243,6 +259,7 @@ public class MessagePopUp {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				root.setStyle("-fx-opacity:1;");
 			}
 		});
@@ -250,6 +267,7 @@ public class MessagePopUp {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				stage.setX(me.getScreenX() - startDragX);
 				stage.setY(me.getScreenY() - startDragY);
 			}
@@ -260,6 +278,7 @@ public class MessagePopUp {
 	 * Method to close the pop up and remove the background mask.
 	 */
 	public void closePopUp() {
+
 		Parent parentRoot = ((Stage) stage.getOwner()).getScene().getRoot();
 		if (parentRoot instanceof StackPane) {
 			((StackPane) parentRoot).getChildren().remove(mask);
@@ -271,6 +290,7 @@ public class MessagePopUp {
 	 * Method to open the pop up with the background mask.
 	 */
 	public final void show() {
+
 		StackPane parentRoot = (StackPane) ((Stage) stage.getOwner())
 				.getScene().getRoot();
 		parentRoot.getChildren().add(mask);

@@ -38,18 +38,19 @@ public class ComboVBox extends Region {
 	private Timeline searchErrorTooltipHidder = null;
 
 	public ComboVBox() {
-		initComponent("", "");
-		textBox.setText("");
+
+		initComponent("", "", "");
 	}
 
 	public ComboVBox(String textValue, String promptText, String type) {
-		initComponent(promptText, type);
-		textBox.setText(textValue);
+
+		initComponent(textValue, promptText, type);
 	}
 
 	public ComboVBox(String textValue, String promptText, String type,
 			StringProperty propertyValue, boolean bidirectional) {
-		initComponent(promptText, type);
+
+		initComponent(textValue, promptText, type);
 		textBox.setText(textValue);
 		if (bidirectional) {
 			textBox.textProperty().bindBidirectional(propertyValue);
@@ -60,14 +61,18 @@ public class ComboVBox extends Region {
 	}
 
 	public void bind(StringProperty propertyValue) {
+
 		textBox.textProperty().bind(propertyValue);
 	}
 
 	public void bindBidirectional(StringProperty propertyValue) {
+
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
-	private void initComponent(String promptText, final String type) {
+	private void initComponent(String textValue, String promptText,
+			final String type) {
+
 		setId("ResultBox");
 		setType(type);
 
@@ -77,6 +82,7 @@ public class ComboVBox extends Region {
 
 		textBox = new TextField();
 		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setText(textValue);
 		textBox.setPromptText(promptText);
 
 		errorButton = new Button();
@@ -90,6 +96,7 @@ public class ComboVBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable,
 					Boolean oldValue, Boolean newValue) {
+
 				if (oldValue == true && newValue == false) {
 					if (textBox.getText().length() == 0) {
 						errorButton.setVisible(true);
@@ -105,6 +112,7 @@ public class ComboVBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
+
 				errorButton.setVisible(textBox.getText().length() == 0);
 			}
 		});
@@ -115,28 +123,34 @@ public class ComboVBox extends Region {
 	}
 
 	public String getType() {
+
 		return type;
 	}
 
 	public void setType(String type) {
+
 		this.type = type;
 	}
 
 	public void setText(String textValue) {
+
 		textBox.setText(textValue);
 	}
 
 	public String getText() {
+
 		return textBox.getText();
 	}
 
 	@Override
 	protected void layoutChildren() {
+
 		textBox.resize(getWidth(), getHeight());
 		errorButton.resizeRelocate(getWidth() - 18, 6, 12, 13);
 	}
 
 	private void showError(TextField textBox, String message) {
+
 		searchErrorTooltip.setText(message);
 		if (searchErrorTooltipHidder != null) {
 			searchErrorTooltipHidder.stop();
@@ -156,6 +170,7 @@ public class ComboVBox extends Region {
 
 								@Override
 								public void handle(ActionEvent t) {
+
 									searchErrorTooltip.hide();
 									searchErrorTooltip.setText(null);
 								}
@@ -173,6 +188,7 @@ public class ComboVBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable,
 					Boolean oldValue, Boolean newValue) {
+
 				if (oldValue == true && newValue == false) {
 					resultContextMenu.hide();
 				}
@@ -183,6 +199,7 @@ public class ComboVBox extends Region {
 
 			@Override
 			public void handle(KeyEvent keyEvent) {
+
 				if (keyEvent.getCode() == KeyCode.DOWN) {
 					resultContextMenu.requestFocus();
 				} else if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -196,6 +213,7 @@ public class ComboVBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
+
 				if (textBox.isFocused() == true) {
 					if (textBox.getText().length() == 0) {
 						if (resultContextMenu != null) {
@@ -228,6 +246,7 @@ public class ComboVBox extends Region {
 	}
 
 	private void populateMenu(List<ValidationMaster> resultList) {
+
 		resultContextMenu.getItems().clear();
 		Iterator<ValidationMaster> results = resultList.iterator();
 		while (results.hasNext()) {
@@ -250,6 +269,7 @@ public class ComboVBox extends Region {
 
 				@Override
 				public void handle(ActionEvent actionEvent) {
+
 					textBox.setText(result.getValidationName());
 				}
 			});
@@ -257,6 +277,7 @@ public class ComboVBox extends Region {
 	}
 
 	public void addFocusListener(ChangeListener<Boolean> focusChangeListener) {
+
 		textBox.focusedProperty().addListener(focusChangeListener);
 	}
 }

@@ -1,14 +1,9 @@
 package org.map.login;
 
 import java.io.File;
-import java.net.MalformedURLException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker;
-import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -23,15 +18,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import org.map.MaterialRegister;
 import org.map.controls.LoginTextBox;
 import org.map.controls.PasswordBox;
-import org.map.hibernate.dao.UserData;
 import org.map.hibernate.ddo.UserMaster;
 import org.map.logger.LoggerUtil;
-import org.map.service.UserValidation;
+import org.map.service.ServiceManager;
 import org.map.utils.Alert;
-import org.map.utils.StatusBar;
+import org.map.utils.LoadingBar;
 
 public class Login extends Application {
 
@@ -40,30 +33,36 @@ public class Login extends Application {
 	private double startDragX;
 	private double startDragY;
 	private UserMaster userMaster = new UserMaster();
-	private StatusBar sb = new StatusBar();
+	private LoadingBar sb = new LoadingBar();
 
 	public static Login getLoginPanel() {
+
 		return login;
 	}
 
-	public static Stage getPrimaryStage() {
+	public Stage getPrimaryStage() {
+
 		return outerPrimaryStage;
 	}
 
 	public static void main(String[] args) {
+
 		launch(args);
 	}
 
 	public UserMaster getUserMaster() {
+
 		return userMaster;
 	}
 
-	public StatusBar getStatusBar() {
+	public LoadingBar getStatusBar() {
+
 		return sb;
 	}
 
 	@Override
-	public void start(final Stage primaryStage) throws MalformedURLException {
+	public void start(final Stage primaryStage) {
+
 		LoggerUtil.getLogger().info("Application Started");
 		outerPrimaryStage = primaryStage;
 		login = this;
@@ -75,15 +74,19 @@ public class Login extends Application {
 		root.getStyleClass().add("login-pane");
 
 		Scene scene = new Scene(root, 500, 400, Color.TRANSPARENT);
-		File loginStyle = new File("resources/style/login.css");
-		scene.getStylesheets().addAll(
-				loginStyle.toURI().toURL().toExternalForm());
-		File mainStyle = new File("resources/style/style.css");
-		scene.getStylesheets().addAll(
-				mainStyle.toURI().toURL().toExternalForm());
-		File popupStyle = new File("resources/style/popup.css");
-		scene.getStylesheets().addAll(
-				popupStyle.toURI().toURL().toExternalForm());
+		try {
+			File loginStyle = new File("resources/style/login.css");
+			scene.getStylesheets().addAll(
+					loginStyle.toURI().toURL().toExternalForm());
+			File mainStyle = new File("resources/style/style.css");
+			scene.getStylesheets().addAll(
+					mainStyle.toURI().toURL().toExternalForm());
+			File popupStyle = new File("resources/style/popup.css");
+			scene.getStylesheets().addAll(
+					popupStyle.toURI().toURL().toExternalForm());
+		} catch (Exception e) {
+			LoggerUtil.getLogger().debug(e);
+		}
 
 		VBox windowButtons = new VBox();
 		Button closeBtn = new Button();
@@ -130,40 +133,11 @@ public class Login extends Application {
 
 		root.getChildren().addAll(textFields, buttonFields);
 
-		final UserValidation service = new UserValidation();
-		service.stateProperty().addListener(new ChangeListener<Worker.State>() {
-
-			@Override
-			public void changed(ObservableValue<? extends State> observable,
-					State oldValue, Worker.State newState) {
-				if (newState == Worker.State.SUCCEEDED) {
-					sb.hide();
-					if (service.getValue()) {
-						LoggerUtil.getLogger().info(
-								"User " + userMaster.getUserName()
-										+ " validated successfully.");
-						userMaster.resetUserMaster(UserData
-								.getUserDetails(userMaster.getUserName()));
-						MaterialRegister mr = new MaterialRegister();
-						mr.start();
-						primaryStage.hide();
-					} else {
-						LoggerUtil.getLogger().info(
-								"User " + userMaster.getUserName()
-										+ " attempted with wrong password ["
-										+ userMaster.getPassword() + "]");
-
-						Alert.showAlert(primaryStage, "Invalid Login", "Error",
-								"Invalid user name or password.\nPlease try again.");
-					}
-				}
-			}
-		});
-
 		closeBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent actionEvent) {
+
 				Platform.exit();
 			}
 		});
@@ -171,10 +145,11 @@ public class Login extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
+
 				if (userMaster.getUserName().trim().length() > 0
 						&& userMaster.getPassword().trim().length() > 0) {
 					sb.show();
-					service.restart();
+					ServiceManager.getUserValidationService().restart();
 				} else {
 					Alert.showAlert(primaryStage, "Invalid Login", "Error",
 							"Either user name or password is empty.\nPlease try again.");
@@ -185,6 +160,7 @@ public class Login extends Application {
 
 			@Override
 			public void handle(KeyEvent keyEvent) {
+
 				if (keyEvent.getCode() == KeyCode.ENTER) {
 					submitBtn.fire();
 				}
@@ -194,6 +170,7 @@ public class Login extends Application {
 
 			@Override
 			public void handle(KeyEvent keyEvent) {
+
 				if (keyEvent.getCode() == KeyCode.ENTER) {
 					submitBtn.fire();
 				}
@@ -203,6 +180,7 @@ public class Login extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
+
 				userMaster.resetUserMaster();
 			}
 		});
@@ -211,6 +189,7 @@ public class Login extends Application {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				startDragX = me.getSceneX();
 				startDragY = me.getSceneY();
 				root.setStyle("-fx-cursor:move;");
@@ -220,6 +199,7 @@ public class Login extends Application {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				root.setStyle("-fx-cursor:default;");
 			}
 		});
@@ -227,6 +207,7 @@ public class Login extends Application {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				primaryStage.setX(me.getScreenX() - startDragX);
 				primaryStage.setY(me.getScreenY() - startDragY);
 				root.setStyle("-fx-cursor:move;");

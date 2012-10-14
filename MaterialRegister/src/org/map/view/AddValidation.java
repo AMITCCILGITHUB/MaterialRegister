@@ -14,9 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import org.map.MaterialRegister;
-import org.map.controls.ComboSBox;
-import org.map.controls.IntegerBox;
+import org.map.controls.CustomComboBox;
 import org.map.controls.TextBox;
+import org.map.controls.ViewIntegerBox;
 import org.map.hibernate.dao.ValidationData;
 import org.map.hibernate.ddo.ValidationMaster;
 import org.map.logger.LoggerUtil;
@@ -28,11 +28,13 @@ public class AddValidation {
 	private double H_SPACE = 8;
 
 	public Node createView() {
+
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
@@ -53,17 +55,17 @@ public class AddValidation {
 			final HBox validationType = new HBox(H_SPACE);
 			Label validationTypeLabel = new Label("Validation Type");
 			validationTypeLabel.setPrefWidth(LABEL_WIDTH);
-			final ComboSBox validationTypeBox = new ComboSBox("",
-					"Validation Type", newValidation.getId()
+			final CustomComboBox validationTypeBox = new CustomComboBox("",
+					"ValidationType", "ValidationType", newValidation.getId()
 							.validationTypeProperty(), true);
 			validationType.getChildren().addAll(validationTypeLabel,
 					validationTypeBox);
 			final HBox validationCode = new HBox(H_SPACE);
 			Label validationCodeLabel = new Label("Validation Code");
 			validationCodeLabel.setPrefWidth(LABEL_WIDTH);
-			final IntegerBox validationCodeBox = new IntegerBox("",
-					"Validation Code", newValidation.getId()
-							.validationCodeProperty(), true);
+			final ViewIntegerBox validationCodeBox = new ViewIntegerBox(
+					newValidation.getId().getValidationCode(), newValidation
+							.getId().validationCodeProperty(), true);
 			validationCode.getChildren().addAll(validationCodeLabel,
 					validationCodeBox);
 			final HBox validationName = new HBox(H_SPACE);
@@ -83,23 +85,19 @@ public class AddValidation {
 			validationDesc.getChildren().addAll(validationDescLabel,
 					validationDescEditableBox);
 
-			ChangeListener<Boolean> focusChangeListener = new ChangeListener<Boolean>() {
+			ChangeListener<String> selectionChangeListener = new ChangeListener<String>() {
 
 				@Override
 				public void changed(
-						ObservableValue<? extends Boolean> observable,
-						Boolean oldValue, Boolean newValue) {
-					System.out.println("1");
-					if (oldValue == true && newValue == false) {
-						validationCodeBox
-								.setText(""
-										+ ValidationData
-												.getNextValidationNumber(validationTypeBox
-														.getText()) + "");
-					}
+						ObservableValue<? extends String> observable,
+						String oldValue, String newValue) {
+
+					validationCodeBox.setValue(ValidationData
+							.getNextValidationNumber(newValue));
+
 				}
 			};
-			validationTypeBox.addFocusListener(focusChangeListener);
+			validationTypeBox.addChangeListener(selectionChangeListener);
 
 			final HBox buttons = new HBox(H_SPACE);
 			buttons.setTranslateY(32);
@@ -109,7 +107,31 @@ public class AddValidation {
 
 				@Override
 				public void handle(ActionEvent e) {
-					ValidationData.insertValidationTypes(newValidation);
+					if (validationTypeBox.getText().trim().length() > 0) {
+						if (validationNameBox.getText().trim().length() > 0) {
+							if (validationDescEditableBox.getText().trim()
+									.length() == 0) {
+								newValidation.setValidationDesc(newValidation
+										.getValidationName());
+							}
+
+							ValidationData.insertValidationTypes(newValidation);
+
+							Alert.showAlert(MaterialRegister
+									.getMaterialRegister().getPrimaryStage(),
+									"Alert", "Alert",
+									"Validation saved successfully.");
+						} else {
+							Alert.showAlert(MaterialRegister
+									.getMaterialRegister().getPrimaryStage(),
+									"Error", "Error",
+									"Please enter validation name.");
+						}
+					} else {
+						Alert.showAlert(MaterialRegister.getMaterialRegister()
+								.getPrimaryStage(), "Error", "Error",
+								"Please enter validation type.");
+					}
 				}
 			});
 			buttons.getChildren().addAll(submitButton);

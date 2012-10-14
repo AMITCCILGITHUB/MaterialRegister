@@ -6,53 +6,62 @@ import org.apache.log4j.PropertyConfigurator;
 
 public class LoggerUtil {
 
-    private static LoggerUtil loggerUtil = null;
-    protected final static Logger logger = Logger.getLogger("MaterialLogger");
+	private static LoggerUtil loggerUtil = null;
+	protected final static Logger logger = Logger.getLogger("MaterialLogger");
 
-    static {
-        try {
-            loggerUtil = new LoggerUtil();
+	static {
+		try {
+			loggerUtil = new LoggerUtil();
 
-            File propFile = new File("resources/logging.properties");
-            PropertyConfigurator.configure(propFile.getAbsolutePath());
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+			File propFile = new File("resources/logging.properties");
+			PropertyConfigurator.configure(propFile.getAbsolutePath());
+		} catch (Throwable ex) {
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
 
-    public static LoggerUtil getLogger() {
-        return loggerUtil;
-    }
+	public static LoggerUtil getLogger() {
 
-    public void info(Throwable e) {
-        logger.info(e);
-    }
+		return loggerUtil;
+	}
 
-    public void info(String msg) {
-        logger.info(msg);
-    }
+	public void info(Throwable e) {
 
-    public void error(Throwable e) {
-        logger.error(e);
-    }
+		logger.info(e);
+	}
 
-    public void error(String msg) {
-        logger.error(msg);
-    }
+	public void info(String msg) {
 
-    public void warn(Throwable e) {
-        logger.warn(e);
-    }
+		logger.info(msg);
+	}
 
-    public void warn(String msg) {
-        logger.warn(msg);
-    }
+	public void error(Throwable e) {
 
-    public void debug(Throwable e) {
-        logger.debug(e);
-    }
+		logger.error(e);
+	}
 
-    public void debug(String msg) {
-        logger.debug(msg);
-    }
+	public void error(String msg) {
+
+		logger.error(msg);
+	}
+
+	public void warn(Throwable e) {
+
+		logger.warn(e);
+	}
+
+	public void warn(String msg) {
+
+		logger.warn(msg);
+	}
+
+	public void debug(Throwable e) {
+
+		logger.debug(e);
+	}
+
+	public void debug(String msg) {
+
+		logger.debug(msg);
+	}
 }

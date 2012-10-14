@@ -12,109 +12,141 @@ import javafx.scene.layout.Region;
 
 public class TTSCheckBox extends Region {
 
-    private TextBox textBox;
-    private CheckBox checkBox;
-    private String selectedTextValue = "YES";
-    private String deselectedTextValue = "NO";
-    private String indeterminateTextValue = "N/A";
+	private TextBox textBox;
+	private CheckBox checkBox;
+	private String selectedTextValue = "YES";
+	private String deselectedTextValue = "NO";
+	private String indeterminateTextValue = "N/A";
 
-    public TTSCheckBox() {
-        initComponent("", "");
-    }
+	public TTSCheckBox() {
 
-    public TTSCheckBox(String textValue, String promptText) {
-        initComponent(textValue, promptText);
-    }
+		initComponent("", "");
+	}
 
-    public TTSCheckBox(String textValue, String promptText, StringProperty propertyName, boolean bidirectional) {
-        initComponent(textValue, promptText);
-        if (bidirectional) {
-            textBox.bindBidirectional(propertyName);
-        } else {
-            textBox.bind(propertyName);
-        }
-    }
-    
-    public TTSCheckBox(String textValue, String promptText, StringProperty propertyName, boolean bidirectional, final SimpleIntegerProperty value, boolean bidirectionnalVal) {
-        initComponent(textValue, promptText);
-        if (bidirectional) {
-            textBox.bindBidirectional(propertyName);
-        } else {
-            textBox.bind(propertyName);
-        }
+	public TTSCheckBox(String textValue, String promptText) {
 
-        value.addListener(new ChangeListener<Number>() {
+		initComponent(textValue, promptText);
+	}
 
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                if (newValue == null) {
-                    checkBox.setText(indeterminateTextValue);
-                } else {
-                    if (newValue.intValue() >= -1 && newValue.intValue() <= 1) {
-                        checkBox.setText((newValue.intValue() == 0) ? indeterminateTextValue : (newValue.intValue() == 1) ? selectedTextValue : deselectedTextValue);
-                    } else {
-                        checkBox.setText(indeterminateTextValue);
-                    }
-                }
-            }
-        });
-        if (bidirectionnalVal) {
-            checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+	public TTSCheckBox(String textValue, String promptText,
+			StringProperty propertyName, boolean bidirectional) {
 
-                @Override
-                public void changed(ObservableValue ov, Boolean old_val, Boolean new_val) {
-                    value.set(checkBox.isSelected() ? 1 : (checkBox.isIndeterminate() ? 0 : -1));
-                }
-            });
-        }
-    }    
+		initComponent(textValue, promptText);
+		if (bidirectional) {
+			textBox.bindBidirectional(propertyName);
+		} else {
+			textBox.bind(propertyName);
+		}
+	}
 
-    private void initComponent(final String textValue, final String promptText) {
-        getStyleClass().add( "text-check-box" );
+	public TTSCheckBox(String textValue, String promptText,
+			StringProperty propertyName, boolean bidirectional,
+			final SimpleIntegerProperty value, boolean bidirectionnalVal) {
 
-        setMinSize(Layout.getLabelTextBoxWidth() + Layout.getCheckBoxWidth(), Layout.getRegionHeight());
-        setPrefSize(Layout.getLabelTextBoxWidth() + Layout.getCheckBoxWidth(), Layout.getRegionHeight());
-        setMaxSize(Layout.getLabelTextBoxWidth() + Layout.getCheckBoxWidth(), Layout.getRegionHeight());
+		initComponent(textValue, promptText);
+		if (bidirectional) {
+			textBox.bindBidirectional(propertyName);
+		} else {
+			textBox.bind(propertyName);
+		}
 
-        textBox = new TextBox(textValue, promptText);
-        textBox.setPrefWidth(Layout.getLabelTextBoxWidth());
+		value.addListener(new ChangeListener<Number>() {
 
-        checkBox = CheckBoxBuilder.create().allowIndeterminate(true).prefHeight(Layout.getCheckBoxHeight()).prefWidth(Layout.getCheckBoxWidth()).build();
-        checkBox.getStyleClass().add( "editable-check-box" );
-        checkBox.setIndeterminate(true);
-        checkBox.setText(indeterminateTextValue);
-        checkBox.setOnMouseClicked(
-                new EventHandler<MouseEvent>() {
+			@Override
+			public void changed(
+					ObservableValue<? extends Number> observableValue,
+					Number oldValue, Number newValue) {
 
-                    @Override
-                    public void handle(final MouseEvent mouseEvent) {
-                        final String newText = checkBox.isIndeterminate() ? indeterminateTextValue : checkBox.isSelected() ? selectedTextValue : deselectedTextValue;
-                        checkBox.setText(newText);
-                    }
-                });
+				if (newValue == null) {
+					checkBox.setText(indeterminateTextValue);
+				} else {
+					if (newValue.intValue() >= -1 && newValue.intValue() <= 1) {
+						checkBox.setText((newValue.intValue() == 0) ? indeterminateTextValue
+								: (newValue.intValue() == 1) ? selectedTextValue
+										: deselectedTextValue);
+					} else {
+						checkBox.setText(indeterminateTextValue);
+					}
+				}
+			}
+		});
+		if (bidirectionnalVal) {
+			checkBox.selectedProperty().addListener(
+					new ChangeListener<Boolean>() {
 
-        getChildren().addAll(textBox, checkBox);
-    }
+						@Override
+						public void changed(ObservableValue ov,
+								Boolean old_val, Boolean new_val) {
 
-    public String getLabelText() {
-        return textBox.getText();
-    }
+							value.set(checkBox.isSelected() ? 1 : (checkBox
+									.isIndeterminate() ? 0 : -1));
+						}
+					});
+		}
+	}
 
-    public void setLabelText(String textVal) {
-        textBox.setText(textVal);
-    }
+	private void initComponent(final String textValue, final String promptText) {
 
-    public int getValue() {
-        return (checkBox.isSelected() ? 1 : (checkBox.isIndeterminate() ? 0 : -1));
-    }
+		getStyleClass().add("text-check-box");
 
-    public void setValue(int val) {
-        checkBox.setText((val == 0) ? indeterminateTextValue : (val == 1) ? selectedTextValue : deselectedTextValue);
-    }
+		setMinSize(Layout.getLabelTextBoxWidth() + Layout.getCheckBoxWidth(),
+				Layout.getRegionHeight());
+		setPrefSize(Layout.getLabelTextBoxWidth() + Layout.getCheckBoxWidth(),
+				Layout.getRegionHeight());
+		setMaxSize(Layout.getLabelTextBoxWidth() + Layout.getCheckBoxWidth(),
+				Layout.getRegionHeight());
 
-    @Override
-    protected void layoutChildren() {
-        textBox.resizeRelocate(0, 0, textBox.getPrefWidth(), getHeight());
-        checkBox.resizeRelocate(textBox.getPrefWidth() + 8, 0, checkBox.getPrefWidth(), getHeight());
-    }
+		textBox = new TextBox(textValue, promptText);
+		textBox.setPrefWidth(Layout.getLabelTextBoxWidth());
+
+		checkBox = CheckBoxBuilder.create().allowIndeterminate(true)
+				.prefHeight(Layout.getCheckBoxHeight())
+				.prefWidth(Layout.getCheckBoxWidth()).build();
+		checkBox.getStyleClass().add("editable-check-box");
+		checkBox.setIndeterminate(true);
+		checkBox.setText(indeterminateTextValue);
+		checkBox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(final MouseEvent mouseEvent) {
+
+				final String newText = checkBox.isIndeterminate() ? indeterminateTextValue
+						: checkBox.isSelected() ? selectedTextValue
+								: deselectedTextValue;
+				checkBox.setText(newText);
+			}
+		});
+
+		getChildren().addAll(textBox, checkBox);
+	}
+
+	public String getLabelText() {
+
+		return textBox.getText();
+	}
+
+	public void setLabelText(String textVal) {
+
+		textBox.setText(textVal);
+	}
+
+	public int getValue() {
+
+		return (checkBox.isSelected() ? 1 : (checkBox.isIndeterminate() ? 0
+				: -1));
+	}
+
+	public void setValue(int val) {
+
+		checkBox.setText((val == 0) ? indeterminateTextValue
+				: (val == 1) ? selectedTextValue : deselectedTextValue);
+	}
+
+	@Override
+	protected void layoutChildren() {
+
+		textBox.resizeRelocate(0, 0, textBox.getPrefWidth(), getHeight());
+		checkBox.resizeRelocate(textBox.getPrefWidth() + 8, 0,
+				checkBox.getPrefWidth(), getHeight());
+	}
 }

@@ -20,267 +20,309 @@ import java.util.Locale;
 
 /**
  * A calendar control
- *
+ * 
  * @author Christian Schudt
  */
 public class CalendarView extends VBox {
 
-    private static final String CSS_CALENDAR_FOOTER = "calendar-footer";
-    private static final String CSS_CALENDAR = "calendar";
-    private static final String CSS_CALENDAR_TODAY_BUTTON = "calendar-today-button";
+	private static final String CSS_CALENDAR_FOOTER = "calendar-footer";
+	private static final String CSS_CALENDAR = "calendar";
+	private static final String CSS_CALENDAR_TODAY_BUTTON = "calendar-today-button";
 
-    /**
-     * Initializes a calendar with the default locale.
-     */
-    public CalendarView() {
-        this(Locale.getDefault());
-    }
+	/**
+	 * Initializes a calendar with the default locale.
+	 */
+	public CalendarView() {
 
-    /**
-     * Initializes a calendar with the given locale. E.g. if the locale is
-     * en-US, the calendar starts the days on Sunday. If it is de-DE the
-     * calendar starts the days on Monday.
-     * <p/>
-     * Note that the Java implementation only knows {@link java.util.GregorianCalendar}
-     *
-     * @param locale The locale.
-     */
-    public CalendarView(final Locale locale) {
-        this(locale, Calendar.getInstance(locale));
+		this(Locale.getDefault());
+	}
 
-        // When the locale changes, also change the calendar.
-        this.locale.addListener(new InvalidationListener() {
+	/**
+	 * Initializes a calendar with the given locale. E.g. if the locale is
+	 * en-US, the calendar starts the days on Sunday. If it is de-DE the
+	 * calendar starts the days on Monday.
+	 * <p/>
+	 * Note that the Java implementation only knows
+	 * {@link java.util.GregorianCalendar}
+	 * 
+	 * @param locale
+	 *            The locale.
+	 */
+	public CalendarView(final Locale locale) {
 
-            @Override
-            public void invalidated(Observable observable) {
-                calendar.set(Calendar.getInstance(localeProperty().get()));
-            }
-        });
-    }
+		this(locale, Calendar.getInstance(locale));
 
-    /**
-     * Initializes the control with the given locale and the given calendar.
-     * <p/>
-     * This way, you can pass a custom calendar (e.g. you could implement the
-     * Hijri Calendar for the arabic world). Or you can use an American style
-     * calendar (starting with Sunday as first day of the week) together with
-     * another language.
-     * <p/>
-     * The locale determines the date format.
-     *
-     * @param locale The locale.
-     * @param calendar The calendar
-     */
-    public CalendarView(final Locale locale, final Calendar calendar) {
+		// When the locale changes, also change the calendar.
+		this.locale.addListener(new InvalidationListener() {
 
-        this.locale.set(locale);
-        this.calendar.set(calendar);
+			@Override
+			public void invalidated(Observable observable) {
 
-        getStyleClass().add(CSS_CALENDAR);
+				calendar.set(Calendar.getInstance(localeProperty().get()));
+			}
+		});
+	}
 
-        setMaxWidth(Control.USE_PREF_SIZE);
+	/**
+	 * Initializes the control with the given locale and the given calendar.
+	 * <p/>
+	 * This way, you can pass a custom calendar (e.g. you could implement the
+	 * Hijri Calendar for the arabic world). Or you can use an American style
+	 * calendar (starting with Sunday as first day of the week) together with
+	 * another language.
+	 * <p/>
+	 * The locale determines the date format.
+	 * 
+	 * @param locale
+	 *            The locale.
+	 * @param calendar
+	 *            The calendar
+	 */
+	public CalendarView(final Locale locale, final Calendar calendar) {
 
-        currentlyViewing.set(Calendar.MONTH);
+		this.locale.set(locale);
+		this.calendar.set(calendar);
 
-        calendarDate.addListener(new InvalidationListener() {
+		getStyleClass().add(CSS_CALENDAR);
 
-            @Override
-            public void invalidated(Observable observable) {
-                calendar.setTime(calendarDate.get());
-            }
-        });
-        this.calendarDate.set(new Date());
-        currentDate.addListener(new InvalidationListener() {
+		setMaxWidth(Control.USE_PREF_SIZE);
 
-            @Override
-            public void invalidated(Observable observable) {
-                Date date = new Date();
-                if (currentDate.get() != null) {
-                    date = currentDate.get();
-                }
-                calendarDate.set(date);
-            }
-        });
-        MainStackPane mainStackPane = new MainStackPane(this);
-        VBox.setVgrow(mainStackPane, Priority.ALWAYS);
-        mainNavigationPane = new MainNavigationPane(this);
+		currentlyViewing.set(Calendar.MONTH);
 
-        todayButtonBox = new HBox();
-        todayButtonBox.getStyleClass().add(CSS_CALENDAR_FOOTER);
+		calendarDate.addListener(new InvalidationListener() {
 
-        Button todayButton = new Button();
-        todayButton.textProperty().bind(todayButtonText);
-        todayButton.getStyleClass().add(CSS_CALENDAR_TODAY_BUTTON);
-        todayButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void invalidated(Observable observable) {
 
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Calendar calendar = calendarProperty().get();
-                calendar.setTime(new Date());
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                selectedDate.set(calendar.getTime());
-            }
-        });
-        todayButtonBox.setAlignment(Pos.CENTER);
-        todayButtonBox.getChildren().add(todayButton);
+				calendar.setTime(calendarDate.get());
+			}
+		});
+		this.calendarDate.set(new Date());
+		currentDate.addListener(new InvalidationListener() {
 
-        getChildren().addAll(mainNavigationPane, mainStackPane);
+			@Override
+			public void invalidated(Observable observable) {
 
-        showTodayButton.addListener(new InvalidationListener() {
+				Date date = new Date();
+				if (currentDate.get() != null) {
+					date = currentDate.get();
+				}
+				calendarDate.set(date);
+			}
+		});
+		MainStackPane mainStackPane = new MainStackPane(this);
+		VBox.setVgrow(mainStackPane, Priority.ALWAYS);
+		mainNavigationPane = new MainNavigationPane(this);
 
-            @Override
-            public void invalidated(Observable observable) {
-                if (showTodayButton.get()) {
-                    getChildren().add(todayButtonBox);
-                } else {
-                    getChildren().remove(todayButtonBox);
-                }
-            }
-        });
-        showTodayButton.set(true);
+		todayButtonBox = new HBox();
+		todayButtonBox.getStyleClass().add(CSS_CALENDAR_FOOTER);
 
-    }
-    private HBox todayButtonBox;
+		Button todayButton = new Button();
+		todayButton.textProperty().bind(todayButtonText);
+		todayButton.getStyleClass().add(CSS_CALENDAR_TODAY_BUTTON);
+		todayButton.setOnAction(new EventHandler<ActionEvent>() {
 
-    /**
-     * Gets or sets the locale.
-     *
-     * @return The property.
-     */
-    public ObjectProperty<Locale> localeProperty() {
-        return locale;
-    }
-    private ObjectProperty<Locale> locale = new SimpleObjectProperty<>();
+			@Override
+			public void handle(ActionEvent actionEvent) {
 
-    public Locale getLocale() {
-        return locale.get();
-    }
+				Calendar calendar = calendarProperty().get();
+				calendar.setTime(new Date());
+				calendar.set(Calendar.HOUR_OF_DAY, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				selectedDate.set(calendar.getTime());
+			}
+		});
+		todayButtonBox.setAlignment(Pos.CENTER);
+		todayButtonBox.getChildren().add(todayButton);
 
-    public void setLocale(Locale locale) {
-        this.locale.set(locale);
-    }
+		getChildren().addAll(mainNavigationPane, mainStackPane);
 
-    /**
-     * Gets or sets the calendar.
-     *
-     * @return The property.
-     */
-    public ObjectProperty<Calendar> calendarProperty() {
-        return calendar;
-    }
-    private ObjectProperty<Calendar> calendar = new SimpleObjectProperty<>();
+		showTodayButton.addListener(new InvalidationListener() {
 
-    public Calendar getCalendar() {
-        return calendar.get();
-    }
+			@Override
+			public void invalidated(Observable observable) {
 
-    public void setCalendar(Calendar calendar) {
-        this.calendar.set(calendar);
-    }
+				if (showTodayButton.get()) {
+					getChildren().add(todayButtonBox);
+				} else {
+					getChildren().remove(todayButtonBox);
+				}
+			}
+		});
+		showTodayButton.set(true);
 
-    /**
-     * Gets the list of disabled week days. E.g. if you add
-     * <code>Calendar.WEDNESDAY</code>, Wednesday will be disabled.
-     *
-     * @return The list.
-     */
-    public ObservableList<Integer> getDisabledWeekdays() {
-        return disabledWeekdays;
-    }
-    private ObservableList<Integer> disabledWeekdays = FXCollections.observableArrayList();
+	}
 
-    /**
-     * Gets the list of disabled dates. You can add specific date, in order to
-     * disable them.
-     *
-     * @return The list.
-     */
-    public ObservableList<Date> getDisabledDates() {
-        return disabledDates;
-    }
-    private ObservableList<Date> disabledDates = FXCollections.observableArrayList();
+	private HBox todayButtonBox;
 
-    /**
-     * Gets the selected date.
-     *
-     * @return The property.
-     */
-    public ReadOnlyObjectProperty<Date> selectedDateProperty() {
-        return selectedDate;
-    }
-    private ObjectProperty<Date> currentDate = new SimpleObjectProperty<>();
+	/**
+	 * Gets or sets the locale.
+	 * 
+	 * @return The property.
+	 */
+	public ObjectProperty<Locale> localeProperty() {
 
-    public ObjectProperty<Date> currentDateProperty() {
-        return currentDate;
-    }
+		return locale;
+	}
 
-    /**
-     * Indicates, whether the today button should be shown.
-     *
-     * @return The property.
-     */
-    public BooleanProperty showTodayButtonProperty() {
-        return showTodayButton;
-    }
-    private BooleanProperty showTodayButton = new SimpleBooleanProperty();
+	private ObjectProperty<Locale> locale = new SimpleObjectProperty<>();
 
-    public boolean getShowTodayButton() {
-        return showTodayButton.get();
-    }
+	public Locale getLocale() {
 
-    public void setShowTodayButton(boolean showTodayButton) {
-        this.showTodayButton.set(showTodayButton);
-    }
+		return locale.get();
+	}
 
-    /**
-     * The text of the today button
-     *
-     * @return The property.
-     */
-    public StringProperty todayButtonTextProperty() {
-        return todayButtonText;
-    }
-    private StringProperty todayButtonText = new SimpleStringProperty("Today");
+	public void setLocale(Locale locale) {
 
-    public String getTodayButtonText() {
-        return todayButtonText.get();
-    }
+		this.locale.set(locale);
+	}
 
-    public void setTodayButtonText(String todayButtonText) {
-        this.todayButtonText.set(todayButtonText);
-    }
+	/**
+	 * Gets or sets the calendar.
+	 * 
+	 * @return The property.
+	 */
+	public ObjectProperty<Calendar> calendarProperty() {
 
-    /**
-     * Indicates, whether the week numbers are shown.
-     *
-     * @return The property.
-     */
-    public BooleanProperty showWeeksProperty() {
-        return showWeeks;
-    }
-    private BooleanProperty showWeeks = new SimpleBooleanProperty(false);
+		return calendar;
+	}
 
-    public boolean getShowWeeks() {
-        return showWeeks.get();
-    }
+	private ObjectProperty<Calendar> calendar = new SimpleObjectProperty<>();
 
-    public void setShowWeeks(boolean showWeeks) {
-        this.showWeeks.set(showWeeks);
-    }
-    /**
-     * Package internal properties.
-     */
-    MainNavigationPane mainNavigationPane;
-    /**
-     * Counts the current transitions. As long as an animation is going, the
-     * panels should not move left and right.
-     */
-    IntegerProperty ongoingTransitions = new SimpleIntegerProperty(0);
-    ObjectProperty<Date> selectedDate = new SimpleObjectProperty<>();
-    ObjectProperty<Date> calendarDate = new SimpleObjectProperty<>();
-    IntegerProperty currentlyViewing = new SimpleIntegerProperty();
-    StringProperty title = new SimpleStringProperty();
+	public Calendar getCalendar() {
+
+		return calendar.get();
+	}
+
+	public void setCalendar(Calendar calendar) {
+
+		this.calendar.set(calendar);
+	}
+
+	/**
+	 * Gets the list of disabled week days. E.g. if you add
+	 * <code>Calendar.WEDNESDAY</code>, Wednesday will be disabled.
+	 * 
+	 * @return The list.
+	 */
+	public ObservableList<Integer> getDisabledWeekdays() {
+
+		return disabledWeekdays;
+	}
+
+	private ObservableList<Integer> disabledWeekdays = FXCollections
+			.observableArrayList();
+
+	/**
+	 * Gets the list of disabled dates. You can add specific date, in order to
+	 * disable them.
+	 * 
+	 * @return The list.
+	 */
+	public ObservableList<Date> getDisabledDates() {
+
+		return disabledDates;
+	}
+
+	private ObservableList<Date> disabledDates = FXCollections
+			.observableArrayList();
+
+	/**
+	 * Gets the selected date.
+	 * 
+	 * @return The property.
+	 */
+	public ReadOnlyObjectProperty<Date> selectedDateProperty() {
+
+		return selectedDate;
+	}
+
+	private ObjectProperty<Date> currentDate = new SimpleObjectProperty<>();
+
+	public ObjectProperty<Date> currentDateProperty() {
+
+		return currentDate;
+	}
+
+	/**
+	 * Indicates, whether the today button should be shown.
+	 * 
+	 * @return The property.
+	 */
+	public BooleanProperty showTodayButtonProperty() {
+
+		return showTodayButton;
+	}
+
+	private BooleanProperty showTodayButton = new SimpleBooleanProperty();
+
+	public boolean getShowTodayButton() {
+
+		return showTodayButton.get();
+	}
+
+	public void setShowTodayButton(boolean showTodayButton) {
+
+		this.showTodayButton.set(showTodayButton);
+	}
+
+	/**
+	 * The text of the today button
+	 * 
+	 * @return The property.
+	 */
+	public StringProperty todayButtonTextProperty() {
+
+		return todayButtonText;
+	}
+
+	private StringProperty todayButtonText = new SimpleStringProperty("Today");
+
+	public String getTodayButtonText() {
+
+		return todayButtonText.get();
+	}
+
+	public void setTodayButtonText(String todayButtonText) {
+
+		this.todayButtonText.set(todayButtonText);
+	}
+
+	/**
+	 * Indicates, whether the week numbers are shown.
+	 * 
+	 * @return The property.
+	 */
+	public BooleanProperty showWeeksProperty() {
+
+		return showWeeks;
+	}
+
+	private BooleanProperty showWeeks = new SimpleBooleanProperty(false);
+
+	public boolean getShowWeeks() {
+
+		return showWeeks.get();
+	}
+
+	public void setShowWeeks(boolean showWeeks) {
+
+		this.showWeeks.set(showWeeks);
+	}
+
+	/**
+	 * Package internal properties.
+	 */
+	MainNavigationPane mainNavigationPane;
+	/**
+	 * Counts the current transitions. As long as an animation is going, the
+	 * panels should not move left and right.
+	 */
+	IntegerProperty ongoingTransitions = new SimpleIntegerProperty(0);
+	ObjectProperty<Date> selectedDate = new SimpleObjectProperty<>();
+	ObjectProperty<Date> calendarDate = new SimpleObjectProperty<>();
+	IntegerProperty currentlyViewing = new SimpleIntegerProperty();
+	StringProperty title = new SimpleStringProperty();
 }

@@ -35,12 +35,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextBuilder;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import org.map.controls.SearchBox;
 import org.map.controls.WindowButtons;
+import org.map.logger.LoggerUtil;
 import org.map.login.Login;
 import org.map.utils.StatusBar;
 import org.map.view.AddHeatChart;
@@ -72,20 +74,25 @@ public class MaterialRegister {
 	private double mouseDragOffsetX = 0;
 	private double mouseDragOffsetY = 0;
 	private StatusBar sb = new StatusBar(-29);
+	private VBox bottom = new VBox();
 
 	public static MaterialRegister getMaterialRegister() {
+
 		return fxInventoryManagement;
 	}
 
 	public StatusBar getStatusBar() {
+
 		return sb;
 	}
 
 	public Stage getPrimaryStage() {
+
 		return primaryStage;
 	}
 
-	public void start() {
+	public void show() {
+
 		if (primaryStage == null) {
 			this.primaryStage = new Stage();
 		}
@@ -110,11 +117,11 @@ public class MaterialRegister {
 			File calendarStyle = new File("resources/style/calendar.css");
 			scene.getStylesheets().addAll(
 					calendarStyle.toURI().toURL().toExternalForm());
-			File controlStyle = new File("resources/style/style.css");
+			File controlStyle = new File("resources/style/controls.css");
 			scene.getStylesheets().addAll(
 					controlStyle.toURI().toURL().toExternalForm());
-		} catch (Exception ex) {
-
+		} catch (Exception e) {
+			LoggerUtil.getLogger().debug(e);
 		}
 
 		toolBar = new ToolBar();
@@ -152,6 +159,7 @@ public class MaterialRegister {
 
 					@Override
 					public void handle(ActionEvent arg0) {
+
 						timeText.setText(df.format(Calendar.getInstance()
 								.getTime()));
 					}
@@ -173,6 +181,7 @@ public class MaterialRegister {
 
 			@Override
 			public void handle(MouseEvent event) {
+
 				if (event.getClickCount() == 2) {
 					windowButtons.toogleMaximized();
 				}
@@ -183,6 +192,7 @@ public class MaterialRegister {
 
 			@Override
 			public void handle(MouseEvent event) {
+
 				mouseDragOffsetX = event.getSceneX();
 				mouseDragOffsetY = event.getSceneY();
 			}
@@ -191,6 +201,7 @@ public class MaterialRegister {
 
 			@Override
 			public void handle(MouseEvent event) {
+
 				if (!windowButtons.isMaximized()) {
 					primaryStage.setX(event.getScreenX() - mouseDragOffsetX);
 					primaryStage.setY(event.getScreenY() - mouseDragOffsetY);
@@ -202,6 +213,7 @@ public class MaterialRegister {
 
 			@Override
 			public void requestLayout() {
+
 				super.requestLayout();
 				if (pageToolBar != null
 						&& getHeight() != pageToolBar.prefHeight(-1)) {
@@ -277,6 +289,7 @@ public class MaterialRegister {
 					@Override
 					public void changed(ObservableValue observable,
 							Object oldValue, Object newValue) {
+
 						Object selectedPage = pageTree.getSelectionModel()
 								.getSelectedItem();
 						if (selectedPage != null) {
@@ -310,9 +323,10 @@ public class MaterialRegister {
 
 			@Override
 			public void handle(ActionEvent event) {
+
 				Login.getLoginPanel().getUserMaster().resetUserMaster();
 				primaryStage.hide();
-				Login.getPrimaryStage().show();
+				Login.getLoginPanel().getPrimaryStage().show();
 			}
 		});
 		logoutButton.setMaxHeight(Double.MAX_VALUE);
@@ -322,6 +336,7 @@ public class MaterialRegister {
 
 			@Override
 			protected void layoutChildren() {
+
 				for (Node child : pageArea.getChildren()) {
 					child.resizeRelocate(0, 0, pageArea.getWidth(),
 							pageArea.getHeight());
@@ -344,13 +359,28 @@ public class MaterialRegister {
 		this.root.setTop(toolBar);
 		this.root.setCenter(splitPane);
 
-		this.root.setBottom(VBoxBuilder.create().minHeight(29).prefHeight(29)
-				.maxHeight(29).styleClass("bottom-bar").build());
+		bottom = VBoxBuilder
+				.create()
+				.minHeight(29)
+				.prefHeight(29)
+				.maxHeight(29)
+				.styleClass("bottom-bar")
+				.children(
+						TextBuilder
+								.create()
+								.style("-fx-text-fill:white;-fx-fill: white; -fx-font-weight: bold;")
+								.build()).build();
+		this.root.setBottom(bottom);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
 		sb.initComponents(primaryStage, "Loading...");
+	}
+
+	public VBox getBottom() {
+
+		return bottom;
 	}
 
 	/**
@@ -366,6 +396,9 @@ public class MaterialRegister {
 	 *            If view should be swapped to new page
 	 */
 	public void goToPage(String page) {
+		Text statusText = (Text) bottom.getChildren().get(0);
+		statusText.setText("");
+
 		if (page.trim().equalsIgnoreCase("TreeItem [ value: Add User ]")) {
 			AddUser addDetail = new AddUser();
 			pageArea.getChildren().setAll(addDetail.createView());
@@ -425,12 +458,21 @@ public class MaterialRegister {
 	}
 
 	public void goToPage(String page, String ctNumber) {
+
 		if (page.trim().equalsIgnoreCase("TreeItem [ value: View Material ]")) {
+			Text statusText = (Text) bottom.getChildren().get(0);
+			statusText.setText("");
+
 			ViewMaterial viewDetail = new ViewMaterial();
 			viewDetail.setCtNumber(ctNumber);
 			pageArea.getChildren().setAll(viewDetail.createView());
 		} else {
 			goToPage(page);
 		}
+	}
+
+	public void reloadPage(String pageName) {
+
+		goToPage("TreeItem [ value: " + pageName + " ]");
 	}
 }

@@ -13,6 +13,7 @@ public class Confirm extends MessagePopUp {
 	private Confirm(Stage parentStage, String title, String type,
 			String message, EventHandler<ActionEvent> event)
 			throws MalformedURLException {
+
 		super(parentStage, title, type, message);
 		setActionBox(event);
 	}
@@ -20,12 +21,14 @@ public class Confirm extends MessagePopUp {
 	private Confirm(Stage parentStage, String title, String type,
 			String message, double width, EventHandler<ActionEvent> event)
 			throws MalformedURLException {
+
 		super(parentStage, title, type, message, width);
 		setActionBox(event);
 	}
 
 	public static Confirm showConfirm(Stage parentStage, String title,
 			String type, String message, EventHandler<ActionEvent> event) {
+
 		Confirm confirm = null;
 		try {
 			confirm = new Confirm(parentStage, title, type, message, event);
@@ -38,6 +41,7 @@ public class Confirm extends MessagePopUp {
 	public static Confirm showConfirm(Stage parentStage, String title,
 			String type, String message, double width,
 			EventHandler<ActionEvent> event) {
+
 		Confirm confirm = null;
 		try {
 			confirm = new Confirm(parentStage, title, type, message, width,
@@ -49,6 +53,7 @@ public class Confirm extends MessagePopUp {
 	}
 
 	private void setActionBox(final EventHandler<ActionEvent> event) {
+
 		final HBox actionBox = super.getActionBox();
 		actionBox.getChildren().clear();
 		actionBox.setSpacing(15);
@@ -60,6 +65,7 @@ public class Confirm extends MessagePopUp {
 
 			@Override
 			public void handle(ActionEvent actionEvent) {
+
 				event.handle(actionEvent);
 				closePopUp();
 			}
@@ -72,6 +78,7 @@ public class Confirm extends MessagePopUp {
 
 			@Override
 			public void handle(ActionEvent actionEvent) {
+
 				closePopUp();
 			}
 		});

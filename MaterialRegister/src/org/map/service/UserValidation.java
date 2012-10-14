@@ -7,14 +7,17 @@ import org.map.login.Login;
 
 public class UserValidation extends Service<Boolean> {
 
-    @Override
-    protected Task<Boolean> createTask() {
-        return new Task<Boolean>() {
+	@Override
+	protected Task<Boolean> createTask() {
 
-            @Override
-            protected Boolean call() {
-                return Boolean.valueOf(UserData.validateUser(Login.getLoginPanel().getUserMaster()));
-            }
-        };
-    }
+		return new Task<Boolean>() {
+
+			@Override
+			protected Boolean call() {
+
+				return Boolean.valueOf(UserData.validateUser(Login
+						.getLoginPanel().getUserMaster()));
+			}
+		};
+	}
 }

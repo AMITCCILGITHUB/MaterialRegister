@@ -6,97 +6,117 @@ import java.util.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class MaterialTestMap implements Serializable, Comparable<MaterialTestMap> {
+public class MaterialTestMap implements Serializable,
+		Comparable<MaterialTestMap> {
 
-    private static final long serialVersionUID = 1L;
-    private MaterialTestMapId id;
-    private SimpleStringProperty testName;
-    private SimpleIntegerProperty testValue;
-    private String status;
-    private String createdBy;
-    private Date createdDate;
+	private static final long serialVersionUID = 1L;
+	private MaterialTestMapId id;
+	private SimpleStringProperty testName;
+	private SimpleIntegerProperty testValue;
+	private String status;
+	private String createdBy;
+	private Date createdDate;
 
-    @Override
-    public String toString() {
-        return (testValue.get() == 1) ? testName.get() : "";
-    }
+	@Override
+	public String toString() {
 
-    public MaterialTestMap() {
-        this.id = new MaterialTestMapId();
-        this.testName = new SimpleStringProperty("");
-        this.testValue = new SimpleIntegerProperty(0);
-        this.status = "TRUE";
-        this.createdBy = "SYSTEM";
-        this.createdDate = Calendar.getInstance().getTime();
-    }
+		return (testValue.get() == 1) ? testName.get() : "";
+	}
 
-    public MaterialTestMap(MaterialTestMapId id, String testName, int testValue, String status, String createdBy, Date createdDate) {
-        this.id = id;
-        this.testName = new SimpleStringProperty(testName);
-        this.testValue = new SimpleIntegerProperty(testValue);
-        this.status = status;
-        this.createdBy = createdBy;
-        this.createdDate = createdDate;
-    }
+	public MaterialTestMap() {
 
-    public MaterialTestMapId getId() {
-        return this.id;
-    }
+		this.id = new MaterialTestMapId();
+		this.testName = new SimpleStringProperty("");
+		this.testValue = new SimpleIntegerProperty(0);
+		this.status = "TRUE";
+		this.createdBy = "SYSTEM";
+		this.createdDate = Calendar.getInstance().getTime();
+	}
 
-    public void setId(MaterialTestMapId id) {
-        this.id = id;
-    }
+	public MaterialTestMap(MaterialTestMapId id, String testName,
+			int testValue, String status, String createdBy, Date createdDate) {
 
-    public int getTestValue() {
-        return this.testValue.get();
-    }
+		this.id = id;
+		this.testName = new SimpleStringProperty(testName);
+		this.testValue = new SimpleIntegerProperty(testValue);
+		this.status = status;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+	}
 
-    public void setTestValue(int testValue) {
-        this.testValue.set(testValue);
-    }
+	public MaterialTestMapId getId() {
 
-    public SimpleIntegerProperty TestValueProperty() {
-        return this.testValue;
-    }
+		return this.id;
+	}
 
-    public String getTestName() {
-        return testName.get();
-    }
+	public void setId(MaterialTestMapId id) {
 
-    public void setTestName(String testName) {
-        this.testName.set(testName);
-    }
+		this.id = id;
+	}
 
-    public SimpleStringProperty TestNameProperty() {
-        return this.testName;
-    }
+	public int getTestValue() {
 
-    public String getStatus() {
-        return this.status;
-    }
+		return this.testValue.get();
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public void setTestValue(int testValue) {
 
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
+		this.testValue.set(testValue);
+	}
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+	public SimpleIntegerProperty TestValueProperty() {
 
-    public Date getCreatedDate() {
-        return this.createdDate;
-    }
+		return this.testValue;
+	}
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+	public String getTestName() {
 
-    @Override
-    public int compareTo(MaterialTestMap o) {
-        return id.compareTo(o.getId());
-    }
+		return testName.get();
+	}
+
+	public void setTestName(String testName) {
+
+		this.testName.set(testName);
+	}
+
+	public SimpleStringProperty TestNameProperty() {
+
+		return this.testName;
+	}
+
+	public String getStatus() {
+
+		return this.status;
+	}
+
+	public void setStatus(String status) {
+
+		this.status = status;
+	}
+
+	public String getCreatedBy() {
+
+		return this.createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+
+		return this.createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+
+		this.createdDate = createdDate;
+	}
+
+	@Override
+	public int compareTo(MaterialTestMap o) {
+
+		return id.compareTo(o.getId());
+	}
 }

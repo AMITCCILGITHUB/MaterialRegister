@@ -6,139 +6,164 @@ import java.util.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class ValidationMaster implements Serializable, Comparable<ValidationMaster> {
+public class ValidationMaster implements Serializable,
+		Comparable<ValidationMaster> {
 
-    private static final long serialVersionUID = 1L;
-    private ValidationMasterId id;
-    private SimpleStringProperty validationName;
-    private SimpleStringProperty validationDesc;
-    private SimpleIntegerProperty validationValue;
-    private String validationStatus;
-    private String createdBy;
-    private Date createdDate;
+	private static final long serialVersionUID = 1L;
+	private ValidationMasterId id;
+	private SimpleStringProperty validationName;
+	private SimpleStringProperty validationDesc;
+	private SimpleIntegerProperty validationValue;
+	private String validationStatus;
+	private String createdBy;
+	private Date createdDate;
 
-    public ValidationMaster() {
-        this.id = new ValidationMasterId();
-        this.validationName = new SimpleStringProperty("");
-        this.validationDesc = new SimpleStringProperty("");
-        this.validationValue = new SimpleIntegerProperty(0);
-        this.validationStatus = "TRUE";
-        this.createdBy = "YSTEM";
-        this.createdDate = Calendar.getInstance().getTime();
-    }
+	public ValidationMaster() {
 
-    public ValidationMaster(ValidationMasterId id, String validationName, String validationDesc, String validationStatus, String createdBy, Date createdDate) {
-        this.id = id;
-        this.validationName = new SimpleStringProperty(validationName);
-        this.validationDesc = new SimpleStringProperty(validationDesc);
-        this.validationValue = new SimpleIntegerProperty(0);
-        this.validationStatus = validationStatus;
-        this.createdBy = createdBy;
-        this.createdDate = createdDate;
-    }
+		this.id = new ValidationMasterId();
+		this.validationName = new SimpleStringProperty("");
+		this.validationDesc = new SimpleStringProperty("");
+		this.validationValue = new SimpleIntegerProperty(0);
+		this.validationStatus = "TRUE";
+		this.createdBy = "YSTEM";
+		this.createdDate = Calendar.getInstance().getTime();
+	}
 
-    public ValidationMasterId getId() {
-        return this.id;
-    }
+	public ValidationMaster(ValidationMasterId id, String validationName,
+			String validationDesc, String validationStatus, String createdBy,
+			Date createdDate) {
 
-    public void setId(ValidationMasterId id) {
-        this.id = id;
-    }
+		this.id = id;
+		this.validationName = new SimpleStringProperty(validationName);
+		this.validationDesc = new SimpleStringProperty(validationDesc);
+		this.validationValue = new SimpleIntegerProperty(0);
+		this.validationStatus = validationStatus;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+	}
 
-    public String getValidationName() {
-        return this.validationName.get();
-    }
+	public ValidationMasterId getId() {
 
-    public void setValidationName(String validationName) {
-        this.validationName.set(validationName);
-    }
+		return this.id;
+	}
 
-    public SimpleStringProperty validationNameProperty() {
-        return this.validationName;
-    }
+	public void setId(ValidationMasterId id) {
 
-    public String getValidationDesc() {
-        return this.validationDesc.get();
-    }
+		this.id = id;
+	}
 
-    public void setValidationDesc(String validationDesc) {
-        this.validationDesc.set(validationDesc);
-    }
+	public String getValidationName() {
 
-    public SimpleStringProperty validationDescProperty() {
-        return this.validationDesc;
-    }
+		return this.validationName.get();
+	}
 
-    public int getValidationValue() {
-        return validationValue.get();
-    }
+	public void setValidationName(String validationName) {
 
-    public void setValidationValue(int validationValue) {
-        this.validationValue.set(validationValue);
-    }
+		this.validationName.set(validationName);
+	}
 
-    public SimpleIntegerProperty validationValueProperty() {
-        return this.validationValue;
-    }
+	public SimpleStringProperty validationNameProperty() {
 
-    public String getValidationStatus() {
-        return this.validationStatus;
-    }
+		return this.validationName;
+	}
 
-    public void setValidationStatus(String validationStatus) {
-        this.validationStatus = validationStatus;
-    }
+	public String getValidationDesc() {
 
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
+		return this.validationDesc.get();
+	}
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+	public void setValidationDesc(String validationDesc) {
 
-    public Date getCreatedDate() {
-        return this.createdDate;
-    }
+		this.validationDesc.set(validationDesc);
+	}
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+	public SimpleStringProperty validationDescProperty() {
 
-    public void resetDetails(ValidationMaster vm) {
-        this.id.resetDetails(vm.getId());
+		return this.validationDesc;
+	}
 
-        setValidationName(vm.getValidationName());
-        setValidationDesc(vm.getValidationDesc());
+	public int getValidationValue() {
 
-        this.validationStatus = vm.getValidationStatus();
+		return validationValue.get();
+	}
 
-        this.createdBy = vm.getCreatedBy();
-        this.createdDate = vm.getCreatedDate();
-    }
+	public void setValidationValue(int validationValue) {
 
-    public void reset() {
-        getId().resetDetails();
+		this.validationValue.set(validationValue);
+	}
 
-        this.validationName.set("");
-        this.validationDesc.set("");
+	public SimpleIntegerProperty validationValueProperty() {
 
-        this.validationStatus = "TRUE";
+		return this.validationValue;
+	}
 
-        this.createdBy = "";
-        this.createdDate = Calendar.getInstance().getTime();
-    }
+	public String getValidationStatus() {
 
-    @Override
-    public int compareTo(ValidationMaster o) {
-        if (o instanceof ValidationMaster && o != null) {
-            if (id.compareTo(o.getId()) == 0) {
-                return validationName.get().compareTo(o.getValidationName());
-            } else {
-                return id.compareTo(o.getId());
-            }
-        } else {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-    }
+		return this.validationStatus;
+	}
+
+	public void setValidationStatus(String validationStatus) {
+
+		this.validationStatus = validationStatus;
+	}
+
+	public String getCreatedBy() {
+
+		return this.createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+
+		return this.createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+
+		this.createdDate = createdDate;
+	}
+
+	public void resetDetails(ValidationMaster vm) {
+
+		this.id.resetDetails(vm.getId());
+
+		setValidationName(vm.getValidationName());
+		setValidationDesc(vm.getValidationDesc());
+
+		this.validationStatus = vm.getValidationStatus();
+
+		this.createdBy = vm.getCreatedBy();
+		this.createdDate = vm.getCreatedDate();
+	}
+
+	public void reset() {
+
+		getId().resetDetails();
+
+		this.validationName.set("");
+		this.validationDesc.set("");
+
+		this.validationStatus = "TRUE";
+
+		this.createdBy = "";
+		this.createdDate = Calendar.getInstance().getTime();
+	}
+
+	@Override
+	public int compareTo(ValidationMaster o) {
+
+		if (o instanceof ValidationMaster && o != null) {
+			if (id.compareTo(o.getId()) == 0) {
+				return validationName.get().compareTo(o.getValidationName());
+			} else {
+				return id.compareTo(o.getId());
+			}
+		} else {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+	}
 }

@@ -7,61 +7,71 @@ import javafx.scene.layout.Region;
 
 public class ViewIntegerBox extends Region {
 
-    private IntField textBox;
+	private IntField textBox;
 
-    public ViewIntegerBox() {
-        initComponent();
-        textBox.setValue(1);
-    }
+	public ViewIntegerBox() {
 
-    public ViewIntegerBox(int value) {
-        initComponent();
-        textBox.setValue(value);
-    }
+		initComponent();
+		textBox.setValue(1);
+	}
 
-    public ViewIntegerBox(int value, IntegerProperty propertyValue, boolean bidirectional) {
-        initComponent();
-        if (bidirectional) {
-            textBox.valueProperty().bindBidirectional(propertyValue);
-        } else {
-            textBox.valueProperty().bind(propertyValue);
-        }
-        textBox.setValue(value);
-    }
+	public ViewIntegerBox(int value) {
 
-    public void bind(StringProperty propertyValue) {
-        textBox.textProperty().bind(propertyValue);
-    }
+		initComponent();
+		textBox.setValue(value);
+	}
 
-    public void bindBidirectional(StringProperty propertyValue) {
-        textBox.textProperty().bindBidirectional(propertyValue);
-    }
+	public ViewIntegerBox(int value, IntegerProperty propertyValue,
+			boolean bidirectional) {
 
-    private void initComponent() {
-        getStyleClass().add( "view-text-box" );
+		initComponent();
+		if (bidirectional) {
+			textBox.valueProperty().bindBidirectional(propertyValue);
+		} else {
+			textBox.valueProperty().bind(propertyValue);
+		}
+		textBox.setValue(value);
+	}
 
-        setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-        setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-        setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+	public void bind(StringProperty propertyValue) {
 
-        textBox = new IntField(0);
-        textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.textProperty().bind(propertyValue);
+	}
 
-        textBox.setDisable(true);
+	public void bindBidirectional(StringProperty propertyValue) {
 
-        getChildren().addAll(textBox);
-    }
+		textBox.textProperty().bindBidirectional(propertyValue);
+	}
 
-    public void setValue(int value) {
-        textBox.setValue(value);
-    }
+	private void initComponent() {
 
-    public int getValue() {
-        return textBox.getValue();
-    }
+		getStyleClass().add("view-text-box");
 
-    @Override
-    protected void layoutChildren() {
-        textBox.resizeRelocate(0, 0, getWidth(), getHeight());
-    }
+		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+
+		textBox = new IntField(0);
+		textBox.setPrefWidth(Layout.getTextBoxWidth());
+
+		textBox.setDisable(true);
+
+		getChildren().addAll(textBox);
+	}
+
+	public void setValue(int value) {
+
+		textBox.setValue(value);
+	}
+
+	public int getValue() {
+
+		return textBox.getValue();
+	}
+
+	@Override
+	protected void layoutChildren() {
+
+		textBox.resizeRelocate(0, 0, getWidth(), getHeight());
+	}
 }

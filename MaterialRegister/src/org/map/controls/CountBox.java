@@ -1,6 +1,5 @@
 package org.map.controls;
 
-import org.map.utils.Layout;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -8,91 +7,105 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 
+import org.map.utils.Layout;
+
 public class CountBox extends Region {
 
-    private String type;
-    private IntField textBox;
-    private Button addButton;
-    private Button subButton;
+	private String type;
+	private IntField textBox;
+	private Button addButton;
+	private Button subButton;
 
-    public CountBox() {
-        initComponent( "", "" );
-        textBox.setText( "" );
-    }
+	public CountBox() {
 
-    public CountBox( String type, String promptText ) {
-        initComponent( type, promptText );
-    }
+		initComponent("", "");
+	}
 
-    public CountBox( String type, String promptText, IntegerProperty propertyValue, boolean bidirectional ) {
-        initComponent( type, promptText );
-        if ( bidirectional ) {
-            textBox.valueProperty().bindBidirectional( propertyValue );
-        }
-        else {
-            textBox.valueProperty().bind( propertyValue );
-        }
-    }
+	public CountBox(String type, String promptText) {
 
-    public void bind( StringProperty propertyValue ) {
-        textBox.textProperty().bind( propertyValue );
-    }
+		initComponent(type, promptText);
+	}
 
-    public void bindBidirectional( StringProperty propertyValue ) {
-        textBox.textProperty().bindBidirectional( propertyValue );
-    }
+	public CountBox(String type, String promptText,
+			IntegerProperty propertyValue, boolean bidirectional) {
 
-    private void initComponent( String type, String promptText ) {
-        setType( type );
+		initComponent(type, promptText);
+		if (bidirectional) {
+			textBox.valueProperty().bindBidirectional(propertyValue);
+		} else {
+			textBox.valueProperty().bind(propertyValue);
+		}
+	}
 
-        setMinSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
-        setPrefSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
-        setMaxSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
+	public void bind(StringProperty propertyValue) {
 
-        textBox = new IntField( 0 );
-        textBox.setPrefWidth( Layout.getTextBoxWidth() );
-        textBox.setDisable( true );
-        textBox.setPromptText( promptText );
+		textBox.textProperty().bind(propertyValue);
+	}
 
-        addButton = new Button();
-        addButton.getStyleClass().add( "next-button" );
-        addButton.setFocusTraversable( true );
+	public void bindBidirectional(StringProperty propertyValue) {
 
-        subButton = new Button();
-        subButton.getStyleClass().add( "previous-button" );
-        subButton.setFocusTraversable( true );
+		textBox.textProperty().bindBidirectional(propertyValue);
+	}
 
-        getChildren().addAll( textBox, subButton, addButton );
-    }
+	private void initComponent(String type, String promptText) {
 
-    public void setOnAddButtonAction( EventHandler<ActionEvent> eh ) {
-        addButton.setOnAction( eh );
-    }
+		setType(type);
 
-    public void setOnSubButtonAction( EventHandler<ActionEvent> eh ) {
-        subButton.setOnAction( eh );
-    }
+		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
 
-    public void setType( String type ) {
-        this.type = type;
-    }
+		textBox = new IntField(0);
+		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setDisable(true);
+		textBox.setPromptText(promptText);
 
-    public String getType() {
-        return this.type;
-    }
+		addButton = new Button();
+		addButton.getStyleClass().add("next-button");
+		addButton.setFocusTraversable(true);
 
-    public void setValue( int textValue ) {
-        textBox.setValue( textValue );
-    }
+		subButton = new Button();
+		subButton.getStyleClass().add("previous-button");
+		subButton.setFocusTraversable(true);
 
-    public int getValue() {
-        return textBox.getValue();
-    }
+		getChildren().addAll(textBox, subButton, addButton);
+	}
 
-    @Override
-    protected void layoutChildren() {
-        textBox.resizeRelocate( 0, 0, getWidth(), getHeight() );
-        addButton.resizeRelocate( getWidth() - 18, 4, 16, 16 );
-        subButton.resizeRelocate( getWidth() - 36, 4, 16, 16 );
-    }
+	public void setOnAddButtonAction(EventHandler<ActionEvent> eh) {
+
+		addButton.setOnAction(eh);
+	}
+
+	public void setOnSubButtonAction(EventHandler<ActionEvent> eh) {
+
+		subButton.setOnAction(eh);
+	}
+
+	public void setType(String type) {
+
+		this.type = type;
+	}
+
+	public String getType() {
+
+		return this.type;
+	}
+
+	public void setValue(int textValue) {
+
+		textBox.setValue(textValue);
+	}
+
+	public int getValue() {
+
+		return textBox.getValue();
+	}
+
+	@Override
+	protected void layoutChildren() {
+
+		textBox.resizeRelocate(0, 0, getWidth(), getHeight());
+		addButton.resizeRelocate(getWidth() - 18, 4, 16, 16);
+		subButton.resizeRelocate(getWidth() - 36, 4, 16, 16);
+	}
 }

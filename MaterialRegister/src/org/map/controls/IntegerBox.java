@@ -1,75 +1,78 @@
 package org.map.controls;
 
-import org.map.utils.Layout;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.layout.Region;
 
+import org.map.utils.Layout;
+
 public class IntegerBox extends Region {
 
-    private String type;
-    private IntField textBox;
+	private IntField textBox;
 
-    public IntegerBox() {
-        initComponent( "", "" );
-        textBox.setText( "" );
-    }
+	public IntegerBox() {
 
-    public IntegerBox( String type, String promptText ) {
-        initComponent( type, promptText );
-    }
+		initComponent(0, "");
+	}
 
-    public IntegerBox( String type, String promptText, IntegerProperty propertyValue, boolean bidirectional ) {
-        initComponent( type, promptText );
-        if ( bidirectional ) {
-            textBox.valueProperty().bindBidirectional( propertyValue );
-        }
-        else {
-            textBox.valueProperty().bind( propertyValue );
-        }
-    }
+	public IntegerBox(Integer textValue, String promptText) {
 
-    public void bind( StringProperty propertyValue ) {
-        textBox.textProperty().bind( propertyValue );
-    }
+		initComponent(textValue, promptText);
+	}
 
-    public void bindBidirectional( StringProperty propertyValue ) {
-        textBox.textProperty().bindBidirectional( propertyValue );
-    }
+	public IntegerBox(Integer textValue, String promptText,
+			IntegerProperty propertyValue, boolean bidirectional) {
 
-    private void initComponent( String type, String promptText ) {
-        setType( type );
+		if (textValue.intValue() == 0) {
+			initComponent(textValue, promptText);
+		} else {
+			initComponent(propertyValue.getValue(), promptText);
+		}
 
-        setMinSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
-        setPrefSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
-        setMaxSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
+		if (bidirectional) {
+			textBox.valueProperty().bindBidirectional(propertyValue);
+		} else {
+			textBox.valueProperty().bind(propertyValue);
+		}
+	}
 
-        textBox = new IntField( 0 );
-        textBox.setPrefWidth( Layout.getTextBoxWidth() );
-        textBox.setDisable( true );
-        textBox.setPromptText( promptText );
+	public void bind(StringProperty propertyValue) {
 
-        getChildren().addAll( textBox );
-    }
+		textBox.textProperty().bind(propertyValue);
+	}
 
-    public void setType( String type ) {
-        this.type = type;
-    }
+	public void bindBidirectional(StringProperty propertyValue) {
 
-    public String getType() {
-        return this.type;
-    }
+		textBox.textProperty().bindBidirectional(propertyValue);
+	}
 
-    public void setText( String textValue ) {
-        textBox.setText( textValue );
-    }
+	private void initComponent(Integer textValue, String promptText) {
 
-    public String getText() {
-        return textBox.getText();
-    }
+		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
 
-    @Override
-    protected void layoutChildren() {
-        textBox.resizeRelocate( 0, 0, getWidth(), getHeight() );
-    }
+		textBox = new IntField(0);
+		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setValue(textValue);
+		textBox.setPromptText(promptText);
+
+		getChildren().addAll(textBox);
+	}
+
+	public void setText(String textValue) {
+
+		textBox.setText(textValue);
+	}
+
+	public String getText() {
+
+		return textBox.getText();
+	}
+
+	@Override
+	protected void layoutChildren() {
+
+		textBox.resizeRelocate(0, 0, getWidth(), getHeight());
+	}
 }

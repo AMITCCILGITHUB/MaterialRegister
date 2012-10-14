@@ -9,92 +9,105 @@ import javafx.scene.layout.Region;
 
 public class TextBox extends Region {
 
-    private TextField textBox;
-    private Button errorButton;
+	private TextField textBox;
+	private Button errorButton;
 
-    public TextBox() {
-        initComponent( "", "" );
-    }
+	public TextBox() {
 
-    public TextBox( String textValue, String promptText ) {
-        initComponent( textValue, promptText );
-    }
+		initComponent("", "");
+	}
 
-    public TextBox( String textValue, String promptText, StringProperty propertyValue, boolean bidirectional ) {
-        initComponent( textValue, promptText );
-        if ( bidirectional ) {
-            textBox.textProperty().bindBidirectional( propertyValue );
-        }
-        else {
-            textBox.textProperty().bind( propertyValue );
-        }
-    }
+	public TextBox(String textValue, String promptText) {
 
-    public void bind( StringProperty propertyValue ) {
-        textBox.textProperty().bind( propertyValue );
-    }
+		initComponent(textValue, promptText);
+	}
 
-    public void bindBidirectional( StringProperty propertyValue ) {
-        textBox.textProperty().bindBidirectional( propertyValue );
-    }
+	public TextBox(String textValue, String promptText,
+			StringProperty propertyValue, boolean bidirectional) {
 
-    private void initComponent( String textValue, String promptText ) {
-        setMinSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
-        setPrefSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
-        setMaxSize( Layout.getRegionWidth(), Layout.getRegionHeight() );
+		initComponent(textValue, promptText);
+		if (bidirectional) {
+			textBox.textProperty().bindBidirectional(propertyValue);
+		} else {
+			textBox.textProperty().bind(propertyValue);
+		}
+	}
 
-        textBox = new TextField();
-        textBox.setPrefWidth( Layout.getTextBoxWidth() );
-        textBox.setText( textValue );
-        textBox.setPromptText( promptText );
+	public void bind(StringProperty propertyValue) {
 
-        errorButton = new Button();
-        errorButton.getStyleClass().add( "error-button" );
-        errorButton.setVisible( false );
-        errorButton.setTooltip( new Tooltip( "this field can\nnot be empty" ) );
-        errorButton.setFocusTraversable( false );
+		textBox.textProperty().bind(propertyValue);
+	}
 
-        textBox.focusedProperty().addListener( new ChangeListener<Boolean>() {
+	public void bindBidirectional(StringProperty propertyValue) {
 
-            @Override
-            public void changed( ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue ) {
-                if ( oldValue == true && newValue == false ) {
-                    if ( textBox.getText().length() == 0 ) {
-                        errorButton.setVisible( true );
-                    }
-                    else {
-                        errorButton.setVisible( false );
-                    }
-                }
-            }
-        } );
+		textBox.textProperty().bindBidirectional(propertyValue);
+	}
 
-        textBox.textProperty().addListener( new ChangeListener<String>() {
+	private void initComponent(String textValue, String promptText) {
 
-            @Override
-            public void changed( ObservableValue<? extends String> observable, String oldValue, String newValue ) {
-                errorButton.setVisible( textBox.getText().length() == 0 );
-            }
-        } );
+		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
 
-        getChildren().addAll( textBox, errorButton );
-    }
+		textBox = new TextField();
+		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setText(textValue);
+		textBox.setPromptText(promptText);
 
-    public void reset() {
-        textBox.setText( "" );
-    }
+		errorButton = new Button();
+		errorButton.getStyleClass().add("error-button");
+		errorButton.setVisible(false);
+		errorButton.setTooltip(new Tooltip("this field can\nnot be empty"));
+		errorButton.setFocusTraversable(false);
 
-    public void setText( String textValue ) {
-        textBox.setText( textValue );
-    }
+		textBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
 
-    public String getText() {
-        return textBox.getText();
-    }
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable,
+					Boolean oldValue, Boolean newValue) {
 
-    @Override
-    protected void layoutChildren() {
-        textBox.resizeRelocate( 0, 0, getWidth(), getHeight() );
-        errorButton.resizeRelocate( getWidth() - 18, 6, 12, 13 );
-    }
+				if (oldValue == true && newValue == false) {
+					if (textBox.getText().length() == 0) {
+						errorButton.setVisible(true);
+					} else {
+						errorButton.setVisible(false);
+					}
+				}
+			}
+		});
+
+		textBox.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable,
+					String oldValue, String newValue) {
+
+				errorButton.setVisible(textBox.getText().length() == 0);
+			}
+		});
+
+		getChildren().addAll(textBox, errorButton);
+	}
+
+	public void reset() {
+
+		textBox.setText("");
+	}
+
+	public void setText(String textValue) {
+
+		textBox.setText(textValue);
+	}
+
+	public String getText() {
+
+		return textBox.getText();
+	}
+
+	@Override
+	protected void layoutChildren() {
+
+		textBox.resizeRelocate(0, 0, getWidth(), getHeight());
+		errorButton.resizeRelocate(getWidth() - 18, 6, 12, 13);
+	}
 }

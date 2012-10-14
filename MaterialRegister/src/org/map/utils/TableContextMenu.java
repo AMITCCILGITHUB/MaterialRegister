@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageViewBuilder;
 
 public class TableContextMenu extends ContextMenu {
+
 	File undoFile = new File("resources/images/undo.png");
 	File deleteFile = new File("resources/images/delete.png");
 	File printFile = new File("resources/images/print.png");
@@ -58,6 +59,7 @@ public class TableContextMenu extends ContextMenu {
 	public TableContextMenu(EventHandler eventHandler1,
 			EventHandler eventHandler2) throws URISyntaxException,
 			MalformedURLException {
+
 		getItems().addAll(
 				MenuItemBuilder
 						.create()
@@ -83,33 +85,36 @@ public class TableContextMenu extends ContextMenu {
 
 	public TableContextMenu(EventHandler eventHandler1, String type)
 			throws URISyntaxException, MalformedURLException {
+
 		switch (type) {
-		case "Print":
-			getItems().addAll(
-					MenuItemBuilder
-							.create()
-							.text("Print")
-							.onAction(eventHandler1)
-							.graphic(
-									ImageViewBuilder
-											.create()
-											.image(new Image(printFile.toURI()
-													.toURL().toString()))
-											.build()).build());
-			break;
-		case "Password":
-			getItems().addAll(
-					MenuItemBuilder
-							.create()
-							.text("Show Password")
-							.onAction(eventHandler1)
-							.graphic(
-									ImageViewBuilder
-											.create()
-											.image(new Image(searchFile.toURI()
-													.toURL().toString()))
-											.build()).build());
-			break;
+			case "Print":
+				getItems().addAll(
+						MenuItemBuilder
+								.create()
+								.text("Print")
+								.onAction(eventHandler1)
+								.graphic(
+										ImageViewBuilder
+												.create()
+												.image(new Image(printFile
+														.toURI().toURL()
+														.toString())).build())
+								.build());
+				break;
+			case "Password":
+				getItems().addAll(
+						MenuItemBuilder
+								.create()
+								.text("Show Password")
+								.onAction(eventHandler1)
+								.graphic(
+										ImageViewBuilder
+												.create()
+												.image(new Image(searchFile
+														.toURI().toURL()
+														.toString())).build())
+								.build());
+				break;
 		}
 		setAutoFix(true);
 	}

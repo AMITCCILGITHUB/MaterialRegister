@@ -20,7 +20,7 @@ import javafx.stage.StageStyle;
 
 import org.map.logger.LoggerUtil;
 
-public class StatusBar {
+public class LoadingBar {
 
 	private Stage stage;
 	private Scene scene;
@@ -28,12 +28,12 @@ public class StatusBar {
 	private double statusBarHeight = 26d;
 	private double statusBarPos;
 
-	public StatusBar() {
+	public LoadingBar() {
 
 		this.statusBarPos = -40d;
 	}
 
-	public StatusBar(double statusBarPos) {
+	public LoadingBar(double statusBarPos) {
 
 		this.statusBarPos = statusBarPos;
 	}
@@ -46,7 +46,7 @@ public class StatusBar {
 		this.scene = new Scene(root, parentStage.getScene().getWidth(),
 				statusBarHeight, Color.web("#FFFFFF"));
 		try {
-			File statusBarStyle = new File("resources/style/statusbar.css");
+			File statusBarStyle = new File("resources/style/loadingbar.css");
 			this.scene.getStylesheets().add(
 					statusBarStyle.toURI().toURL().toExternalForm());
 		} catch (Exception e) {

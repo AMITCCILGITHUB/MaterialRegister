@@ -28,11 +28,13 @@ public class ChangePassword {
 	private double V_SPACE = 20;
 
 	public Node createView() {
+
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
@@ -72,9 +74,13 @@ public class ChangePassword {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					if (Validator.validate(ValidationType.PASSWORD,
 							passwordBox.getText(), confirmPasswordBox.getText()) == ValidationResult.SUCCESS) {
 						UserData.updateUser(um);
+						Alert.showAlert(MaterialRegister.getMaterialRegister()
+								.getPrimaryStage(), "Alert", "Alert",
+								"Password changed successfully.");
 						Login.getLoginPanel().getUserMaster()
 								.resetUserMaster(um);
 					} else {

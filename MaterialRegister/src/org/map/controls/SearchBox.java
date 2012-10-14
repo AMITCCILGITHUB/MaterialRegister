@@ -42,6 +42,7 @@ public class SearchBox extends Region {
 	private Timeline searchErrorTooltipHidder = null;
 
 	public SearchBox() {
+
 		setId("SearchBox");
 		setMinHeight(24);
 		setPrefSize(150, 24);
@@ -55,6 +56,7 @@ public class SearchBox extends Region {
 
 			@Override
 			public void handle(ActionEvent actionEvent) {
+
 				textBox.setText("");
 				textBox.requestFocus();
 			}
@@ -63,6 +65,7 @@ public class SearchBox extends Region {
 
 			@Override
 			public void handle(KeyEvent keyEvent) {
+
 				if (keyEvent.getCode() == KeyCode.DOWN) {
 					contextMenu.requestFocus();
 				}
@@ -74,6 +77,7 @@ public class SearchBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
+
 				clearButton.setVisible(textBox.getText().length() != 0);
 				if (textBox.getText().length() == 0) {
 					if (contextMenu != null) {
@@ -122,12 +126,14 @@ public class SearchBox extends Region {
 
 			@Override
 			public void handle(WindowEvent windowEvent) {
+
 				extraInfoPopup.hide();
 			}
 		});
 	}
 
 	private void showError(String message) {
+
 		searchErrorTooltip.setText(message);
 		if (searchErrorTooltipHidder != null) {
 			searchErrorTooltipHidder.stop();
@@ -147,6 +153,7 @@ public class SearchBox extends Region {
 
 								@Override
 								public void handle(ActionEvent t) {
+
 									searchErrorTooltip.hide();
 									searchErrorTooltip.setText(null);
 								}
@@ -158,6 +165,7 @@ public class SearchBox extends Region {
 	}
 
 	private void populateMenu(Iterator<String> results) {
+
 		contextMenu.getItems().clear();
 		while (results.hasNext()) {
 			final String result = results.next();
@@ -179,6 +187,7 @@ public class SearchBox extends Region {
 
 				@Override
 				public void handle(ActionEvent actionEvent) {
+
 					MaterialRegister.getMaterialRegister().goToPage(
 							"TreeItem [ value: View Material ]", result);
 				}
@@ -188,6 +197,7 @@ public class SearchBox extends Region {
 
 	@Override
 	protected void layoutChildren() {
+
 		textBox.resize(getWidth(), getHeight());
 		clearButton.resizeRelocate(getWidth() - 18, 6, 12, 13);
 	}

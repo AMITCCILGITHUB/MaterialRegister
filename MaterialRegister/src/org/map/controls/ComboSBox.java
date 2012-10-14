@@ -36,42 +36,50 @@ public class ComboSBox extends Region {
 	private Timeline searchErrorTooltipHidder = null;
 
 	public ComboSBox() {
-		initComponent("");
-		textBox.setText("");
+
+		initComponent("", "");
 	}
 
 	public ComboSBox(String textValue, String promptText) {
-		initComponent(promptText);
-		textBox.setText(textValue);
+
+		initComponent(textValue, promptText);
 	}
 
 	public ComboSBox(String textValue, String promptText,
 			StringProperty propertyValue, boolean bidirectional) {
-		initComponent(promptText);
-		textBox.setText(textValue);
+
+		if (textValue.trim().length() > 0) {
+			initComponent(textValue, promptText);
+		} else {
+			initComponent(propertyValue.getValue(), promptText);
+		}
+
 		if (bidirectional) {
 			textBox.textProperty().bindBidirectional(propertyValue);
 		} else {
 			textBox.textProperty().bind(propertyValue);
 		}
-		textBox.setText(textValue);
 	}
 
 	public void bind(StringProperty propertyValue) {
+
 		textBox.textProperty().bind(propertyValue);
 	}
 
 	public void bindBidirectional(StringProperty propertyValue) {
+
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
-	private void initComponent(String promptText) {
+	private void initComponent(String textValue, String promptText) {
+
 		setMinHeight(Layout.getRegionHeight());
 		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
 		setMaxHeight(Layout.getRegionHeight());
 
 		textBox = new TextField();
 		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setText(textValue);
 		textBox.setPromptText(promptText);
 
 		errorButton = new Button();
@@ -85,6 +93,7 @@ public class ComboSBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable,
 					Boolean oldValue, Boolean newValue) {
+
 				if (oldValue == true && newValue == false) {
 					if (textBox.getText().length() == 0) {
 						errorButton.setVisible(true);
@@ -100,6 +109,7 @@ public class ComboSBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
+
 				errorButton.setVisible(textBox.getText().length() == 0);
 			}
 		});
@@ -109,21 +119,25 @@ public class ComboSBox extends Region {
 	}
 
 	public void setText(String textValue) {
+
 		textBox.setText(textValue);
 	}
 
 	public String getText() {
+
 		return textBox.getText();
 	}
 
 	@Override
 	protected void layoutChildren() {
+
 		textBox.resize(getWidth(), getHeight());
 		errorButton.resizeRelocate(getWidth() - 18, 6, 12, 13);
 
 	}
 
 	private void showError(TextField textBox, String message) {
+
 		searchErrorTooltip.setText(message);
 		if (searchErrorTooltipHidder != null) {
 			searchErrorTooltipHidder.stop();
@@ -143,6 +157,7 @@ public class ComboSBox extends Region {
 
 								@Override
 								public void handle(ActionEvent t) {
+
 									searchErrorTooltip.hide();
 									searchErrorTooltip.setText(null);
 								}
@@ -160,6 +175,7 @@ public class ComboSBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable,
 					Boolean oldValue, Boolean newValue) {
+
 				if (oldValue == true && newValue == false) {
 					resultContextMenu.hide();
 				}
@@ -170,6 +186,7 @@ public class ComboSBox extends Region {
 
 			@Override
 			public void handle(KeyEvent keyEvent) {
+
 				if (keyEvent.getCode() == KeyCode.DOWN) {
 					resultContextMenu.requestFocus();
 				} else if (keyEvent.getCode() == KeyCode.ENTER) {
@@ -183,6 +200,7 @@ public class ComboSBox extends Region {
 			@Override
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
+
 				if (textBox.isFocused() == true) {
 					if (textBox.getText().length() == 0) {
 						if (resultContextMenu != null) {
@@ -214,6 +232,7 @@ public class ComboSBox extends Region {
 	}
 
 	private void populateMenu(List<String> resultList) {
+
 		resultContextMenu.getItems().clear();
 		Iterator<String> results = resultList.iterator();
 		while (results.hasNext()) {
@@ -236,6 +255,7 @@ public class ComboSBox extends Region {
 
 				@Override
 				public void handle(ActionEvent actionEvent) {
+
 					textBox.setText(result);
 				}
 			});
@@ -243,6 +263,7 @@ public class ComboSBox extends Region {
 	}
 
 	public void addFocusListener(ChangeListener<Boolean> focusChangeListener) {
+
 		textBox.focusedProperty().addListener(focusChangeListener);
 	}
 }

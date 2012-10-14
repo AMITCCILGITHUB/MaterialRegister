@@ -2,47 +2,53 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Apr 26, 2012 8:43:05 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class catalog="metalplants" name="org.map.hibernate.ddo.HeatChartSheets" table="heatchartsheets" dynamic-update="true">
-        <composite-id class="org.map.hibernate.ddo.HeatChartSheetsId" name="id">
-            <key-property name="chartNumber" type="string">
-                <column length="64" name="Chart_Number"/>
-            </key-property>
-            <key-property name="sheetNumber" type="int">
-                <column name="Sheet_Number"/>
-            </key-property>
-            <key-property name="ctNumber" type="string">
-                <column length="64" name="Ct_Number"/>
-            </key-property>
-        </composite-id>
-        <many-to-one class="org.map.hibernate.ddo.MaterialMaster" fetch="select" insert="false" name="materialmaster" update="false" lazy="false">
-            <column length="64" name="Ct_Number" not-null="true"/>
-        </many-to-one>
-        <many-to-one class="org.map.hibernate.ddo.HeatChartMaster" fetch="select" insert="false" name="heatchartmaster" update="false" lazy="false">
-            <column length="64" name="Chart_Number" not-null="true"/>
-        </many-to-one>
-        <property name="sequenceNumber" type="int">
-            <column name="Sequence_Number" not-null="true"/>
-        </property>
-        <property name="partNumber" type="string">
-            <column length="128" name="Part_Number" not-null="true"/>
-        </property>
-        <property name="partName" type="string">
-            <column length="128" name="Part_Name" not-null="true"/>
-        </property>
-        <property name="speciedSize" type="string">
-            <column length="128" name="Specied_Size" not-null="true"/>
-        </property>
-        <property name="speciedGrade" type="string">
-            <column length="128" name="Specied_Grade" not-null="true"/>
-        </property>
-        <property name="status" type="string">
-            <column length="8" name="Status" not-null="true"/>
-        </property>
-        <property name="createdBy" type="string">
-            <column length="32" name="Created_By" not-null="true"/>
-        </property>
-        <property name="createdDate" type="timestamp">
-            <column length="19" name="Created_Date" not-null="true"/>
-        </property>
-    </class>
+	<class catalog="metalplants" name="org.map.hibernate.ddo.HeatChartSheets"
+		table="heatchartsheets" dynamic-update="true">
+		<composite-id class="org.map.hibernate.ddo.HeatChartSheetsId"
+			name="id">
+			<key-property name="chartNumber" type="string">
+				<column length="64" name="Chart_Number" />
+			</key-property>
+			<key-property name="sheetNumber" type="int">
+				<column name="Sheet_Number" />
+			</key-property>
+			<key-property name="ctNumber" type="string">
+				<column length="64" name="Ct_Number" />
+			</key-property>
+		</composite-id>
+		<many-to-one class="org.map.hibernate.ddo.MaterialMaster"
+			fetch="select" insert="false" name="materialmaster" update="false"
+			lazy="false">
+			<column length="64" name="Ct_Number" not-null="true" />
+		</many-to-one>
+		<many-to-one class="org.map.hibernate.ddo.HeatChartMaster"
+			fetch="select" insert="false" name="heatchartmaster" update="false"
+			lazy="false">
+			<column length="64" name="Chart_Number" not-null="true" />
+		</many-to-one>
+		<property name="sequenceNumber" type="int">
+			<column name="Sequence_Number" not-null="true" />
+		</property>
+		<property name="partNumber" type="string">
+			<column length="128" name="Part_Number" not-null="true" />
+		</property>
+		<property name="partName" type="string">
+			<column length="128" name="Part_Name" not-null="true" />
+		</property>
+		<property name="speciedSize" type="string">
+			<column length="128" name="Specied_Size" not-null="true" />
+		</property>
+		<property name="speciedGrade" type="string">
+			<column length="128" name="Specied_Grade" not-null="true" />
+		</property>
+		<property name="status" type="string">
+			<column length="8" name="Status" not-null="true" />
+		</property>
+		<property name="createdBy" type="string">
+			<column length="32" name="Created_By" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column length="19" name="Created_Date" not-null="true" />
+		</property>
+	</class>
 </hibernate-mapping>

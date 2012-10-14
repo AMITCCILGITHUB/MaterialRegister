@@ -8,11 +8,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -40,18 +43,23 @@ public class ViewMaterial {
 	private double LABEL_WIDTH = 100;
 	private double H_SPACE = 8;
 	private double V_SPACE = 20;
-	private String ctNumber;
+	private String ctNumber = null;
+	private TabPane tabPane = new TabPane();
 
 	public void setCtNumber(String ctNumber) {
+
 		this.ctNumber = ctNumber;
 	}
 
 	public Node createView() {
+		Tab tab = new Tab("Master");
+
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
@@ -133,156 +141,21 @@ public class ViewMaterial {
 					"specification"));
 			tableMailbox.getColumns().addAll(MCol1, MCol2, MCol3, MCol4, MCol5,
 					MCol6, MCol7);
-			main.getChildren().add(tableMailbox);
+
+			ScrollPane tableScrollpane = new ScrollPane();
+			tableScrollpane.setPrefHeight(300);
+			tableScrollpane.setContent(tableMailbox);
+			main.getChildren().add(tableScrollpane);
 
 			final ObservableList<MaterialMaster> mailboxData = FXCollections
-					.emptyObservableList();
+					.observableArrayList();
 			tableMailbox.setItems(mailboxData);
-
-			Label detailCategoryHeader = new Label("Details");
-			detailCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			detailCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			detailCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(detailCategoryHeader);
-
-			final MaterialMaster material = MaterialData
-					.getMaterialDetails(ctNumber);
-			final HBox detail = new HBox(H_SPACE);
-			Label ctNumberLabel = new Label("CT Number");
-			ctNumberLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox ctNumberTextField = new ViewBox(
-					material.getCtNumber(), material.ctNumberProperty(), true);
-			Label agencyLabel = new Label("Inspection Agency");
-			agencyLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox agencyTextField = new ViewBox(
-					material.getInspectionAgency(),
-					material.inspectionAgencyProperty(), true);
-			Label specLabel = new Label("Specification");
-			specLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox specTextField = new ViewBox(
-					material.getSpecification(),
-					material.specificationProperty(), true);
-			detail.getChildren().addAll(ctNumberLabel, ctNumberTextField,
-					agencyLabel, agencyTextField, specLabel, specTextField);
-			main.getChildren().add(detail);
-
-			Label descriptionCategoryHeader = new Label("Description");
-			descriptionCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			descriptionCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			descriptionCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(descriptionCategoryHeader);
-
-			final VBox description = new VBox(V_SPACE);
-			final HBox descriptionLine1 = new HBox(H_SPACE);
-			final HBox descriptionLine2 = new HBox(H_SPACE);
-			Label itemLabel = new Label("Item");
-			itemLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox itemTextField = new ViewBox(material.getItem(),
-					material.itemProperty(), true);
-			Label sizeLabel = new Label("Size");
-			sizeLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox sizeTextField = new ViewBox(material.getSize(),
-					material.sizeProperty(), true);
-			Label quantityLabel = new Label("Quantity");
-			quantityLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewIntegerBox quantityTextField = new ViewIntegerBox(
-					material.getQuantity(), material.quantityProperty(), true);
-			Label heatNumberLabel = new Label("Heat / Lot Number");
-			heatNumberLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox heatNumberTextField = new ViewBox(
-					material.getHeatNumber(), material.heatNumberProperty(),
-					true);
-			Label plateNumberLabel = new Label("Plate / Product Number");
-			plateNumberLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox plateNumberTextField = new ViewBox(
-					material.getPlateNumber(), material.plateNumberProperty(),
-					true);
-			descriptionLine1.getChildren().addAll(itemLabel, itemTextField,
-					sizeLabel, sizeTextField, quantityLabel, quantityTextField);
-			descriptionLine2.getChildren()
-					.addAll(heatNumberLabel, heatNumberTextField,
-							plateNumberLabel, plateNumberTextField);
-			description.getChildren()
-					.addAll(descriptionLine1, descriptionLine2);
-			main.getChildren().add(description);
-
-			final VBox testBox = new VBox();
-			final ViewTestGroup tg = new ViewTestGroup(material.getCtNumber(),
-					material.getTests().iterator());
-			testBox.getChildren().add(tg.getView());
-			main.getChildren().add(testBox);
-
-			Label otherCategoryHeader = new Label("Other Details");
-			otherCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			otherCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			otherCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(otherCategoryHeader);
-
-			final VBox otherDetails = new VBox(V_SPACE);
-			final HBox otherDetailsLine1 = new HBox(H_SPACE);
-			final HBox otherDetailsLine2 = new HBox(H_SPACE);
-			final HBox otherDetailsLine3 = new HBox(H_SPACE);
-			Label custLabel = new Label("Customer");
-			custLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox custTextField = new ViewBox(material.getCustomer(),
-					material.customerProperty(), true);
-			Label equipLabel = new Label("Equipments");
-			equipLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox equipTextField = new ViewBox(
-					material.getEquipments(), material.equipmentsProperty(),
-					true);
-			Label labLabel = new Label("Laboratory");
-			labLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox labTextField = new ViewBox(material.getLaboratory(),
-					material.laboratoryProperty(), true);
-			Label repDateLabel = new Label("Report Date");
-			repDateLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox repDateTextField = new ViewBox(
-					material.getReportDate(), material.reportDateProperty(),
-					true);
-			Label repNumberLabel = new Label("Report Number");
-			repNumberLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox repNumberTextField = new ViewBox(
-					material.getReportNumber(),
-					material.reportNumberProperty(), true);
-			Label remarksLabel = new Label("Remarks");
-			remarksLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox remarksTextField = new ViewBox(material.getRemarks(),
-					material.remarksProperty(), true);
-			Label resulLabel = new Label("Result");
-			resulLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox resultTextField = new ViewBox(material.getResult(),
-					material.resultProperty(), true);
-			Label witnessedByLabel = new Label("Witnessed By");
-			witnessedByLabel.setPrefWidth(LABEL_WIDTH);
-			final ViewBox witnessedByTextField = new ViewBox(
-					material.getWitnessedBy(), material.witnessedByProperty(),
-					true);
-			otherDetailsLine1.getChildren().addAll(custLabel, custTextField,
-					equipLabel, equipTextField, labLabel, labTextField);
-			otherDetailsLine2.getChildren().addAll(repDateLabel,
-					repDateTextField, repNumberLabel, repNumberTextField,
-					resulLabel, resultTextField);
-			otherDetailsLine3.getChildren().addAll(remarksLabel,
-					remarksTextField, witnessedByLabel, witnessedByTextField);
-			otherDetails.getChildren().addAll(otherDetailsLine1,
-					otherDetailsLine2, otherDetailsLine3);
-			main.getChildren().add(otherDetails);
-
-			final VBox resonBox = new VBox();
-			Label reasonLabel = new Label(
-					"Reason of Failure (In case of rejected remarks.)");
-			final TextArea reasonOfFailure = new TextArea("");
-			reasonOfFailure.textProperty().bindBidirectional(
-					material.failureReasonProperty());
-			reasonOfFailure.setDisable(true);
-			resonBox.getChildren().addAll(reasonLabel, reasonOfFailure);
-			main.getChildren().add(resonBox);
 
 			searchRecordButton1.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					try {
 						tableMailbox.getItems().clear();
 
@@ -301,6 +174,7 @@ public class ViewMaterial {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					try {
 						tableMailbox.getItems().clear();
 
@@ -322,17 +196,12 @@ public class ViewMaterial {
 						@Override
 						public void changed(ObservableValue observable,
 								Object oldValue, Object newValue) {
-							Object selectedValue = tableMailbox
-									.getSelectionModel().getSelectedItem();
-							if (selectedValue != null) {
-								MaterialMaster material2 = (MaterialMaster) selectedValue;
-								material.resetMaterialMaster(material2);
 
-								final ViewTestGroup tg2 = new ViewTestGroup(
-										material2.getCtNumber(), material2
-												.getTests().iterator());
-								testBox.getChildren().clear();
-								testBox.getChildren().add(tg2.getView());
+							MaterialMaster selMaterial = tableMailbox
+									.getSelectionModel().getSelectedItem();
+							if (selMaterial != null) {
+								tabPane.getTabs().add(
+										createViewTab(selMaterial));
 							}
 						}
 					});
@@ -342,7 +211,17 @@ public class ViewMaterial {
 			scrollPane.setFitToWidth(true);
 			scrollPane.setContent(main);
 
-			return scrollPane;
+			tab.setContent(scrollPane);
+			tab.setClosable(false);
+			tabPane.getTabs().add(tab);
+			if (ctNumber != null) {
+				tabPane.getTabs()
+						.add(createViewTab(MaterialData
+								.getMaterialDetails(ctNumber)));
+			}
+			tabPane.setSide(Side.TOP);
+
+			return tabPane;
 		} catch (Exception e) {
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(MaterialRegister.getMaterialRegister()
@@ -351,5 +230,171 @@ public class ViewMaterial {
 			return new Text("Failed to create sample because of ["
 					+ e.getMessage() + "]");
 		}
+	}
+
+	private Tab createViewTab(final MaterialMaster material) {
+		Tab tab = new Tab("View Material : " + material.getCtNumber());
+		tab.setId(material.getCtNumber());
+
+		final VBox main = new VBox(H_SPACE) {
+
+			@Override
+			protected double computePrefHeight(double width) {
+
+				return Math.max(super.computePrefHeight(width), getParent()
+						.getBoundsInLocal().getHeight());
+			}
+		};
+		VBox.setVgrow(main, Priority.ALWAYS);
+		main.getStyleClass().add("category-page");
+
+		Label header = new Label("View Material");
+		header.getStyleClass().add("page-header");
+		main.getChildren().add(header);
+
+		Label detailCategoryHeader = new Label("Details");
+		detailCategoryHeader.setMaxWidth(Double.MAX_VALUE);
+		detailCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
+		detailCategoryHeader.getStyleClass().add("category-header");
+		main.getChildren().add(detailCategoryHeader);
+
+		final HBox detail = new HBox(H_SPACE);
+		Label ctNumberLabel = new Label("CT Number");
+		ctNumberLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox ctNumberTextField = new ViewBox(material.getCtNumber(),
+				material.ctNumberProperty(), true);
+		Label agencyLabel = new Label("Inspection Agency");
+		agencyLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox agencyTextField = new ViewBox(
+				material.getInspectionAgency(),
+				material.inspectionAgencyProperty(), true);
+		Label specLabel = new Label("Specification");
+		specLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox specTextField = new ViewBox(material.getSpecification(),
+				material.specificationProperty(), true);
+		detail.getChildren().addAll(ctNumberLabel, ctNumberTextField,
+				agencyLabel, agencyTextField, specLabel, specTextField);
+		main.getChildren().add(detail);
+
+		Label descriptionCategoryHeader = new Label("Description");
+		descriptionCategoryHeader.setMaxWidth(Double.MAX_VALUE);
+		descriptionCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
+		descriptionCategoryHeader.getStyleClass().add("category-header");
+		main.getChildren().add(descriptionCategoryHeader);
+
+		final VBox description = new VBox(V_SPACE);
+		final HBox descriptionLine1 = new HBox(H_SPACE);
+		final HBox descriptionLine2 = new HBox(H_SPACE);
+		Label itemLabel = new Label("Item");
+		itemLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox itemTextField = new ViewBox(material.getItem(),
+				material.itemProperty(), true);
+		Label sizeLabel = new Label("Size");
+		sizeLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox sizeTextField = new ViewBox(material.getSize(),
+				material.sizeProperty(), true);
+		Label quantityLabel = new Label("Test Quantity");
+		quantityLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewIntegerBox quantityTextField = new ViewIntegerBox(
+				material.getTestQuantity(), material.testQuantityProperty(),
+				true);
+		Label heatNumberLabel = new Label("Heat / Lot Number");
+		heatNumberLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox heatNumberTextField = new ViewBox(
+				material.getHeatNumber(), material.heatNumberProperty(), true);
+		Label plateNumberLabel = new Label("Plate / Product Number");
+		plateNumberLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox plateNumberTextField = new ViewBox(
+				material.getPlateNumber(), material.plateNumberProperty(), true);
+		Label productQuantityLabel = new Label("Offered Quantity");
+		productQuantityLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewIntegerBox productQuantityViewBox = new ViewIntegerBox(
+				material.getOfferedQuantity(),
+				material.offeredQuantityProperty(), true);
+		descriptionLine1.getChildren().addAll(itemLabel, itemTextField,
+				sizeLabel, sizeTextField, quantityLabel, quantityTextField);
+		descriptionLine2.getChildren().addAll(heatNumberLabel,
+				heatNumberTextField, plateNumberLabel, plateNumberTextField,
+				productQuantityLabel, productQuantityViewBox);
+		description.getChildren().addAll(descriptionLine1, descriptionLine2);
+		main.getChildren().add(description);
+
+		final VBox testBox = new VBox();
+		final ViewTestGroup tg = new ViewTestGroup(material.getCtNumber(),
+				material.getTests().iterator());
+		testBox.getChildren().add(tg.getView());
+		main.getChildren().add(testBox);
+
+		Label otherCategoryHeader = new Label("Other Details");
+		otherCategoryHeader.setMaxWidth(Double.MAX_VALUE);
+		otherCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
+		otherCategoryHeader.getStyleClass().add("category-header");
+		main.getChildren().add(otherCategoryHeader);
+
+		final VBox otherDetails = new VBox(V_SPACE);
+		final HBox otherDetailsLine1 = new HBox(H_SPACE);
+		final HBox otherDetailsLine2 = new HBox(H_SPACE);
+		final HBox otherDetailsLine3 = new HBox(H_SPACE);
+		Label custLabel = new Label("Customer");
+		custLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox custTextField = new ViewBox(material.getCustomer(),
+				material.customerProperty(), true);
+		Label equipLabel = new Label("Equipments");
+		equipLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox equipTextField = new ViewBox(material.getEquipments(),
+				material.equipmentsProperty(), true);
+		Label labLabel = new Label("Laboratory");
+		labLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox labTextField = new ViewBox(material.getLaboratory(),
+				material.laboratoryProperty(), true);
+		Label repDateLabel = new Label("Report Date");
+		repDateLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox repDateTextField = new ViewBox(material.getReportDate(),
+				material.reportDateProperty(), true);
+		Label repNumberLabel = new Label("Report Number");
+		repNumberLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox repNumberTextField = new ViewBox(
+				material.getReportNumber(), material.reportNumberProperty(),
+				true);
+		Label remarksLabel = new Label("Remarks");
+		remarksLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox remarksTextField = new ViewBox(material.getRemarks(),
+				material.remarksProperty(), true);
+		Label resulLabel = new Label("Result");
+		resulLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox resultTextField = new ViewBox(material.getResult(),
+				material.resultProperty(), true);
+		Label witnessedByLabel = new Label("Witnessed By");
+		witnessedByLabel.setPrefWidth(LABEL_WIDTH);
+		final ViewBox witnessedByTextField = new ViewBox(
+				material.getWitnessedBy(), material.witnessedByProperty(), true);
+		otherDetailsLine1.getChildren().addAll(custLabel, custTextField,
+				equipLabel, equipTextField, labLabel, labTextField);
+		otherDetailsLine2.getChildren()
+				.addAll(repDateLabel, repDateTextField, repNumberLabel,
+						repNumberTextField, resulLabel, resultTextField);
+		otherDetailsLine3.getChildren().addAll(remarksLabel, remarksTextField,
+				witnessedByLabel, witnessedByTextField);
+		otherDetails.getChildren().addAll(otherDetailsLine1, otherDetailsLine2,
+				otherDetailsLine3);
+		main.getChildren().add(otherDetails);
+
+		final VBox resonBox = new VBox();
+		Label reasonLabel = new Label(
+				"Reason of Failure (In case of rejected remarks.)");
+		final TextArea reasonOfFailure = new TextArea("");
+		reasonOfFailure.textProperty().bindBidirectional(
+				material.failureReasonProperty());
+		reasonOfFailure.setDisable(true);
+		resonBox.getChildren().addAll(reasonLabel, reasonOfFailure);
+		main.getChildren().add(resonBox);
+
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.getStyleClass().add("noborder-scroll-pane");
+		scrollPane.setFitToWidth(true);
+		scrollPane.setContent(main);
+
+		tab.setContent(scrollPane);
+		return tab;
 	}
 }

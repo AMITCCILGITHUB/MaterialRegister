@@ -2,12 +2,8 @@ package org.map.view;
 
 import java.util.List;
 
-import javafx.application.HostServices;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -29,8 +25,7 @@ import org.map.hibernate.dao.MaterialData;
 import org.map.hibernate.ddo.MaterialMaster;
 import org.map.hibernate.ddo.MaterialTestMap;
 import org.map.logger.LoggerUtil;
-import org.map.login.Login;
-import org.map.service.PrintMaterialRegister;
+import org.map.service.ServiceManager;
 import org.map.utils.Alert;
 import org.map.utils.TableContextMenu;
 
@@ -43,28 +38,26 @@ public class ViewReport {
 	private double COLUMN_WIDTH_MAX = 120;
 	private ObservableList<MaterialMaster> data = FXCollections
 			.observableArrayList(MaterialData.getMaterialList());
-	private PrintMaterialRegister pmr = new PrintMaterialRegister();
-	private HostServices hostServices;
-
-	public ViewReport() {
-		hostServices = Login.getLoginPanel().getHostServices();
-	}
 
 	public static ViewReport getViewReport() {
+
 		return viewReport;
 	}
 
 	public ObservableList<MaterialMaster> getData() {
+
 		return data;
 	}
 
 	public Node createView() {
+
 		viewReport = this;
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
@@ -187,6 +180,7 @@ public class ViewReport {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					try {
 						List<MaterialMaster> materials = MaterialData
 								.searchMaterialDetailsCt(
@@ -210,6 +204,7 @@ public class ViewReport {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					try {
 						List<MaterialMaster> materials = MaterialData.searchMaterialDetailsDt(
 								fromDateTextField.getSelectedDate(),
@@ -236,9 +231,8 @@ public class ViewReport {
 
 				@Override
 				public void handle(ActionEvent e) {
-					MaterialRegister.getMaterialRegister().getStatusBar()
-							.show();
-					pmr.restart();
+
+					ServiceManager.getMaterialRegisterService().restart();
 				}
 			});
 			buttons.getChildren().addAll(printButton);
@@ -248,32 +242,12 @@ public class ViewReport {
 
 				@Override
 				public void handle(ActionEvent e) {
-					pmr.restart();
+
+					printButton.fire();
 				}
 			};
 			table.setContextMenu(new TableContextMenu(printEventHandler,
 					"Print"));
-
-			pmr.stateProperty().addListener(new ChangeListener<Worker.State>() {
-
-				@Override
-				public void changed(
-						ObservableValue<? extends Worker.State> observable,
-						Worker.State oldValue, Worker.State newState) {
-					if (newState == Worker.State.SUCCEEDED) {
-						MaterialRegister.getMaterialRegister().getStatusBar()
-								.hide();
-						Alert.showAlert(
-								MaterialRegister.getMaterialRegister()
-										.getPrimaryStage(),
-								"Alert",
-								"Alert",
-								"The report has been saved as "
-										+ pmr.getValue());
-						hostServices.showDocument(pmr.getValue());
-					}
-				}
-			});
 
 			ScrollPane scrollPane = new ScrollPane();
 			scrollPane.getStyleClass().add("noborder-scroll-pane");

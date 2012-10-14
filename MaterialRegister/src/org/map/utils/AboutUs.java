@@ -23,7 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import org.map.MaterialRegister;
+import org.map.logger.LoggerUtil;
 
 public class AboutUs {
 
@@ -41,23 +41,30 @@ public class AboutUs {
 			.build();
 
 	public AboutUs() {
+
 		this.aboutWindowsPos = 0d;
 	}
 
 	public AboutUs(double aboutWindowsPos) {
+
 		this.aboutWindowsPos = aboutWindowsPos;
 	}
 
 	public void initComponents(final Stage parentStage)
 			throws MalformedURLException {
+
 		this.root = new StackPane();
 		this.root.autosize();
 
 		this.scene = new Scene(root, aboutWindowsWidth, aboutWindowsHeight,
 				Color.web("#FFFFFF"));
-		File aboutStyle = new File("resources/style/style.css");
-		this.scene.getStylesheets().add(
-				aboutStyle.toURI().toURL().toExternalForm());
+		try {
+			File aboutStyle = new File("resources/style/style.css");
+			this.scene.getStylesheets().add(
+					aboutStyle.toURI().toURL().toExternalForm());
+		} catch (Exception e) {
+			LoggerUtil.getLogger().debug(e);
+		}
 		this.scene.setFill(Color.TRANSPARENT);
 
 		this.stage = new Stage();
@@ -71,6 +78,7 @@ public class AboutUs {
 
 			@Override
 			protected void layoutChildren() {
+
 				super.layoutChildren();
 				stage.setWidth(scene.getWidth());
 				stage.setHeight(scene.getHeight());
@@ -108,8 +116,8 @@ public class AboutUs {
 		rightContent.setPrefSize(515, 410);
 		rightContent.getStyleClass().add("map-content");
 
-		final URL urlGoogleMaps = MaterialRegister.class
-				.getResource("/org/map/googlemap/googlemapframe.html");
+		File aboutUsFile = new File("resources/aboutus/aboutus.html");
+		final URL urlGoogleMaps = aboutUsFile.toURI().toURL();
 		WebView webView = new WebView();
 		WebEngine webEngine = webView.getEngine();
 		webEngine.load(urlGoogleMaps.toExternalForm());
@@ -120,10 +128,12 @@ public class AboutUs {
 	}
 
 	public final void addDragListeners(final Node n) {
+
 		n.setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				startDragX = me.getSceneX();
 				startDragY = me.getSceneY();
 				root.setStyle("-fx-opacity:.7;");
@@ -133,6 +143,7 @@ public class AboutUs {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				root.setStyle("-fx-opacity:1;");
 			}
 		});
@@ -140,6 +151,7 @@ public class AboutUs {
 
 			@Override
 			public void handle(MouseEvent me) {
+
 				stage.setX(me.getScreenX() - startDragX);
 				stage.setY(me.getScreenY() - startDragY);
 			}
@@ -150,6 +162,7 @@ public class AboutUs {
 	 * Method to close the pop up and remove the background mask.
 	 */
 	public void hide() {
+
 		Parent parentRoot = ((Stage) stage.getOwner()).getScene().getRoot();
 		if (parentRoot instanceof StackPane) {
 			((StackPane) parentRoot).getChildren().remove(mask);
@@ -158,6 +171,7 @@ public class AboutUs {
 	}
 
 	public final void show() {
+
 		StackPane parentRoot = (StackPane) ((Stage) stage.getOwner())
 				.getScene().getRoot();
 		parentRoot.getChildren().add(mask);

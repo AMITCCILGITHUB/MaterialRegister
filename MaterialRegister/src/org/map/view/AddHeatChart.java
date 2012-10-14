@@ -20,12 +20,14 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import net.sf.jasperreports.engine.JRException;
 
 import org.map.MaterialRegister;
+import org.map.controls.CustomComboBox;
 import org.map.controls.ETFCellFactory;
 import org.map.controls.TextBox;
 import org.map.hibernate.dao.HeatChartData;
@@ -36,6 +38,7 @@ import org.map.hibernate.ddo.HeatChartSheetsId;
 import org.map.hibernate.ddo.MaterialMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
+import org.map.utils.AppProperties;
 
 public class AddHeatChart {
 
@@ -47,38 +50,87 @@ public class AddHeatChart {
 	private ObservableList<HeatChartSheets> data;
 
 	public AddHeatChart() {
+
 		viewHeatChart = this;
 	}
 
 	public static AddHeatChart getViewHeatChart() {
+
 		return viewHeatChart;
 	}
 
 	public Node createView() {
+
 		try {
 			final VBox main = new VBox(H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
+
 					return Math.max(super.computePrefHeight(width), getParent()
 							.getBoundsInLocal().getHeight());
 				}
 			};
+			VBox.setVgrow(main, Priority.ALWAYS);
 			main.getStyleClass().add("category-page");
 
-			Label header = new Label("Heat Chart");
+			final HeatChartMaster heatChart = new HeatChartMaster();
+			heatChart.setChartNumber(HeatChartData
+					.getNextChartNumber(AppProperties
+							.getValue("heatchart.current.year")));
+
+			Label header = new Label("Add Heat Chart");
 			header.getStyleClass().add("page-header");
 			main.getChildren().add(header);
 
-			final HeatChartMaster heatChart = new HeatChartMaster();
-			heatChart.setChartNumber(HeatChartData.getNextChartNumber());
+			HBox yearBox = new HBox(H_SPACE * 4.5 - 20);
+			Label yearLabel = new Label("Heat Chart for Year");
+			yearLabel.setPrefWidth(LABEL_WIDTH + 20);
+			final CustomComboBox yearChoiceBox = new CustomComboBox("",
+					"HeatChart", "HeatChart");
+			yearChoiceBox.setText(AppProperties
+					.getValue("heatchart.current.year"));
+			Button yearButton = new Button("Set as Default");
+			yearButton.getStyleClass().add("submit-button");
+			yearButton.setOnAction(new EventHandler<ActionEvent>() {
 
-			Label detailCategoryHeader = new Label("Details - "
-					+ heatChart.getChartNumber());
-			detailCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			detailCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			detailCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(detailCategoryHeader);
+				@Override
+				public void handle(ActionEvent e) {
+					try {
+						AppProperties.setValue("heatchart.current.year",
+								yearChoiceBox.getText());
+
+						heatChart.setChartNumber(HeatChartData
+								.getNextChartNumber(AppProperties
+										.getValue("heatchart.current.year")));
+					} catch (IOException ex) {
+						LoggerUtil.getLogger().debug(ex);
+						Alert.showAlert(
+								MaterialRegister.getMaterialRegister()
+										.getPrimaryStage(),
+								"Error",
+								"Error",
+								"Some error occured. Details...\n"
+										+ ex.getMessage());
+					}
+				}
+			});
+			yearBox.getChildren().addAll(yearLabel, yearChoiceBox, yearButton);
+			main.getChildren().add(yearBox);
+
+			HBox detailCategoryBox = new HBox();
+			Label detailCategoryHeader1 = new Label("Details - ");
+			detailCategoryHeader1.setMaxWidth(Double.MAX_VALUE);
+			detailCategoryHeader1.setMinHeight(Control.USE_PREF_SIZE);
+			Label detailCategoryHeader2 = new Label(heatChart.getChartNumber());
+			detailCategoryHeader2.textProperty().bindBidirectional(
+					heatChart.chartNumberProperty());
+			detailCategoryHeader2.setMaxWidth(Double.MAX_VALUE);
+			detailCategoryHeader2.setMinHeight(Control.USE_PREF_SIZE);
+			detailCategoryBox.getStyleClass().add("category-header");
+			detailCategoryBox.getChildren().addAll(detailCategoryHeader1,
+					detailCategoryHeader2);
+			main.getChildren().add(detailCategoryBox);
 
 			final HBox detail1 = new HBox(H_SPACE * 4.5);
 			Label equipmentLabel = new Label("Equipment");
@@ -120,6 +172,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableIntegerValue call(
 						CellDataFeatures<HeatChartSheets, Integer> p) {
+
 					return p.getValue().sequenceNumberProperty();
 				}
 			});
@@ -132,6 +185,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableIntegerValue call(
 						CellDataFeatures<HeatChartSheets, Integer> p) {
+
 					return p.getValue().getId().sheetNumberProperty();
 				}
 			});
@@ -168,6 +222,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
+
 					return p.getValue().getMaterialmaster().sizeProperty();
 				}
 			});
@@ -178,6 +233,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
+
 					return p.getValue().getMaterialmaster()
 							.specificationProperty();
 				}
@@ -189,6 +245,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, HeatChartSheetsId> p) {
+
 					return p.getValue().getId().ctNumberProperty();
 				}
 			});
@@ -205,6 +262,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
+
 					return p.getValue().getMaterialmaster()
 							.reportNumberProperty();
 				}
@@ -216,6 +274,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
+
 					return p.getValue().getMaterialmaster()
 							.reportDateProperty();
 				}
@@ -227,6 +286,7 @@ public class AddHeatChart {
 				@Override
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
+
 					return p.getValue().getMaterialmaster()
 							.laboratoryProperty();
 				}
@@ -247,6 +307,7 @@ public class AddHeatChart {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					HeatChartSheets hs = new HeatChartSheets();
 					hs.setSequenceNumber(data.size() + 1);
 					hs.getId().setChartNumber(heatChart.getChartNumber());
@@ -263,6 +324,7 @@ public class AddHeatChart {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					HeatChartSheets hs = new HeatChartSheets();
 					hs.setSequenceNumber(data.size() + 1);
 					hs.getId().setChartNumber(heatChart.getChartNumber());
@@ -277,9 +339,17 @@ public class AddHeatChart {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					heatChart.setHeatchartsheets(new HashSet<>(data.subList(0,
 							data.size())));
 					HeatChartData.insertHeatChart(heatChart);
+
+					Alert.showAlert(MaterialRegister.getMaterialRegister()
+							.getPrimaryStage(), "Alert", "Alert",
+							"Heat Chart details saved successfully.");
+
+					MaterialRegister.getMaterialRegister().reloadPage(
+							"Add Validation");
 				}
 			});
 			final Button printButton = new Button("Print");
@@ -288,6 +358,7 @@ public class AddHeatChart {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					heatChart.setHeatchartsheets(new HashSet<>(data.subList(0,
 							data.size())));
 					try {
@@ -300,7 +371,11 @@ public class AddHeatChart {
 
 			buttons.getChildren().addAll(addSheetButton, addRecordButton,
 					saveRecordButton, printButton);
-			main.getChildren().addAll(table, buttons);
+
+			ScrollPane tableScrollpane = new ScrollPane();
+			tableScrollpane.setPrefHeight(300);
+			tableScrollpane.setContent(table);
+			main.getChildren().addAll(tableScrollpane, buttons);
 
 			ScrollPane scrollPane = new ScrollPane();
 			scrollPane.getStyleClass().add("noborder-scroll-pane");
@@ -319,6 +394,7 @@ public class AddHeatChart {
 	}
 
 	public void updateTable(MaterialMaster material, int rowIndex) {
+
 		HeatChartSheets heatChartSheet = data.get(rowIndex);
 		heatChartSheet.getMaterialmaster().setSize(material.getSize());
 		heatChartSheet.getMaterialmaster().setSpecification(

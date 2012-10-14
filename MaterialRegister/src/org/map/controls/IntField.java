@@ -1,69 +1,85 @@
 package org.map.controls;
 
+import org.map.utils.Layout;
+
 import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 
-class IntField extends TextField {
+public class IntField extends TextField {
 
-    final private IntegerProperty value;
+	final private IntegerProperty value;
 
-    public int getValue() {
-        return value.getValue();
-    }
+	public int getValue() {
 
-    public void setValue( int newValue ) {
-        value.setValue( newValue );
-    }
+		return value.getValue();
+	}
 
-    public IntegerProperty valueProperty() {
-        return value;
-    }
+	public void setValue(int newValue) {
 
-    IntField( int initialValue ) {
-        value = new SimpleIntegerProperty( initialValue );
-        setText( initialValue + "" );
+		value.setValue(newValue);
+	}
 
-        final IntField intField = this;
+	public IntegerProperty valueProperty() {
 
-        value.addListener( new ChangeListener<Number>() {
+		return value;
+	}
 
-            @Override
-            public void changed( ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue ) {
-                if ( newValue == null ) {
-                    intField.setText( "" );
-                }
-                else {
-                    if (!( newValue.intValue() == 0 && ( textProperty().get() == null || "".equals( textProperty().get() ) ) )) {
-                        intField.setText( newValue.toString() );
-                    }
-                }
-            }
-        } );
+	public IntField(int initialValue) {
+		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		
+		value = new SimpleIntegerProperty(initialValue);
+		setText(initialValue + "");
 
-        this.addEventFilter( KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+		final IntField intField = this;
 
-            @Override
-            public void handle( KeyEvent keyEvent ) {
-                if ( !"0123456789".contains( keyEvent.getCharacter() ) ) {
-                    keyEvent.consume();
-                }
-            }
-        } );
+		value.addListener(new ChangeListener<Number>() {
 
-        this.textProperty().addListener( new ChangeListener<String>() {
+			@Override
+			public void changed(
+					ObservableValue<? extends Number> observableValue,
+					Number oldValue, Number newValue) {
 
-            @Override
-            public void changed( ObservableValue<? extends String> observableValue, String oldValue, String newValue ) {
-                if ( newValue == null || "".equals( newValue ) ) {
-                    value.setValue( 0 );
-                    return;
-                }
+				if (newValue == null) {
+					intField.setText("");
+				} else {
+					if (!(newValue.intValue() == 0 && (textProperty().get() == null || ""
+							.equals(textProperty().get())))) {
+						intField.setText(newValue.toString());
+					}
+				}
+			}
+		});
 
-                value.set( Integer.parseInt( textProperty().get() ) );
-            }
-        } );
-    }
+		this.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent keyEvent) {
+
+				if (!"0123456789".contains(keyEvent.getCharacter())) {
+					keyEvent.consume();
+				}
+			}
+		});
+
+		this.textProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(
+					ObservableValue<? extends String> observableValue,
+					String oldValue, String newValue) {
+
+				if (newValue == null || "".equals(newValue)) {
+					value.setValue(0);
+					return;
+				}
+
+				value.set(Integer.parseInt(textProperty().get()));
+			}
+		});
+	}
 }

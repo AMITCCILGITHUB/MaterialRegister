@@ -5,105 +5,145 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import org.hibernate.*;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
-import org.map.MaterialRegister;
 import org.map.hibernate.HibernateUtil;
-import org.map.hibernate.ddo.*;
-import org.map.utils.Alert;
+import org.map.hibernate.OrderBySqlFormula;
+import org.map.hibernate.ddo.HeatChartMaster;
 
 public class HeatChartData {
 
-    public static void insertHeatChart(HeatChartMaster heatChart) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+	public static void insertHeatChart(HeatChartMaster heatChart) {
 
-        session.save(heatChart);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
 
-        transaction.commit();
-        session.close();
-        Alert.showAlert(MaterialRegister.getMaterialRegister().getPrimaryStage(), "Alert", "Alert", "Heat Chart details saved successfully.");
-    }
+		session.save(heatChart);
 
-    public static void updateHeatChart(HeatChartMaster heatChart) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+		transaction.commit();
+		session.close();
+	}
 
-        session.update(heatChart);
+	public static void updateHeatChart(HeatChartMaster heatChart) {
 
-        transaction.commit();
-        session.close();
-        Alert.showAlert(MaterialRegister.getMaterialRegister().getPrimaryStage(), "Alert", "Alert", "Heat Chart details updated successfully.");
-    }
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
 
-    public static String getNextChartNumber() throws HibernateException {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+		session.update(heatChart);
 
-        String chartNumber = (String) session.getNamedQuery("nextHcNumberQuery").uniqueResult();
+		transaction.commit();
+		session.close();
+	}
 
-        transaction.commit();
-        session.close();
-        return chartNumber;
-    }
+	public static String getNextChartNumber(String selectedYear)
+			throws HibernateException {
 
-    public static HeatChartMaster searchHeatChartDetailsByHcNumber(String heatChartNumber) throws ParseException {
-        HeatChartMaster hcMaster = new HeatChartMaster();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+		String chartNumber = (String) session
+				.getNamedQuery("nextHcNumberQuery")
+				.setString("year", selectedYear.substring(2)).uniqueResult();
 
-        Iterator it = session.createCriteria(HeatChartMaster.class).add(Restrictions.like("chartNumber", heatChartNumber, MatchMode.ANYWHERE)).list().iterator();
+		transaction.commit();
+		session.close();
+		return chartNumber;
+	}
 
-        if (it.hasNext()) {
-            hcMaster = (HeatChartMaster) it.next();
-            hcMaster.getHeatchartsheets().size();
-        }
+	public static HeatChartMaster searchHeatChartDetailsByHcNumber(
+			String heatChartNumber) throws ParseException {
 
-        transaction.commit();
-        session.close();
-        return hcMaster;
-    }
+		HeatChartMaster hcMaster = new HeatChartMaster();
 
-    public static List<HeatChartMaster> searchHeatChartDetailsHc(String hcNumberFrom, String hcNumberTo) throws ParseException {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
 
-        Query qry = session.getNamedQuery("searchHcNumberQuery");
-        qry.setParameter("fromHcNumber", hcNumberFrom.substring(5));
-        qry.setParameter("toHcNumber", hcNumberTo.substring(5));
+		Iterator it = session
+				.createCriteria(HeatChartMaster.class)
+				.add(Restrictions.like("chartNumber", heatChartNumber,
+						MatchMode.ANYWHERE)).list().iterator();
 
-        List<HeatChartMaster> heatCharts = qry.list();
-        Iterator it = heatCharts.iterator();
-        while (it.hasNext()) {
-            HeatChartMaster heatChart = (HeatChartMaster) it.next();
-            heatChart.getHeatchartsheets().size();
-        }
+		if (it.hasNext()) {
+			hcMaster = (HeatChartMaster) it.next();
+			hcMaster.getHeatchartsheets().size();
+		}
 
-        transaction.commit();
-        session.close();
-        return heatCharts;
-    }
+		transaction.commit();
+		session.close();
+		return hcMaster;
+	}
 
-    public static List<HeatChartMaster> searchHeatChartDetailsDt(Date fromDate, Date toDate) throws ParseException {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
+	public static List<HeatChartMaster> searchHeatChartDetailsHc(
+			String hcNumberFrom, String hcNumberTo) throws ParseException {
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(toDate);
-        cal.add(Calendar.DATE, 1);
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
 
-        List<HeatChartMaster> heatCharts = session.createCriteria(HeatChartMaster.class).add(Restrictions.between("createdDate", fromDate, cal.getTime())).list();
-        Iterator it = heatCharts.iterator();
+		Query qry = null;
+		if (hcNumberTo == null || hcNumberTo.trim().length() == 0) {
+			qry = session.getNamedQuery("searchHcNumberQuerySingle");
+			qry.setParameter("fromHcNumber", hcNumberFrom);
+		} else {
+			qry = session.getNamedQuery("searchHcNumberQuery");
+			qry.setParameter("fromHcNumber", hcNumberFrom);
+			qry.setParameter("toHcNumber", hcNumberTo);
+		}
 
-        while (it.hasNext()) {
-            HeatChartMaster heatChart = (HeatChartMaster) it.next();
-            heatChart.getHeatchartsheets().size();
-        }
+		List<HeatChartMaster> heatCharts = qry.list();
+		Iterator it = heatCharts.iterator();
+		while (it.hasNext()) {
+			HeatChartMaster heatChart = (HeatChartMaster) it.next();
+			heatChart.getHeatchartsheets().size();
+		}
 
-        transaction.commit();
-        session.close();
-        return heatCharts;
-    }
+		transaction.commit();
+		session.close();
+		return heatCharts;
+	}
+
+	public static List<HeatChartMaster> searchHeatChartDetailsDt(Date fromDate,
+			Date toDate) throws ParseException {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<HeatChartMaster> heatCharts = null;
+		if (toDate == null) {
+			heatCharts = session
+					.createCriteria(HeatChartMaster.class)
+					.add(Restrictions.ge("createdDate", fromDate))
+					.addOrder(
+							OrderBySqlFormula
+									.sqlFormula("cast(substring(substring_index(Chart_Number, '-', 1), 6) as unsigned) asc"))
+					.list();
+		} else {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(toDate);
+			cal.add(Calendar.DATE, 1);
+
+			heatCharts = session
+					.createCriteria(HeatChartMaster.class)
+					.add(Restrictions.between("createdDate", fromDate,
+							cal.getTime()))
+					.addOrder(
+							OrderBySqlFormula
+									.sqlFormula("cast(substring(substring_index(Chart_Number, '-', 1), 6) as unsigned) asc"))
+					.list();
+		}
+		Iterator it = heatCharts.iterator();
+
+		while (it.hasNext()) {
+			HeatChartMaster heatChart = (HeatChartMaster) it.next();
+			heatChart.getHeatchartsheets().size();
+		}
+
+		transaction.commit();
+		session.close();
+		return heatCharts;
+	}
 }
