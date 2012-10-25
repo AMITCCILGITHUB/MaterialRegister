@@ -23,6 +23,9 @@
 		<property name="surveyor" type="string">
 			<column length="128" name="Surveyor" not-null="true" />
 		</property>
+		<property name="tagNumber" type="string">
+			<column length="128" name="Tag_Number" not-null="true" />
+		</property>
 		<property name="status" type="string">
 			<column length="8" name="Status" not-null="true" />
 		</property>

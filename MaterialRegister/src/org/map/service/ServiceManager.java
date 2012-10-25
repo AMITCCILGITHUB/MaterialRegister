@@ -1,5 +1,7 @@
 package org.map.service;
 
+import java.net.MalformedURLException;
+
 import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,7 +43,10 @@ public class ServiceManager {
 												.getLoginPanel()
 												.getUserMaster().getUserName()));
 						MaterialRegister mr = new MaterialRegister();
-						mr.show();
+						try {
+							mr.show();
+						} catch (MalformedURLException e) {
+						}
 						Login.getLoginPanel().getPrimaryStage().hide();
 					} else {
 						LoggerUtil.getLogger().info(

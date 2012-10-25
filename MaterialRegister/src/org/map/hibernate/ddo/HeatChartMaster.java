@@ -17,6 +17,7 @@ public class HeatChartMaster implements Serializable {
 	private SimpleStringProperty poDetails;
 	private SimpleStringProperty drawingNumber;
 	private SimpleStringProperty surveyor;
+	private SimpleStringProperty tagNumber;
 	private String status;
 	private String createdBy;
 	private Date createdDate;
@@ -30,6 +31,7 @@ public class HeatChartMaster implements Serializable {
 		this.poDetails = new SimpleStringProperty("");
 		this.drawingNumber = new SimpleStringProperty("");
 		this.surveyor = new SimpleStringProperty("");
+		this.tagNumber = new SimpleStringProperty("");
 
 		this.status = "TRUE";
 		this.createdBy = "SYSTEM";
@@ -38,7 +40,8 @@ public class HeatChartMaster implements Serializable {
 
 	public HeatChartMaster(String chartNumber, String equipment,
 			String customer, String poDetails, String drawingNumber,
-			String surveyor, String status, String createdBy, Date createdDate) {
+			String surveyor, String tagNumber, String status, String createdBy,
+			Date createdDate) {
 
 		this.chartNumber = new SimpleStringProperty(chartNumber);
 		this.equipment = new SimpleStringProperty(equipment);
@@ -46,6 +49,7 @@ public class HeatChartMaster implements Serializable {
 		this.poDetails = new SimpleStringProperty(poDetails);
 		this.drawingNumber = new SimpleStringProperty(drawingNumber);
 		this.surveyor = new SimpleStringProperty(surveyor);
+		this.tagNumber = new SimpleStringProperty(tagNumber);
 
 		this.status = status;
 		this.createdBy = createdBy;
@@ -54,8 +58,8 @@ public class HeatChartMaster implements Serializable {
 
 	public HeatChartMaster(String chartNumber, String equipment,
 			String customer, String poDetails, String drawingNumber,
-			String surveyor, String status, String createdBy, Date createdDate,
-			Set<HeatChartSheets> heatchartsheets) {
+			String surveyor, String tagNumber, String status, String createdBy,
+			Date createdDate, Set<HeatChartSheets> heatchartsheets) {
 
 		this.chartNumber = new SimpleStringProperty(chartNumber);
 		this.equipment = new SimpleStringProperty(equipment);
@@ -63,6 +67,7 @@ public class HeatChartMaster implements Serializable {
 		this.poDetails = new SimpleStringProperty(poDetails);
 		this.drawingNumber = new SimpleStringProperty(drawingNumber);
 		this.surveyor = new SimpleStringProperty(surveyor);
+		this.tagNumber = new SimpleStringProperty(tagNumber);
 
 		this.status = status;
 		this.createdBy = createdBy;
@@ -160,6 +165,21 @@ public class HeatChartMaster implements Serializable {
 		return this.surveyor;
 	}
 
+	public String getTagNumber() {
+
+		return this.tagNumber.get();
+	}
+
+	public void setTagNumber(String tagNumber) {
+
+		this.tagNumber.set(tagNumber);
+	}
+
+	public SimpleStringProperty tagNumberProperty() {
+
+		return this.tagNumber;
+	}
+
 	public String getStatus() {
 
 		return this.status;
@@ -208,6 +228,7 @@ public class HeatChartMaster implements Serializable {
 		this.poDetails.set(hcMaster.getPoDetails());
 		this.drawingNumber.set(hcMaster.getDrawingNumber());
 		this.surveyor.set(hcMaster.getDrawingNumber());
+		this.tagNumber.set(hcMaster.getTagNumber());
 
 		this.status = hcMaster.getStatus();
 		this.createdBy = hcMaster.getCreatedBy();

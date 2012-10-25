@@ -2,120 +2,234 @@ package org.map.utils;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ContextMenuBuilder;
 import javafx.scene.control.MenuItemBuilder;
-import javafx.scene.control.SeparatorMenuItemBuilder;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageViewBuilder;
 
-public class TableContextMenu extends ContextMenu {
+public class TableContextMenu {
 
-	File undoFile = new File("resources/images/undo.png");
-	File deleteFile = new File("resources/images/delete.png");
-	File printFile = new File("resources/images/print.png");
-	File searchFile = new File("resources/images/search.png");
+	private static File undo = new File("resources/images/undo.png");
+	private static File delete = new File("resources/images/delete.png");
+	private static File print = new File("resources/images/print.png");
+	private static File search = new File("resources/images/search.png");
+	private static File user = new File("resources/images/view_user.png");
 
-	public TableContextMenu(EventHandler eventHandler1,
-			EventHandler eventHandler2, EventHandler eventHandler3)
-			throws URISyntaxException, MalformedURLException {
+	public static ContextMenu getViewUserContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
 
-		getItems().addAll(
-				MenuItemBuilder
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder
 						.create()
-						.text("Restore")
+						.text("Show Password")
+						.onAction(eventHandler[0])
 						.graphic(
 								ImageViewBuilder
 										.create()
-										.image(new Image(undoFile.toURI()
-												.toURL().toString())).build())
-						.onAction(eventHandler1).build(),
-				MenuItemBuilder
+										.image(new Image(search.toURI().toURL()
+												.toString())).build()).build(),
+						MenuItemBuilder
+								.create()
+								.text("View User")
+								.onAction(eventHandler[1])
+								.graphic(
+										ImageViewBuilder
+												.create()
+												.image(new Image(user.toURI()
+														.toURL().toString()))
+												.build()).build()).build();
+	}
+
+	public static ContextMenu getEditUserContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
+
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder
 						.create()
-						.text("Delete")
-						.onAction(eventHandler2)
+						.text("Edit")
+						.onAction(eventHandler[0])
 						.graphic(
 								ImageViewBuilder
 										.create()
-										.image(new Image(deleteFile.toURI()
-												.toURL().toString())).build())
-						.build(),
-				SeparatorMenuItemBuilder.create().build(),
-				MenuItemBuilder
+										.image(new Image(user.toURI().toURL()
+												.toString())).build()).build(),
+						MenuItemBuilder
+								.create()
+								.text("Restore")
+								.onAction(eventHandler[1])
+								.graphic(
+										ImageViewBuilder
+												.create()
+												.image(new Image(undo.toURI()
+														.toURL().toString()))
+												.build()).build(),
+						MenuItemBuilder
+								.create()
+								.text("Delete")
+								.onAction(eventHandler[2])
+								.graphic(
+										ImageViewBuilder
+												.create()
+												.image(new Image(delete.toURI()
+														.toURL().toString()))
+												.build()).build()).build();
+	}
+
+	public static ContextMenu getPrintMaterialContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
+
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder
 						.create()
 						.text("Print")
-						.onAction(eventHandler3)
+						.onAction(eventHandler[0])
 						.graphic(
 								ImageViewBuilder
 										.create()
-										.image(new Image(printFile.toURI()
-												.toURL().toString())).build())
-						.build());
-		setAutoFix(true);
+										.image(new Image(print.toURI().toURL()
+												.toString())).build()).build())
+				.build();
 	}
 
-	public TableContextMenu(EventHandler eventHandler1,
-			EventHandler eventHandler2) throws URISyntaxException,
-			MalformedURLException {
+	public static ContextMenu getEditMaterialContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
 
-		getItems().addAll(
-				MenuItemBuilder
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder
 						.create()
-						.text("Restore")
+						.text("Edit")
+						.onAction(eventHandler[0])
 						.graphic(
 								ImageViewBuilder
 										.create()
-										.image(new Image(undoFile.toURI()
-												.toURL().toString())).build())
-						.onAction(eventHandler1).build(),
-				MenuItemBuilder
-						.create()
-						.text("Delete")
-						.onAction(eventHandler2)
-						.graphic(
-								ImageViewBuilder
-										.create()
-										.image(new Image(deleteFile.toURI()
-												.toURL().toString())).build())
-						.build());
-		setAutoFix(true);
-	}
-
-	public TableContextMenu(EventHandler eventHandler1, String type)
-			throws URISyntaxException, MalformedURLException {
-
-		switch (type) {
-			case "Print":
-				getItems().addAll(
+										.image(new Image(user.toURI().toURL()
+												.toString())).build()).build(),
 						MenuItemBuilder
 								.create()
-								.text("Print")
-								.onAction(eventHandler1)
+								.text("Restore")
+								.onAction(eventHandler[1])
 								.graphic(
 										ImageViewBuilder
 												.create()
-												.image(new Image(printFile
-														.toURI().toURL()
-														.toString())).build())
-								.build());
-				break;
-			case "Password":
-				getItems().addAll(
+												.image(new Image(undo.toURI()
+														.toURL().toString()))
+												.build()).build(),
 						MenuItemBuilder
 								.create()
-								.text("Show Password")
-								.onAction(eventHandler1)
+								.text("Delete")
+								.onAction(eventHandler[2])
 								.graphic(
 										ImageViewBuilder
 												.create()
-												.image(new Image(searchFile
-														.toURI().toURL()
-														.toString())).build())
-								.build());
-				break;
-		}
-		setAutoFix(true);
+												.image(new Image(delete.toURI()
+														.toURL().toString()))
+												.build()).build()).build();
 	}
+
+	// public TableContextMenu(EventHandler eventHandler1,
+	// EventHandler eventHandler2, EventHandler eventHandler3)
+	// throws URISyntaxException, MalformedURLException {
+	//
+	// getItems().addAll(
+	// MenuItemBuilder
+	// .create()
+	// .text("Restore")
+	// .graphic(
+	// ImageViewBuilder
+	// .create()
+	// .image(new Image(undoFile.toURI()
+	// .toURL().toString())).build())
+	// .onAction(eventHandler1).build(),
+	// MenuItemBuilder
+	// .create()
+	// .text("Delete")
+	// .onAction(eventHandler2)
+	// .graphic(
+	// ImageViewBuilder
+	// .create()
+	// .image(new Image(deleteFile.toURI()
+	// .toURL().toString())).build())
+	// .build(),
+	// SeparatorMenuItemBuilder.create().build(),
+	// MenuItemBuilder
+	// .create()
+	// .text("Print")
+	// .onAction(eventHandler3)
+	// .graphic(
+	// ImageViewBuilder
+	// .create()
+	// .image(new Image(printFile.toURI()
+	// .toURL().toString())).build())
+	// .build());
+	// setAutoFix(true);
+	// }
+	//
+	// public TableContextMenu(EventHandler eventHandler1,
+	// EventHandler eventHandler2) throws URISyntaxException,
+	// MalformedURLException {
+	//
+	// getItems().addAll(
+	// MenuItemBuilder
+	// .create()
+	// .text("Restore")
+	// .graphic(
+	// ImageViewBuilder
+	// .create()
+	// .image(new Image(undoFile.toURI()
+	// .toURL().toString())).build())
+	// .onAction(eventHandler1).build(),
+	// MenuItemBuilder
+	// .create()
+	// .text("Delete")
+	// .onAction(eventHandler2)
+	// .graphic(
+	// ImageViewBuilder
+	// .create()
+	// .image(new Image(deleteFile.toURI()
+	// .toURL().toString())).build())
+	// .build());
+	// setAutoFix(true);
+	// }
+	//
+	// public TableContextMenu(EventHandler eventHandler1, String type)
+	// throws URISyntaxException, MalformedURLException {
+	//
+	// switch (type) {
+	// case "Print":
+	// getItems().addAll(
+	// MenuItemBuilder
+	// .create()
+	// .text("Print")
+	// .onAction(eventHandler1)
+	// .graphic(
+	// ImageViewBuilder
+	// .create()
+	// .image(new Image(printFile.toURI()
+	// .toURL().toString()))
+	// .build()).build());
+	// break;
+	// case "Password":
+	// getItems().addAll(
+	// MenuItemBuilder
+	// .create()
+	// .text("Show Password")
+	// .onAction(eventHandler1)
+	// .graphic(
+	// ImageViewBuilder
+	// .create()
+	// .image(new Image(searchFile.toURI()
+	// .toURL().toString()))
+	// .build()).build());
+	// break;
+	// }
+	// setAutoFix(true);
+	// }
+
 }

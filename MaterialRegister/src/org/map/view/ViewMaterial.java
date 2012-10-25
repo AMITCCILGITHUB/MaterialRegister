@@ -2,14 +2,11 @@ package org.map.view;
 
 import java.util.List;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -20,10 +17,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import org.map.MaterialRegister;
 import org.map.calendar.DatePicker;
@@ -35,27 +32,22 @@ import org.map.hibernate.dao.MaterialData;
 import org.map.hibernate.ddo.MaterialMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
+import org.map.utils.ViewLayout;
 
-public class ViewMaterial {
+public class ViewMaterial extends TabPane {
 
-	private double COLUMN_WIDTH = 100;
-	private double COLUMN_WIDTH_MAX = 120;
-	private double LABEL_WIDTH = 100;
-	private double H_SPACE = 8;
-	private double V_SPACE = 20;
 	private String ctNumber = null;
-	private TabPane tabPane = new TabPane();
 
 	public void setCtNumber(String ctNumber) {
 
 		this.ctNumber = ctNumber;
 	}
 
-	public Node createView() {
-		Tab tab = new Tab("Master");
+	public ViewMaterial() {
+		Tab tab = new Tab("View Material : Search");
 
 		try {
-			final VBox main = new VBox(H_SPACE) {
+			final VBox main = new VBox(ViewLayout.H_SPACE) {
 
 				@Override
 				protected double computePrefHeight(double width) {
@@ -77,13 +69,13 @@ public class ViewMaterial {
 			mailboxCategoryHeader.getStyleClass().add("category-header");
 			main.getChildren().add(mailboxCategoryHeader);
 
-			final HBox search1 = new HBox(H_SPACE);
+			final HBox search1 = new HBox(ViewLayout.H_SPACE);
 			Label ctNumberFromLabel = new Label("CT No From");
-			ctNumberFromLabel.setPrefWidth(LABEL_WIDTH);
+			ctNumberFromLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final TextBox ctNumberFromTextField = new TextBox("",
 					"CT Number From");
 			Label ctNumberToLabel = new Label("CT No To");
-			ctNumberToLabel.setPrefWidth(LABEL_WIDTH);
+			ctNumberToLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final TextBox ctNumberToTextField = new TextBox("", "CT Number To");
 			final Button searchRecordButton1 = new Button("Search");
 			searchRecordButton1.getStyleClass().add("submit-button");
@@ -91,12 +83,12 @@ public class ViewMaterial {
 					ctNumberFromTextField, ctNumberToLabel,
 					ctNumberToTextField, searchRecordButton1);
 
-			final HBox search2 = new HBox(H_SPACE);
+			final HBox search2 = new HBox(ViewLayout.H_SPACE);
 			Label fromDateLabel = new Label("Date From");
-			fromDateLabel.setPrefWidth(LABEL_WIDTH);
+			fromDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final DatePicker fromDateTextField = new DatePicker();
 			Label toDateLabel = new Label("Date");
-			toDateLabel.setPrefWidth(LABEL_WIDTH);
+			toDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final DatePicker toDateTextField = new DatePicker();
 			final Button searchRecordButton2 = new Button("Search");
 			searchRecordButton2.getStyleClass().add("submit-button");
@@ -112,31 +104,31 @@ public class ViewMaterial {
 
 			final TableView<MaterialMaster> tableMailbox = new TableView<>();
 			TableColumn MCol1 = new TableColumn("CT Number");
-			MCol1.setPrefWidth(COLUMN_WIDTH);
+			MCol1.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol1.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"ctNumber"));
 			TableColumn MCol2 = new TableColumn("Inspection Agency");
-			MCol2.setPrefWidth(COLUMN_WIDTH);
+			MCol2.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol2.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"inspectionAgency"));
 			TableColumn MCol3 = new TableColumn("Item");
-			MCol3.setPrefWidth(COLUMN_WIDTH_MAX);
+			MCol3.setPrefWidth(ViewLayout.COLUMN_WIDTH_MAX);
 			MCol3.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"item"));
 			TableColumn MCol4 = new TableColumn("Size");
-			MCol4.setPrefWidth(COLUMN_WIDTH);
+			MCol4.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol4.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"size"));
 			TableColumn MCol5 = new TableColumn("Heat Number");
-			MCol5.setPrefWidth(COLUMN_WIDTH);
+			MCol5.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol5.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"heatNumber"));
 			TableColumn MCol6 = new TableColumn("Plate Number");
-			MCol6.setPrefWidth(COLUMN_WIDTH);
+			MCol6.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol6.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"plateNumber"));
 			TableColumn MCol7 = new TableColumn("Specification");
-			MCol7.setPrefWidth(COLUMN_WIDTH);
+			MCol7.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol7.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"specification"));
 			tableMailbox.getColumns().addAll(MCol1, MCol2, MCol3, MCol4, MCol5,
@@ -190,53 +182,58 @@ public class ViewMaterial {
 				}
 			});
 
-			tableMailbox.getSelectionModel().selectedItemProperty()
-					.addListener(new ChangeListener() {
+			tableMailbox.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-						@Override
-						public void changed(ObservableValue observable,
-								Object oldValue, Object newValue) {
+				@Override
+				public void handle(MouseEvent mouseEvent) {
+					if (mouseEvent.getClickCount() == 2) {
 
-							MaterialMaster selMaterial = tableMailbox
-									.getSelectionModel().getSelectedItem();
-							if (selMaterial != null) {
-								tabPane.getTabs().add(
-										createViewTab(selMaterial));
-							}
+						MaterialMaster selMaterial = tableMailbox
+								.getSelectionModel().getSelectedItem();
+						if (selMaterial != null) {
+
+							createViewTab(selMaterial);
 						}
-					});
+					}
+
+				}
+
+			});
 
 			ScrollPane scrollPane = new ScrollPane();
-			scrollPane.getStyleClass().add("noborder-scroll-pane");
+			scrollPane.getStyleClass().addAll("noborder-scroll-pane",
+					"texture-bg");
 			scrollPane.setFitToWidth(true);
 			scrollPane.setContent(main);
 
 			tab.setContent(scrollPane);
 			tab.setClosable(false);
-			tabPane.getTabs().add(tab);
+			getTabs().add(tab);
 			if (ctNumber != null) {
-				tabPane.getTabs()
-						.add(createViewTab(MaterialData
-								.getMaterialDetails(ctNumber)));
+				createViewTab(MaterialData.getMaterialDetails(ctNumber));
 			}
-			tabPane.setSide(Side.TOP);
-
-			return tabPane;
+			setSide(Side.TOP);
 		} catch (Exception e) {
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(MaterialRegister.getMaterialRegister()
 					.getPrimaryStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
-			return new Text("Failed to create sample because of ["
-					+ e.getMessage() + "]");
 		}
 	}
 
-	private Tab createViewTab(final MaterialMaster material) {
+	private void createViewTab(final MaterialMaster material) {
+		for (Tab selTab : getTabs()) {
+			if (selTab.getId() != null
+					&& selTab.getId().equalsIgnoreCase(material.getCtNumber())) {
+				getSelectionModel().select(selTab);
+				return;
+			}
+		}
+
 		Tab tab = new Tab("View Material : " + material.getCtNumber());
 		tab.setId(material.getCtNumber());
 
-		final VBox main = new VBox(H_SPACE) {
+		final VBox main = new VBox(ViewLayout.H_SPACE) {
 
 			@Override
 			protected double computePrefHeight(double width) {
@@ -258,18 +255,18 @@ public class ViewMaterial {
 		detailCategoryHeader.getStyleClass().add("category-header");
 		main.getChildren().add(detailCategoryHeader);
 
-		final HBox detail = new HBox(H_SPACE);
+		final HBox detail = new HBox(ViewLayout.H_SPACE);
 		Label ctNumberLabel = new Label("CT Number");
-		ctNumberLabel.setPrefWidth(LABEL_WIDTH);
+		ctNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox ctNumberTextField = new ViewBox(material.getCtNumber(),
 				material.ctNumberProperty(), true);
 		Label agencyLabel = new Label("Inspection Agency");
-		agencyLabel.setPrefWidth(LABEL_WIDTH);
+		agencyLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox agencyTextField = new ViewBox(
 				material.getInspectionAgency(),
 				material.inspectionAgencyProperty(), true);
 		Label specLabel = new Label("Specification");
-		specLabel.setPrefWidth(LABEL_WIDTH);
+		specLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox specTextField = new ViewBox(material.getSpecification(),
 				material.specificationProperty(), true);
 		detail.getChildren().addAll(ctNumberLabel, ctNumberTextField,
@@ -282,32 +279,32 @@ public class ViewMaterial {
 		descriptionCategoryHeader.getStyleClass().add("category-header");
 		main.getChildren().add(descriptionCategoryHeader);
 
-		final VBox description = new VBox(V_SPACE);
-		final HBox descriptionLine1 = new HBox(H_SPACE);
-		final HBox descriptionLine2 = new HBox(H_SPACE);
+		final VBox description = new VBox(ViewLayout.V_SPACE);
+		final HBox descriptionLine1 = new HBox(ViewLayout.H_SPACE);
+		final HBox descriptionLine2 = new HBox(ViewLayout.H_SPACE);
 		Label itemLabel = new Label("Item");
-		itemLabel.setPrefWidth(LABEL_WIDTH);
+		itemLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox itemTextField = new ViewBox(material.getItem(),
 				material.itemProperty(), true);
 		Label sizeLabel = new Label("Size");
-		sizeLabel.setPrefWidth(LABEL_WIDTH);
+		sizeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox sizeTextField = new ViewBox(material.getSize(),
 				material.sizeProperty(), true);
 		Label quantityLabel = new Label("Test Quantity");
-		quantityLabel.setPrefWidth(LABEL_WIDTH);
+		quantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewIntegerBox quantityTextField = new ViewIntegerBox(
 				material.getTestQuantity(), material.testQuantityProperty(),
 				true);
 		Label heatNumberLabel = new Label("Heat / Lot Number");
-		heatNumberLabel.setPrefWidth(LABEL_WIDTH);
+		heatNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox heatNumberTextField = new ViewBox(
 				material.getHeatNumber(), material.heatNumberProperty(), true);
 		Label plateNumberLabel = new Label("Plate / Product Number");
-		plateNumberLabel.setPrefWidth(LABEL_WIDTH);
+		plateNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox plateNumberTextField = new ViewBox(
 				material.getPlateNumber(), material.plateNumberProperty(), true);
 		Label productQuantityLabel = new Label("Offered Quantity");
-		productQuantityLabel.setPrefWidth(LABEL_WIDTH);
+		productQuantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewIntegerBox productQuantityViewBox = new ViewIntegerBox(
 				material.getOfferedQuantity(),
 				material.offeredQuantityProperty(), true);
@@ -331,41 +328,41 @@ public class ViewMaterial {
 		otherCategoryHeader.getStyleClass().add("category-header");
 		main.getChildren().add(otherCategoryHeader);
 
-		final VBox otherDetails = new VBox(V_SPACE);
-		final HBox otherDetailsLine1 = new HBox(H_SPACE);
-		final HBox otherDetailsLine2 = new HBox(H_SPACE);
-		final HBox otherDetailsLine3 = new HBox(H_SPACE);
+		final VBox otherDetails = new VBox(ViewLayout.V_SPACE);
+		final HBox otherDetailsLine1 = new HBox(ViewLayout.H_SPACE);
+		final HBox otherDetailsLine2 = new HBox(ViewLayout.H_SPACE);
+		final HBox otherDetailsLine3 = new HBox(ViewLayout.H_SPACE);
 		Label custLabel = new Label("Customer");
-		custLabel.setPrefWidth(LABEL_WIDTH);
+		custLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox custTextField = new ViewBox(material.getCustomer(),
 				material.customerProperty(), true);
 		Label equipLabel = new Label("Equipments");
-		equipLabel.setPrefWidth(LABEL_WIDTH);
+		equipLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox equipTextField = new ViewBox(material.getEquipments(),
 				material.equipmentsProperty(), true);
 		Label labLabel = new Label("Laboratory");
-		labLabel.setPrefWidth(LABEL_WIDTH);
+		labLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox labTextField = new ViewBox(material.getLaboratory(),
 				material.laboratoryProperty(), true);
 		Label repDateLabel = new Label("Report Date");
-		repDateLabel.setPrefWidth(LABEL_WIDTH);
+		repDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox repDateTextField = new ViewBox(material.getReportDate(),
 				material.reportDateProperty(), true);
 		Label repNumberLabel = new Label("Report Number");
-		repNumberLabel.setPrefWidth(LABEL_WIDTH);
+		repNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox repNumberTextField = new ViewBox(
 				material.getReportNumber(), material.reportNumberProperty(),
 				true);
 		Label remarksLabel = new Label("Remarks");
-		remarksLabel.setPrefWidth(LABEL_WIDTH);
+		remarksLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox remarksTextField = new ViewBox(material.getRemarks(),
 				material.remarksProperty(), true);
 		Label resulLabel = new Label("Result");
-		resulLabel.setPrefWidth(LABEL_WIDTH);
+		resulLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox resultTextField = new ViewBox(material.getResult(),
 				material.resultProperty(), true);
 		Label witnessedByLabel = new Label("Witnessed By");
-		witnessedByLabel.setPrefWidth(LABEL_WIDTH);
+		witnessedByLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox witnessedByTextField = new ViewBox(
 				material.getWitnessedBy(), material.witnessedByProperty(), true);
 		otherDetailsLine1.getChildren().addAll(custLabel, custTextField,
@@ -390,11 +387,11 @@ public class ViewMaterial {
 		main.getChildren().add(resonBox);
 
 		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.getStyleClass().add("noborder-scroll-pane");
+		scrollPane.getStyleClass().addAll("noborder-scroll-pane", "texture-bg");
 		scrollPane.setFitToWidth(true);
 		scrollPane.setContent(main);
 
 		tab.setContent(scrollPane);
-		return tab;
+		getTabs().add(tab);
 	}
 }

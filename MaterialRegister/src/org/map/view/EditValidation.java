@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -14,7 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import org.map.MaterialRegister;
 import org.map.controls.EditableBox;
@@ -24,25 +22,14 @@ import org.map.hibernate.dao.ValidationData;
 import org.map.hibernate.ddo.ValidationMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
+import org.map.utils.ViewLayout;
 
-public class EditValidation {
+public class EditValidation extends ScrollPane {
 
-	private double LABEL_WIDTH = 180;
-	private double H_SPACE = 8;
-	private double V_SPACE = 20;
-
-	public Node createView() {
+	public EditValidation() {
 
 		try {
-			final VBox main = new VBox(H_SPACE) {
-
-				@Override
-				protected double computePrefHeight(double width) {
-
-					return Math.max(super.computePrefHeight(width), getParent()
-							.getBoundsInLocal().getHeight());
-				}
-			};
+			VBox main = new VBox(ViewLayout.H_SPACE);
 			main.getStyleClass().add("category-page");
 
 			Label header = new Label("Edit Validation");
@@ -55,8 +42,8 @@ public class EditValidation {
 			detailCategoryHeader.getStyleClass().add("category-header");
 			main.getChildren().add(detailCategoryHeader);
 
-			final HBox validationBox = new HBox(V_SPACE);
-			final VBox validationTop = new VBox(V_SPACE);
+			final HBox validationBox = new HBox(ViewLayout.V_SPACE);
+			final VBox validationTop = new VBox(ViewLayout.V_SPACE);
 			final ObservableList<String> validationTypes = FXCollections
 					.observableArrayList(ValidationData.getValidationTypes());
 			final ListView<String> validationTypeListView = new ListView<>(
@@ -64,7 +51,7 @@ public class EditValidation {
 			validationTypeListView.setPrefSize(300, 234);
 			validationTop.getChildren().addAll(validationTypeListView);
 
-			final VBox validationBottom = new VBox(V_SPACE);
+			final VBox validationBottom = new VBox(ViewLayout.V_SPACE);
 			final ObservableList<String> validationResult = FXCollections
 					.observableArrayList();
 			final ListView<String> validationResultListView = new ListView<>(
@@ -73,32 +60,32 @@ public class EditValidation {
 			validationBottom.getChildren().addAll(validationResultListView);
 
 			final ValidationMaster validation = new ValidationMaster();
-			final VBox validationRight = new VBox(V_SPACE);
-			final HBox validationType = new HBox(H_SPACE);
+			final VBox validationRight = new VBox(ViewLayout.V_SPACE);
+			final HBox validationType = new HBox(ViewLayout.H_SPACE);
 			Label validationTypeLabel = new Label("Validation Type");
-			validationTypeLabel.setPrefWidth(LABEL_WIDTH);
+			validationTypeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final ViewBox validationTypeBox = new ViewBox("", validation
 					.getId().validationTypeProperty(), true);
 			validationType.getChildren().addAll(validationTypeLabel,
 					validationTypeBox);
-			final HBox validationCode = new HBox(H_SPACE);
+			final HBox validationCode = new HBox(ViewLayout.H_SPACE);
 			Label validationCodeLabel = new Label("Validation Code");
-			validationCodeLabel.setPrefWidth(LABEL_WIDTH);
+			validationCodeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final ViewIntegerBox validationCodeBox = new ViewIntegerBox(0,
 					validation.getId().validationCodeProperty(), true);
 			validationCode.getChildren().addAll(validationCodeLabel,
 					validationCodeBox);
-			final HBox validationName = new HBox(H_SPACE);
+			final HBox validationName = new HBox(ViewLayout.H_SPACE);
 			Label validationNameLabel = new Label("Validation Name");
-			validationNameLabel.setPrefWidth(LABEL_WIDTH);
+			validationNameLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final EditableBox validationNameBox = new EditableBox("",
 					"Validation Name", validation.validationNameProperty(),
 					true);
 			validationName.getChildren().addAll(validationNameLabel,
 					validationNameBox);
-			final HBox validationDesc = new HBox(H_SPACE);
+			final HBox validationDesc = new HBox(ViewLayout.H_SPACE);
 			Label validationDescLabel = new Label("Validation Description");
-			validationDescLabel.setPrefWidth(LABEL_WIDTH);
+			validationDescLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final EditableBox validationDescBox = new EditableBox("",
 					"Validation Desc", validation.validationDescProperty(),
 					true);
@@ -142,7 +129,7 @@ public class EditValidation {
 						}
 					});
 
-			final HBox buttons = new HBox(H_SPACE);
+			final HBox buttons = new HBox(ViewLayout.H_SPACE);
 			buttons.setTranslateY(32);
 			final Button updateButton = new Button("Update");
 			updateButton.getStyleClass().add("submit-button");
@@ -176,19 +163,14 @@ public class EditValidation {
 					validationRight);
 			main.getChildren().addAll(validationBox);
 
-			ScrollPane scrollPane = new ScrollPane();
-			scrollPane.getStyleClass().add("noborder-scroll-pane");
-			scrollPane.setFitToWidth(true);
-			scrollPane.setContent(main);
-
-			return scrollPane;
+			getStyleClass().addAll("noborder-scroll-pane", "texture-bg");
+			setFitToWidth(true);
+			setContent(main);
 		} catch (Exception e) {
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(MaterialRegister.getMaterialRegister()
 					.getPrimaryStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
-			return new Text("Failed to create sample because of ["
-					+ e.getMessage() + "]");
 		}
 	}
 }

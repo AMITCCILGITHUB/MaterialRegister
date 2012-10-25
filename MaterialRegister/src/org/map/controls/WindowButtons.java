@@ -1,10 +1,14 @@
 package org.map.controls;
 
+import java.io.File;
+import java.net.MalformedURLException;
+
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -18,7 +22,7 @@ public class WindowButtons extends VBox {
 	private Rectangle2D backupWindowBounds = null;
 	private boolean maximized = false;
 
-	public WindowButtons(final Stage stage) {
+	public WindowButtons(final Stage stage) throws MalformedURLException {
 
 		super(4);
 		this.stage = stage;
@@ -52,6 +56,16 @@ public class WindowButtons extends VBox {
 				toogleMaximized();
 			}
 		});
+
+		Image[] icon = {
+				new Image(new File("resources/images/mr_logo_16.png").toURI()
+						.toURL().toString()),
+				new Image(new File("resources/images/mr_logo_24.png").toURI()
+						.toURL().toString()),
+				new Image(new File("resources/images/mr_logo_32.png").toURI()
+						.toURL().toString()) };
+		stage.getIcons().addAll(icon);
+
 		getChildren().addAll(closeBtn, minBtn, maxBtn);
 	}
 

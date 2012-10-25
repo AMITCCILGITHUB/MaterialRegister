@@ -1,6 +1,7 @@
 package org.map.login;
 
 import java.io.File;
+import java.net.MalformedURLException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -8,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -61,7 +63,7 @@ public class Login extends Application {
 	}
 
 	@Override
-	public void start(final Stage primaryStage) {
+	public void start(final Stage primaryStage) throws MalformedURLException {
 
 		LoggerUtil.getLogger().info("Application Started");
 		outerPrimaryStage = primaryStage;
@@ -213,6 +215,15 @@ public class Login extends Application {
 				root.setStyle("-fx-cursor:move;");
 			}
 		});
+
+		Image[] icon = {
+				new Image(new File("resources/images/mr_logo_16.png").toURI()
+						.toURL().toString()),
+				new Image(new File("resources/images/mr_logo_24.png").toURI()
+						.toURL().toString()),
+				new Image(new File("resources/images/mr_logo_32.png").toURI()
+						.toURL().toString()) };
+		primaryStage.getIcons().addAll(icon);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();

@@ -2,15 +2,14 @@ package org.map.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import org.map.MaterialRegister;
 import org.map.controls.CustomComboBox;
@@ -20,25 +19,13 @@ import org.map.hibernate.dao.UserData;
 import org.map.hibernate.ddo.UserMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
+import org.map.utils.ViewLayout;
 
-public class AddUser {
+public class AddUser extends ScrollPane {
 
-	private double LABEL_WIDTH = 180;
-	private double H_SPACE = 8;
-	private double V_SPACE = 20;
-
-	public Node createView() {
-
+	public AddUser() {
 		try {
-			final VBox main = new VBox(H_SPACE) {
-
-				@Override
-				protected double computePrefHeight(double width) {
-
-					return Math.max(super.computePrefHeight(width), getParent()
-							.getBoundsInLocal().getHeight());
-				}
-			};
+			VBox main = new VBox(ViewLayout.H_SPACE);
 			main.getStyleClass().add("category-page");
 
 			Label header = new Label("Add User Details");
@@ -52,36 +39,42 @@ public class AddUser {
 			main.getChildren().add(detailCategoryHeader);
 
 			final UserMaster newUser = new UserMaster();
-			final VBox userDetailsVBox = new VBox(V_SPACE);
-			final HBox userNameHBox = new HBox(H_SPACE);
+
+			GridPane form = new GridPane();
+			form.setHgap(ViewLayout.H_SPACE);
+			form.setVgap(ViewLayout.V_SPACE);
+
 			Label userNameLabel = new Label("User Name");
-			userNameLabel.setPrefWidth(LABEL_WIDTH);
+			userNameLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final TextBox userNameTextBox = new TextBox("", "User Name",
 					newUser.userNameProperty(), true);
-			final HBox passwordHBox = new HBox(H_SPACE);
+
 			Label passwordLabel = new Label("Password");
-			passwordLabel.setPrefWidth(LABEL_WIDTH);
+			passwordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final PasswordBox passwordBox = new PasswordBox("", "Password",
 					newUser.passwordProperty(), true);
-			final HBox confirmPasswordHBox = new HBox(H_SPACE);
+
 			Label confirmPasswordLabel = new Label("Confirm Password");
-			confirmPasswordLabel.setPrefWidth(LABEL_WIDTH);
+			confirmPasswordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final PasswordBox confirmPasswordBox = new PasswordBox("",
 					"Confirm Password");
-			final HBox roleHBox = new HBox(H_SPACE);
+
 			Label roleLabel = new Label("Role");
-			roleLabel.setPrefWidth(LABEL_WIDTH);
+			roleLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final CustomComboBox roleChoiceBox = new CustomComboBox("", "Role",
 					"Role", newUser.roleProperty(), true);
-			userNameHBox.getChildren().addAll(userNameLabel, userNameTextBox);
-			passwordHBox.getChildren().addAll(passwordLabel, passwordBox);
-			confirmPasswordHBox.getChildren().addAll(confirmPasswordLabel,
-					confirmPasswordBox);
-			roleHBox.getChildren().addAll(roleLabel, roleChoiceBox);
-			userDetailsVBox.getChildren().addAll(userNameHBox, passwordHBox,
-					confirmPasswordHBox, roleHBox);
 
-			final HBox buttons = new HBox(H_SPACE);
+			form.add(userNameLabel, 0, 0);
+			form.add(userNameTextBox, 1, 0);
+			form.add(passwordLabel, 0, 1);
+			form.add(passwordBox, 1, 1);
+			form.add(confirmPasswordLabel, 0, 2);
+			form.add(confirmPasswordBox, 1, 2);
+			form.add(roleLabel, 0, 3);
+			form.add(roleChoiceBox, 1, 3);
+			main.getChildren().add(form);
+
+			final HBox buttons = new HBox(ViewLayout.H_SPACE);
 			buttons.setTranslateY(32);
 			final Button submitButton = new Button("Submit");
 			submitButton.getStyleClass().add("submit-button");
@@ -142,22 +135,17 @@ public class AddUser {
 			});
 			buttons.getChildren().addAll(submitButton, resetButton);
 
-			main.getChildren().addAll(userDetailsVBox, buttons);
+			main.getChildren().add(buttons);
 			VBox.setVgrow(main, Priority.ALWAYS);
 
-			ScrollPane scrollPane = new ScrollPane();
-			scrollPane.getStyleClass().add("noborder-scroll-pane");
-			scrollPane.setFitToWidth(true);
-			scrollPane.setContent(main);
-
-			return scrollPane;
+			getStyleClass().addAll("noborder-scroll-pane", "texture-bg");
+			setFitToWidth(true);
+			setContent(main);
 		} catch (Exception e) {
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(MaterialRegister.getMaterialRegister()
 					.getPrimaryStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
-			return new Text("Failed to create sample because of ["
-					+ e.getMessage() + "]");
 		}
 	}
 }

@@ -1,13 +1,10 @@
 package org.map.view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -19,10 +16,10 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import org.map.MaterialRegister;
@@ -33,34 +30,33 @@ import org.map.hibernate.dao.UserData;
 import org.map.hibernate.ddo.UserMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
+import org.map.utils.Confirm;
+import org.map.utils.TableContextMenu;
 
-public class EditUser {
+public class EditUser extends TabPane {
 
 	private double COLUMN_WIDTH = 100;
 	private double COLUMN_WIDTH_MAX = 120;
 	private double LABEL_WIDTH = 100;
 	private double H_SPACE = 8;
 	private double V_SPACE = 20;
-	private TabPane tabPane = new TabPane();
 
-	public Node createView() {
-		Tab tab = new Tab("Master");
+	public EditUser() {
+		Tab tab = new Tab("Edit User : Search");
 
 		try {
-			final VBox main = new VBox(H_SPACE) {
-
-				@Override
-				protected double computePrefHeight(double width) {
-
-					return Math.max(super.computePrefHeight(width), getParent()
-							.getBoundsInLocal().getHeight());
-				}
-			};
+			VBox main = new VBox(H_SPACE);
 			main.getStyleClass().add("category-page");
 
-			Label header = new Label("Edit User");
+			Label header = new Label("Edit User Details");
 			header.getStyleClass().add("page-header");
 			main.getChildren().add(header);
+
+			Label detailCategoryHeader = new Label("Details");
+			detailCategoryHeader.setMaxWidth(Double.MAX_VALUE);
+			detailCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
+			detailCategoryHeader.getStyleClass().add("category-header");
+			main.getChildren().add(detailCategoryHeader);
 
 			final TableView<UserMaster> tableMailbox = new TableView<>();
 			TableColumn MCol1 = new TableColumn("User Name");
@@ -111,43 +107,121 @@ public class EditUser {
 					.observableArrayList(UserData.getUserList());
 			tableMailbox.setItems(mailboxData);
 
-			tableMailbox.getSelectionModel().selectedItemProperty()
-					.addListener(new ChangeListener() {
+			EventHandler<ActionEvent> editUserEventHandler = new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent actionEvent) {
+
+					UserMaster selUSer = tableMailbox.getSelectionModel()
+							.getSelectedItem();
+					if (selUSer != null) {
+						createEditTab(selUSer);
+					}
+				}
+			};
+
+			EventHandler<ActionEvent> undoUserEventHandler = new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent actionEvent) {
+
+					final UserMaster delUser = tableMailbox.getSelectionModel()
+							.getSelectedItem();
+
+					EventHandler<ActionEvent> delUserEvent = new EventHandler<ActionEvent>() {
 
 						@Override
-						public void changed(ObservableValue observable,
-								Object oldValue, Object newValue) {
+						public void handle(ActionEvent arg0) {
+							delUser.setUserStatus("TRUE");
+							UserData.updateUser(delUser);
 
-							UserMaster selUSer = tableMailbox
-									.getSelectionModel().getSelectedItem();
-							if (selUSer != null) {
-								tabPane.getTabs().add(createEditTab(selUSer));
-							}
+							mailboxData.clear();
+							mailboxData.addAll(UserData.getUserList());
 						}
-					});
+					};
+
+					Confirm.showConfirm(MaterialRegister.getMaterialRegister()
+							.getPrimaryStage(), "Confirm", "Confirm",
+							"Restore User : " + delUser.getUserName()
+									+ ". Are you sure?", delUserEvent);
+				}
+			};
+
+			EventHandler<ActionEvent> deleteUserEventHandler = new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent actionEvent) {
+
+					final UserMaster delUser = tableMailbox.getSelectionModel()
+							.getSelectedItem();
+
+					EventHandler<ActionEvent> delUserEvent = new EventHandler<ActionEvent>() {
+
+						@Override
+						public void handle(ActionEvent arg0) {
+							delUser.setUserStatus("FALSE");
+							UserData.updateUser(delUser);
+
+							mailboxData.clear();
+							mailboxData.addAll(UserData.getUserList());
+						}
+					};
+
+					Confirm.showConfirm(MaterialRegister.getMaterialRegister()
+							.getPrimaryStage(), "Confirm", "Confirm",
+							"Delete User : " + delUser.getUserName()
+									+ ". Are you sure?", delUserEvent);
+				}
+			};
+
+			tableMailbox.setContextMenu(TableContextMenu
+					.getEditUserContextMenu(editUserEventHandler,
+							undoUserEventHandler, deleteUserEventHandler));
+
+			tableMailbox.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+				@Override
+				public void handle(MouseEvent mouseEvent) {
+					if (mouseEvent.getClickCount() == 2) {
+
+						UserMaster selUSer = tableMailbox.getSelectionModel()
+								.getSelectedItem();
+						if (selUSer != null) {
+							createEditTab(selUSer);
+						}
+					}
+
+				}
+
+			});
 
 			ScrollPane scrollPane = new ScrollPane();
-			scrollPane.getStyleClass().add("noborder-scroll-pane");
+			scrollPane.getStyleClass().addAll("noborder-scroll-pane",
+					"texture-bg");
 			scrollPane.setFitToWidth(true);
 			scrollPane.setContent(main);
 
 			tab.setContent(scrollPane);
 			tab.setClosable(false);
-			tabPane.getTabs().add(tab);
-			tabPane.setSide(Side.TOP);
-
-			return tabPane;
+			getTabs().add(tab);
+			setSide(Side.TOP);
 		} catch (Exception e) {
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(MaterialRegister.getMaterialRegister()
 					.getPrimaryStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
-			return new Text("Failed to create sample because of ["
-					+ e.getMessage() + "]");
 		}
 	}
 
-	private Tab createEditTab(final UserMaster user) {
+	private void createEditTab(final UserMaster user) {
+		for (Tab selTab : getTabs()) {
+			if (selTab.getId() != null
+					&& selTab.getId().equalsIgnoreCase(user.getUserName())) {
+				getSelectionModel().select(selTab);
+				return;
+			}
+		}
+
 		Tab tab = new Tab("Edit User : " + user.getUserName());
 		tab.setId(user.getUserName());
 
@@ -172,28 +246,26 @@ public class EditUser {
 		detailCategoryHeader.getStyleClass().add("category-header");
 		main.getChildren().add(detailCategoryHeader);
 
-		final UserMaster newUser = new UserMaster();
 		final VBox userDetailsVBox = new VBox(V_SPACE);
 		final HBox userNameHBox = new HBox(H_SPACE);
 		Label userNameLabel = new Label("User Name");
 		userNameLabel.setPrefWidth(LABEL_WIDTH);
-		ViewBox userNameTextBox = new ViewBox("", newUser.userNameProperty(),
-				true);
+		ViewBox userNameTextBox = new ViewBox("", user.userNameProperty(), true);
 		final HBox passwordHBox = new HBox(H_SPACE);
 		Label passwordLabel = new Label("Password");
 		passwordLabel.setPrefWidth(LABEL_WIDTH);
 		final PasswordBox passwordBox = new PasswordBox("", "Password",
-				newUser.passwordProperty(), true);
+				user.passwordProperty(), true);
 		final HBox confirmPasswordHBox = new HBox(H_SPACE);
 		Label confirmPasswordLabel = new Label("Confirm Password");
 		confirmPasswordLabel.setPrefWidth(LABEL_WIDTH);
 		final PasswordBox confirmPasswordBox = new PasswordBox("",
-				"Confirm Password");
+				"Confirm Password", user.passwordProperty(), true);
 		final HBox roleHBox = new HBox(H_SPACE);
 		Label roleLabel = new Label("Role");
 		roleLabel.setPrefWidth(LABEL_WIDTH);
 		final EComboBox roleChoiceBox = new EComboBox("", "Role", "Role",
-				newUser.roleProperty(), true);
+				user.roleProperty(), true);
 		userNameHBox.getChildren().addAll(userNameLabel, userNameTextBox);
 		passwordHBox.getChildren().addAll(passwordLabel, passwordBox);
 		confirmPasswordHBox.getChildren().addAll(confirmPasswordLabel,
@@ -219,7 +291,7 @@ public class EditUser {
 					if (passwordBox.getText().equalsIgnoreCase(
 							confirmPasswordBox.getText())) {
 						if (roleChoiceBox.getText().trim().length() > 0) {
-							UserData.updateUser(newUser);
+							UserData.updateUser(user);
 
 							Alert.showAlert(MaterialRegister
 									.getMaterialRegister().getPrimaryStage(),
@@ -249,11 +321,11 @@ public class EditUser {
 		buttons.getChildren().addAll(updateButton);
 
 		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.getStyleClass().add("noborder-scroll-pane");
+		scrollPane.getStyleClass().addAll("noborder-scroll-pane", "texture-bg");
 		scrollPane.setFitToWidth(true);
 		scrollPane.setContent(main);
 
 		tab.setContent(scrollPane);
-		return tab;
+		getTabs().add(tab);
 	}
 }

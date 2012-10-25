@@ -1,6 +1,7 @@
 package org.map;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -91,7 +92,7 @@ public class MaterialRegister {
 		return primaryStage;
 	}
 
-	public void show() {
+	public void show() throws MalformedURLException {
 
 		if (primaryStage == null) {
 			this.primaryStage = new Stage();
@@ -401,59 +402,59 @@ public class MaterialRegister {
 
 		if (page.trim().equalsIgnoreCase("TreeItem [ value: Add User ]")) {
 			AddUser addDetail = new AddUser();
-			pageArea.getChildren().setAll(addDetail.createView());
+			pageArea.getChildren().setAll(addDetail);
 		} else if (page.trim()
 				.equalsIgnoreCase("TreeItem [ value: View User ]")) {
 			ViewUser viewDetail = new ViewUser();
-			pageArea.getChildren().setAll(viewDetail.createView());
+			pageArea.getChildren().setAll(viewDetail);
 		} else if (page.trim()
 				.equalsIgnoreCase("TreeItem [ value: Edit User ]")) {
 			EditUser editDetail = new EditUser();
-			pageArea.getChildren().setAll(editDetail.createView());
+			pageArea.getChildren().setAll(editDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: Add Material ]")) {
 			AddMaterial addDetail = new AddMaterial();
-			pageArea.getChildren().setAll(addDetail.createView());
+			pageArea.getChildren().setAll(addDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: View Material ]")) {
 			ViewMaterial viewDetail = new ViewMaterial();
-			pageArea.getChildren().setAll(viewDetail.createView());
+			pageArea.getChildren().setAll(viewDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: Edit Material ]")) {
 			EditMaterial editDetail = new EditMaterial();
-			pageArea.getChildren().setAll(editDetail.createView());
+			pageArea.getChildren().setAll(editDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: Add Validation ]")) {
 			AddValidation addDetail = new AddValidation();
-			pageArea.getChildren().setAll(addDetail.createView());
+			pageArea.getChildren().setAll(addDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: View Validation ]")) {
 			ViewValidation viewDetail = new ViewValidation();
-			pageArea.getChildren().setAll(viewDetail.createView());
+			pageArea.getChildren().setAll(viewDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: Edit Validation ]")) {
 			EditValidation editDetail = new EditValidation();
-			pageArea.getChildren().setAll(editDetail.createView());
+			pageArea.getChildren().setAll(editDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: View Material Register ]")) {
 			ViewReport viewReport = new ViewReport();
-			pageArea.getChildren().setAll(viewReport.createView());
+			pageArea.getChildren().setAll(viewReport);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: Add Heat Chart ]")) {
 			AddHeatChart addDetail = new AddHeatChart();
-			pageArea.getChildren().setAll(addDetail.createView());
+			pageArea.getChildren().setAll(addDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: View Heat Chart ]")) {
 			ViewHeatChart viewDetail = new ViewHeatChart();
-			pageArea.getChildren().setAll(viewDetail.createView());
+			pageArea.getChildren().setAll(viewDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: Edit Heat Chart ]")) {
 			EditHeatChart editDetail = new EditHeatChart();
-			pageArea.getChildren().setAll(editDetail.createView());
+			pageArea.getChildren().setAll(editDetail);
 		} else if (page.trim().equalsIgnoreCase(
 				"TreeItem [ value: Change Password ]")) {
 			ChangePassword changePassword = new ChangePassword();
-			pageArea.getChildren().setAll(changePassword.createView());
+			pageArea.getChildren().setAll(changePassword);
 		}
 	}
 
@@ -465,7 +466,7 @@ public class MaterialRegister {
 
 			ViewMaterial viewDetail = new ViewMaterial();
 			viewDetail.setCtNumber(ctNumber);
-			pageArea.getChildren().setAll(viewDetail.createView());
+			pageArea.getChildren().setAll(viewDetail);
 		} else {
 			goToPage(page);
 		}

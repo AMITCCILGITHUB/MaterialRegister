@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -14,31 +13,20 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 import org.map.MaterialRegister;
 import org.map.hibernate.dao.ValidationData;
 import org.map.hibernate.ddo.ValidationMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
+import org.map.utils.ViewLayout;
 
-public class ViewValidation {
+public class ViewValidation extends ScrollPane {
 
-	private double H_SPACE = 8;
-	private double V_SPACE = 20;
-
-	public Node createView() {
+	public ViewValidation() {
 
 		try {
-			final VBox main = new VBox(H_SPACE) {
-
-				@Override
-				protected double computePrefHeight(double width) {
-
-					return Math.max(super.computePrefHeight(width), getParent()
-							.getBoundsInLocal().getHeight());
-				}
-			};
+			VBox main = new VBox(ViewLayout.H_SPACE);
 			main.getStyleClass().add("category-page");
 
 			Label header = new Label("View Validation");
@@ -51,9 +39,9 @@ public class ViewValidation {
 			detailCategoryHeader.getStyleClass().add("category-header");
 			main.getChildren().add(detailCategoryHeader);
 
-			final HBox validationBox = new HBox(V_SPACE);
+			final HBox validationBox = new HBox(ViewLayout.V_SPACE);
 
-			final VBox validationLeft = new VBox(V_SPACE);
+			final VBox validationLeft = new VBox(ViewLayout.V_SPACE);
 			final ObservableList<String> validationTypes = FXCollections
 					.observableArrayList(ValidationData.getValidationTypes());
 			final ListView<String> validationTypeListView = new ListView<>(
@@ -61,7 +49,7 @@ public class ViewValidation {
 			validationTypeListView.setPrefSize(300, 234);
 			validationLeft.getChildren().addAll(validationTypeListView);
 
-			final VBox validationRight = new VBox(V_SPACE);
+			final VBox validationRight = new VBox(ViewLayout.V_SPACE);
 			final ObservableList<String> validationResult = FXCollections
 					.observableArrayList();
 			final ListView<String> validationResultListView = new ListView<>(
@@ -108,7 +96,7 @@ public class ViewValidation {
 						}
 					});
 
-			final HBox buttons = new HBox(H_SPACE);
+			final HBox buttons = new HBox(ViewLayout.H_SPACE);
 			buttons.setTranslateY(32);
 
 			final Button submitButton = new Button("Submit");
@@ -126,19 +114,14 @@ public class ViewValidation {
 			validationBox.getChildren().addAll(validationLeft, validationRight);
 			main.getChildren().addAll(validationBox);
 
-			ScrollPane scrollPane = new ScrollPane();
-			scrollPane.getStyleClass().add("noborder-scroll-pane");
-			scrollPane.setFitToWidth(true);
-			scrollPane.setContent(main);
-
-			return scrollPane;
+			getStyleClass().addAll("noborder-scroll-pane", "texture-bg");
+			setFitToWidth(true);
+			setContent(main);
 		} catch (Exception e) {
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(MaterialRegister.getMaterialRegister()
 					.getPrimaryStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
-			return new Text("Failed to create sample because of ["
-					+ e.getMessage() + "]");
 		}
 	}
 }
