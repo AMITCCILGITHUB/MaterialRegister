@@ -55,12 +55,12 @@ public class EIntegerBox extends Region {
 
 	private void initComponent(Integer textValue, String promptText) {
 
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new IntField(0);
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 		textBox.setValue(textValue);
 		textBox.setDisable(true);
 		textBox.setPromptText(promptText);

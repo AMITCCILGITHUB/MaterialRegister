@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -25,62 +24,56 @@ import javafx.scene.layout.Region;
 import javafx.util.Duration;
 
 import org.map.hibernate.dao.ValidationData;
+import org.map.hibernate.ddo.LaboratoryMaster;
+import org.map.hibernate.ddo.LaboratoryProperty;
 import org.map.utils.Layout;
 
-public class ComboSBox extends Region {
+public class LaboratoryComboBox extends Region {
 
+	private LaboratoryProperty laboratoryProperty;
 	private TextField textBox;
 	private Button errorButton;
 	private ContextMenu resultContextMenu = new ContextMenu();
 	private Tooltip searchErrorTooltip = new Tooltip();
 	private Timeline searchErrorTooltipHidder = null;
 
-	public ComboSBox() {
+	public LaboratoryComboBox() {
 
-		initComponent("", "");
+		laboratoryProperty = new LaboratoryProperty();
+		initComponent();
 	}
 
-	public ComboSBox(String textValue, String promptText) {
+	public LaboratoryComboBox(String promptText) {
 
-		initComponent(textValue, promptText);
+		laboratoryProperty = new LaboratoryProperty();
+		initComponent();
+
+		textBox.setPromptText(promptText);
+		laboratoryProperty.get().laboratoryNameProperty()
+				.bindBidirectional(textBox.textProperty());
 	}
 
-	public ComboSBox(String textValue, String promptText,
-			StringProperty propertyValue, boolean bidirectional) {
+	public LaboratoryComboBox(String promptText, LaboratoryProperty laboratory) {
 
-		if (textValue.trim().length() > 0) {
-			initComponent(textValue, promptText);
-		} else {
-			initComponent(propertyValue.getValue(), promptText);
-		}
+		laboratoryProperty = new LaboratoryProperty();
+		initComponent();
 
-		if (bidirectional) {
-			textBox.textProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.textProperty().bind(propertyValue);
-		}
+		textBox.setPromptText(promptText);
+		laboratoryProperty.bindBidirectional(laboratory);
+		laboratoryProperty.get().laboratoryNameProperty()
+				.bindBidirectional(textBox.textProperty());
 	}
 
-	public void bind(StringProperty propertyValue) {
+	private void initComponent() {
 
-		textBox.textProperty().bind(propertyValue);
-	}
+		setId("ResultBox");
 
-	public void bindBidirectional(StringProperty propertyValue) {
-
-		textBox.textProperty().bindBidirectional(propertyValue);
-	}
-
-	private void initComponent(String textValue, String promptText) {
-
-		setMinHeight(Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxHeight(Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new TextField();
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
-		textBox.setText(textValue);
-		textBox.setPromptText(promptText);
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 
 		errorButton = new Button();
 		errorButton.getStyleClass().add("error-button");
@@ -115,6 +108,7 @@ public class ComboSBox extends Region {
 		});
 
 		getChildren().addAll(textBox, errorButton);
+		resultContextMenu.setAutoFix(true);
 		showResults();
 	}
 
@@ -133,7 +127,6 @@ public class ComboSBox extends Region {
 
 		textBox.resize(getWidth(), getHeight());
 		errorButton.resizeRelocate(getWidth() - 18, 6, 12, 13);
-
 	}
 
 	private void showError(TextField textBox, String message) {
@@ -191,6 +184,8 @@ public class ComboSBox extends Region {
 					resultContextMenu.requestFocus();
 				} else if (keyEvent.getCode() == KeyCode.ENTER) {
 					resultContextMenu.hide();
+				} else if (keyEvent.getCode() == KeyCode.ESCAPE) {
+					resultContextMenu.hide();
 				}
 			}
 		});
@@ -208,9 +203,9 @@ public class ComboSBox extends Region {
 						}
 						showError(null, null);
 					} else {
+						List<LaboratoryMaster> resultList = ValidationData
+								.getLaboratoryList();
 
-						List<String> resultList = ValidationData
-								.getValidationTypes();
 						if (resultList.size() > 0) {
 							showError(null, null);
 							populateMenu(resultList);
@@ -231,15 +226,16 @@ public class ComboSBox extends Region {
 		});
 	}
 
-	private void populateMenu(List<String> resultList) {
+	private void populateMenu(List<LaboratoryMaster> resultList) {
 
 		resultContextMenu.getItems().clear();
-		Iterator<String> results = resultList.iterator();
+		Iterator<LaboratoryMaster> results = resultList.iterator();
+
 		while (results.hasNext()) {
-			final String result = (String) results.next();
+			final LaboratoryMaster result = (LaboratoryMaster) results.next();
 			final HBox hBox = new HBox();
 			hBox.setFillHeight(true);
-			Label itemLabel = new Label(result);
+			Label itemLabel = new Label(result.getLaboratoryName());
 			itemLabel.getStyleClass().add("item-label");
 			hBox.getChildren().addAll(itemLabel);
 
@@ -256,14 +252,14 @@ public class ComboSBox extends Region {
 				@Override
 				public void handle(ActionEvent actionEvent) {
 
-					textBox.setText(result);
+					laboratoryProperty.set(result);
 				}
 			});
 		}
 	}
 
-	public void addFocusListener(ChangeListener<Boolean> focusChangeListener) {
+	public LaboratoryProperty laboratoryProperty() {
 
-		textBox.focusedProperty().addListener(focusChangeListener);
+		return laboratoryProperty;
 	}
 }

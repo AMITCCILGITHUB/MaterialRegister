@@ -48,7 +48,7 @@ public class ChangePassword extends ScrollPane {
 			Label passwordLabel = new Label("Password");
 			passwordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final PasswordBox passwordBox = new PasswordBox("", "Password",
-					um.passwordProperty(), true);
+					um.passwordProperty());
 			final HBox confirmPasswordHBox = new HBox(ViewLayout.H_SPACE);
 			Label confirmPasswordLabel = new Label("Confirm Password");
 			confirmPasswordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);

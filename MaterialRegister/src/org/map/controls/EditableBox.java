@@ -29,7 +29,7 @@ public class EditableBox extends Region {
 	}
 
 	public EditableBox(String textValue, String promptText,
-			StringProperty propertyValue, boolean bidirectional) {
+			StringProperty propertyValue) {
 
 		if (textValue.trim().length() > 0) {
 			initComponent(textValue, promptText);
@@ -37,11 +37,7 @@ public class EditableBox extends Region {
 			initComponent(propertyValue.getValue(), promptText);
 		}
 
-		if (bidirectional) {
-			textBox.textProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.textProperty().bind(propertyValue);
-		}
+		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
 	public void bind(StringProperty propertyValue) {
@@ -56,12 +52,12 @@ public class EditableBox extends Region {
 
 	private void initComponent(String textValue, String promptText) {
 
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new TextField();
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 		textBox.setText(textValue);
 		textBox.setDisable(true);
 		textBox.setPromptText(promptText);

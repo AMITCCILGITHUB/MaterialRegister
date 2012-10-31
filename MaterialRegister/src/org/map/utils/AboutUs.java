@@ -23,8 +23,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import org.map.logger.LoggerUtil;
-
 public class AboutUs {
 
 	private Stage stage;
@@ -58,13 +56,7 @@ public class AboutUs {
 
 		this.scene = new Scene(root, aboutWindowsWidth, aboutWindowsHeight,
 				Color.web("#FFFFFF"));
-		try {
-			File aboutStyle = new File("resources/style/style.css");
-			this.scene.getStylesheets().add(
-					aboutStyle.toURI().toURL().toExternalForm());
-		} catch (Exception e) {
-			LoggerUtil.getLogger().debug(e);
-		}
+		this.scene.getStylesheets().add(FileUtil.getStyleAsUrl("style"));
 		this.scene.setFill(Color.TRANSPARENT);
 
 		this.stage = new Stage();

@@ -27,7 +27,6 @@ import org.map.calendar.DatePicker;
 import org.map.controls.TextBox;
 import org.map.controls.ViewBox;
 import org.map.controls.ViewIntegerBox;
-import org.map.controls.ViewTestGroup;
 import org.map.hibernate.dao.MaterialData;
 import org.map.hibernate.ddo.MaterialMaster;
 import org.map.logger.LoggerUtil;
@@ -44,19 +43,11 @@ public class ViewMaterial extends TabPane {
 	}
 
 	public ViewMaterial() {
+
 		Tab tab = new Tab("View Material : Search");
 
 		try {
-			final VBox main = new VBox(ViewLayout.H_SPACE) {
-
-				@Override
-				protected double computePrefHeight(double width) {
-
-					return Math.max(super.computePrefHeight(width), getParent()
-							.getBoundsInLocal().getHeight());
-				}
-			};
-			VBox.setVgrow(main, Priority.ALWAYS);
+			VBox main = new VBox(ViewLayout.H_SPACE);
 			main.getStyleClass().add("category-page");
 
 			Label header = new Label("View Material");
@@ -72,11 +63,10 @@ public class ViewMaterial extends TabPane {
 			final HBox search1 = new HBox(ViewLayout.H_SPACE);
 			Label ctNumberFromLabel = new Label("CT No From");
 			ctNumberFromLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox ctNumberFromTextField = new TextBox("",
-					"CT Number From");
+			final TextBox ctNumberFromTextField = new TextBox("CT Number From");
 			Label ctNumberToLabel = new Label("CT No To");
 			ctNumberToLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox ctNumberToTextField = new TextBox("", "CT Number To");
+			final TextBox ctNumberToTextField = new TextBox("CT Number To");
 			final Button searchRecordButton1 = new Button("Search");
 			searchRecordButton1.getStyleClass().add("submit-button");
 			search1.getChildren().addAll(ctNumberFromLabel,
@@ -186,6 +176,7 @@ public class ViewMaterial extends TabPane {
 
 				@Override
 				public void handle(MouseEvent mouseEvent) {
+
 					if (mouseEvent.getClickCount() == 2) {
 
 						MaterialMaster selMaterial = tableMailbox
@@ -222,6 +213,7 @@ public class ViewMaterial extends TabPane {
 	}
 
 	private void createViewTab(final MaterialMaster material) {
+
 		for (Tab selTab : getTabs()) {
 			if (selTab.getId() != null
 					&& selTab.getId().equalsIgnoreCase(material.getCtNumber())) {
@@ -233,15 +225,7 @@ public class ViewMaterial extends TabPane {
 		Tab tab = new Tab("View Material : " + material.getCtNumber());
 		tab.setId(material.getCtNumber());
 
-		final VBox main = new VBox(ViewLayout.H_SPACE) {
-
-			@Override
-			protected double computePrefHeight(double width) {
-
-				return Math.max(super.computePrefHeight(width), getParent()
-						.getBoundsInLocal().getHeight());
-			}
-		};
+		VBox main = new VBox(ViewLayout.H_SPACE);
 		VBox.setVgrow(main, Priority.ALWAYS);
 		main.getStyleClass().add("category-page");
 
@@ -259,16 +243,17 @@ public class ViewMaterial extends TabPane {
 		Label ctNumberLabel = new Label("CT Number");
 		ctNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox ctNumberTextField = new ViewBox(material.getCtNumber(),
-				material.ctNumberProperty(), true);
+				material.ctNumberProperty());
 		Label agencyLabel = new Label("Inspection Agency");
 		agencyLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final ViewBox agencyTextField = new ViewBox(
-				material.getInspectionAgency(),
-				material.inspectionAgencyProperty(), true);
+		final ViewBox agencyTextField = new ViewBox(material
+				.getInspectionAgency().getAgencyName(), material
+				.getInspectionAgency().agencyNameProperty());
 		Label specLabel = new Label("Specification");
 		specLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final ViewBox specTextField = new ViewBox(material.getSpecification(),
-				material.specificationProperty(), true);
+		final ViewBox specTextField = new ViewBox(material.getSpecification()
+				.getSpecificationName(), material.getSpecification()
+				.specificationNameProperty());
 		detail.getChildren().addAll(ctNumberLabel, ctNumberTextField,
 				agencyLabel, agencyTextField, specLabel, specTextField);
 		main.getChildren().add(detail);
@@ -284,43 +269,30 @@ public class ViewMaterial extends TabPane {
 		final HBox descriptionLine2 = new HBox(ViewLayout.H_SPACE);
 		Label itemLabel = new Label("Item");
 		itemLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final ViewBox itemTextField = new ViewBox(material.getItem(),
-				material.itemProperty(), true);
+		final ViewBox itemTextField = new ViewBox(material.getItem()
+				.getItemName(), material.getItem().itemNameProperty());
 		Label sizeLabel = new Label("Size");
 		sizeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox sizeTextField = new ViewBox(material.getSize(),
-				material.sizeProperty(), true);
-		Label quantityLabel = new Label("Test Quantity");
+				material.sizeProperty());
+		Label quantityLabel = new Label("Quantity");
 		quantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewIntegerBox quantityTextField = new ViewIntegerBox(
-				material.getTestQuantity(), material.testQuantityProperty(),
-				true);
+				material.quantityProperty());
 		Label heatNumberLabel = new Label("Heat / Lot Number");
 		heatNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox heatNumberTextField = new ViewBox(
-				material.getHeatNumber(), material.heatNumberProperty(), true);
+				material.getHeatNumber(), material.heatNumberProperty());
 		Label plateNumberLabel = new Label("Plate / Product Number");
 		plateNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox plateNumberTextField = new ViewBox(
-				material.getPlateNumber(), material.plateNumberProperty(), true);
-		Label productQuantityLabel = new Label("Offered Quantity");
-		productQuantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final ViewIntegerBox productQuantityViewBox = new ViewIntegerBox(
-				material.getOfferedQuantity(),
-				material.offeredQuantityProperty(), true);
+				material.getPlateNumber(), material.plateNumberProperty());
 		descriptionLine1.getChildren().addAll(itemLabel, itemTextField,
 				sizeLabel, sizeTextField, quantityLabel, quantityTextField);
 		descriptionLine2.getChildren().addAll(heatNumberLabel,
-				heatNumberTextField, plateNumberLabel, plateNumberTextField,
-				productQuantityLabel, productQuantityViewBox);
+				heatNumberTextField, plateNumberLabel, plateNumberTextField);
 		description.getChildren().addAll(descriptionLine1, descriptionLine2);
 		main.getChildren().add(description);
-
-		final VBox testBox = new VBox();
-		final ViewTestGroup tg = new ViewTestGroup(material.getCtNumber(),
-				material.getTests().iterator());
-		testBox.getChildren().add(tg.getView());
-		main.getChildren().add(testBox);
 
 		Label otherCategoryHeader = new Label("Other Details");
 		otherCategoryHeader.setMaxWidth(Double.MAX_VALUE);
@@ -334,37 +306,38 @@ public class ViewMaterial extends TabPane {
 		final HBox otherDetailsLine3 = new HBox(ViewLayout.H_SPACE);
 		Label custLabel = new Label("Customer");
 		custLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final ViewBox custTextField = new ViewBox(material.getCustomer(),
-				material.customerProperty(), true);
+		final ViewBox custTextField = new ViewBox(material.getCustomer()
+				.getCustomerName(), material.getCustomer()
+				.customerNameProperty());
 		Label equipLabel = new Label("Equipments");
 		equipLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox equipTextField = new ViewBox(material.getEquipments(),
-				material.equipmentsProperty(), true);
+				material.equipmentsProperty());
 		Label labLabel = new Label("Laboratory");
 		labLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final ViewBox labTextField = new ViewBox(material.getLaboratory(),
-				material.laboratoryProperty(), true);
+		final ViewBox labTextField = new ViewBox(material.getLaboratory()
+				.getLaboratoryName(), material.getLaboratory()
+				.laboratoryNameProperty());
 		Label repDateLabel = new Label("Report Date");
 		repDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox repDateTextField = new ViewBox(material.getReportDate(),
-				material.reportDateProperty(), true);
+				material.reportDateProperty());
 		Label repNumberLabel = new Label("Report Number");
 		repNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox repNumberTextField = new ViewBox(
-				material.getReportNumber(), material.reportNumberProperty(),
-				true);
+				material.reportNumberProperty());
 		Label remarksLabel = new Label("Remarks");
 		remarksLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox remarksTextField = new ViewBox(material.getRemarks(),
-				material.remarksProperty(), true);
+				material.remarksProperty());
 		Label resulLabel = new Label("Result");
 		resulLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final ViewBox resultTextField = new ViewBox(material.getResult(),
-				material.resultProperty(), true);
+		final ViewBox resultTextField = new ViewBox(material.getResult()
+				.resultNameProperty());
 		Label witnessedByLabel = new Label("Witnessed By");
 		witnessedByLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox witnessedByTextField = new ViewBox(
-				material.getWitnessedBy(), material.witnessedByProperty(), true);
+				material.getWitnessedBy(), material.witnessedByProperty());
 		otherDetailsLine1.getChildren().addAll(custLabel, custTextField,
 				equipLabel, equipTextField, labLabel, labTextField);
 		otherDetailsLine2.getChildren()

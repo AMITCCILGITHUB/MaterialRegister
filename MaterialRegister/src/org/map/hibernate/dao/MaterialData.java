@@ -1,12 +1,9 @@
 package org.map.hibernate.dao;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,26 +15,17 @@ import org.hibernate.criterion.Restrictions;
 import org.map.hibernate.HibernateUtil;
 import org.map.hibernate.OrderBySqlFormula;
 import org.map.hibernate.ddo.MaterialMaster;
-import org.map.hibernate.ddo.MaterialTestMap;
-import org.map.hibernate.ddo.MaterialTestMapId;
-import org.map.hibernate.ddo.ValidationMaster;
 
 public class MaterialData {
 
 	public static MaterialMaster getMaterialDetails(String ctNumber) {
 
-		MaterialMaster material = new MaterialMaster();
-
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		Iterator it = session.createCriteria(MaterialMaster.class)
-				.add(Restrictions.eq("ctNumber", ctNumber)).list().iterator();
-
-		if (it.hasNext()) {
-			material = (MaterialMaster) it.next();
-			material.getTests().size();
-		}
+		MaterialMaster material = (MaterialMaster) session
+				.createCriteria(MaterialMaster.class)
+				.add(Restrictions.eq("ctNumber", ctNumber)).uniqueResult();
 
 		transaction.commit();
 		session.close();
@@ -58,20 +46,25 @@ public class MaterialData {
 		return ctNumber;
 	}
 
-	public static MaterialMaster searchMaterialDetailsByCtNumber(String ctNumber) {
-
-		MaterialMaster material = new MaterialMaster();
+	public static void insertMaterialDetails(MaterialMaster material) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		Iterator it = session.createCriteria(MaterialMaster.class)
-				.add(Restrictions.eq("ctNumber", ctNumber)).list().iterator();
+		session.save(material);
 
-		if (it.hasNext()) {
-			material = (MaterialMaster) it.next();
-			material.getTests().size();
-		}
+		transaction.commit();
+		session.close();
+	}
+
+	public static MaterialMaster searchMaterialDetailsByCtNumber(String ctNumber) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		MaterialMaster material = (MaterialMaster) session
+				.createCriteria(MaterialMaster.class)
+				.add(Restrictions.eq("ctNumber", ctNumber)).uniqueResult();
 
 		transaction.commit();
 		session.close();
@@ -91,11 +84,6 @@ public class MaterialData {
 								.sqlFormula("cast(substring(substring_index(Ct_Number, '-', 1), 6) as unsigned) asc"))
 				.list();
 
-		Iterator it = materials.iterator();
-		while (it.hasNext()) {
-			MaterialMaster material = (MaterialMaster) it.next();
-			material.getTests().size();
-		}
 		session.disableFilter("printFilter");
 
 		transaction.commit();
@@ -175,11 +163,6 @@ public class MaterialData {
 		}
 
 		List<MaterialMaster> materials = qry.list();
-		Iterator it = materials.iterator();
-		while (it.hasNext()) {
-			MaterialMaster material = (MaterialMaster) it.next();
-			material.getTests().size();
-		}
 
 		if (filtered) {
 			session.disableFilter("printFilter");
@@ -223,12 +206,6 @@ public class MaterialData {
 									.sqlFormula("cast(substring(substring_index(Ct_Number, '-', 1), 6) as unsigned) asc"))
 					.list();
 		}
-		Iterator it = materials.iterator();
-
-		while (it.hasNext()) {
-			MaterialMaster material = (MaterialMaster) it.next();
-			material.getTests().size();
-		}
 
 		if (filtered) {
 			session.disableFilter("printFilter");
@@ -237,50 +214,6 @@ public class MaterialData {
 		transaction.commit();
 		session.close();
 		return materials;
-	}
-
-	public static void insertMaterialTestMap(MaterialMaster material,
-			Iterator<ValidationMaster> newListIt,
-			Iterator<ValidationMaster> oldListIt) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		while (newListIt.hasNext()) {
-			ValidationMaster vm = (ValidationMaster) newListIt.next();
-
-			MaterialTestMapId id = new MaterialTestMapId(
-					material.getCtNumber(), vm.getId().getValidationCode());
-			MaterialTestMap map = new MaterialTestMap(id,
-					vm.getValidationName(), vm.getValidationValue(), "TRUE",
-					"SYSTEM", Calendar.getInstance().getTime());
-			material.getTests().add(map);
-		}
-
-		while (oldListIt.hasNext()) {
-			ValidationMaster vm = (ValidationMaster) oldListIt.next();
-			if (vm.getId().getValidationCode() == 0) {
-				vm.getId().setValidationCode(
-						ValidationData
-								.getValidationDetail(
-										vm.getId().getValidationType(),
-										vm.getValidationName()).getId()
-								.getValidationCode());
-			}
-
-			MaterialTestMapId id = new MaterialTestMapId(
-					material.getCtNumber(), vm.getId().getValidationCode());
-			MaterialTestMap map = new MaterialTestMap(id,
-					vm.getValidationName(), vm.getValidationValue(), "TRUE",
-					"SYSTEM", Calendar.getInstance().getTime());
-			material.getTests().add(map);
-		}
-
-		material.setTestQuantity(1);
-		session.save(material);
-
-		transaction.commit();
-		session.close();
 	}
 
 	public static void deleteMaterial(MaterialMaster material) {
@@ -294,45 +227,4 @@ public class MaterialData {
 		session.close();
 	}
 
-	public static void updateMaterialTestMap(MaterialMaster material,
-			Iterator<ValidationMaster> newListIt) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		while (newListIt.hasNext()) {
-			ValidationMaster vm = (ValidationMaster) newListIt.next();
-			if (vm.getId().getValidationCode() == 0) {
-				vm.getId().setValidationCode(
-						ValidationData
-								.getValidationDetail(
-										vm.getId().getValidationType(),
-										vm.getValidationName()).getId()
-								.getValidationCode());
-			}
-			MaterialTestMapId id = new MaterialTestMapId(
-					material.getCtNumber(), vm.getId().getValidationCode());
-			MaterialTestMap map = new MaterialTestMap(id,
-					vm.getValidationName(), vm.getValidationValue(), "TRUE",
-					"SYSTEM", Calendar.getInstance().getTime());
-			material.getTests().add(map);
-		}
-
-		ArrayList<MaterialTestMap> tests = new ArrayList<>(material.getTests());
-		ListIterator<MaterialTestMap> oldListIt = tests.listIterator();
-		while (oldListIt.hasNext()) {
-			MaterialTestMap map = (MaterialTestMap) oldListIt.next();
-			map.getId().setCtNumber(material.getCtNumber());
-			oldListIt.set(map);
-		}
-
-		material.setTestQuantity(1);
-		session.save(material);
-
-		transaction.commit();
-
-		session.refresh(material);
-		session.close();
-
-	}
 }

@@ -1,11 +1,14 @@
 package org.map.controls;
 
-import org.map.utils.Layout;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
+
+import org.map.utils.Layout;
 
 public class PasswordBox extends Region {
 
@@ -14,23 +17,27 @@ public class PasswordBox extends Region {
 
 	public PasswordBox() {
 
-		initComponent("", "");
+		initComponent("");
 	}
 
-	public PasswordBox(String textValue, String promptText) {
+	public PasswordBox(String promptText, String textValue) {
 
-		initComponent(textValue, promptText);
+		initComponent(promptText);
+		textBox.setText(textValue);
 	}
 
-	public PasswordBox(String textValue, String promptText,
-			StringProperty propertyValue, boolean bidirectional) {
+	public PasswordBox(String promptText, StringProperty propertyValue) {
 
-		initComponent(textValue, promptText);
-		if (bidirectional) {
-			textBox.textProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.textProperty().bind(propertyValue);
-		}
+		initComponent(promptText);
+		textBox.textProperty().bindBidirectional(propertyValue);
+	}
+
+	public PasswordBox(String promptText, String textValue,
+			StringProperty propertyValue) {
+
+		initComponent(promptText);
+		textBox.setText(textValue);
+		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
 	public void bind(StringProperty propertyValue) {
@@ -43,15 +50,14 @@ public class PasswordBox extends Region {
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
-	private void initComponent(String textValue, String promptText) {
+	private void initComponent(String promptText) {
 
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new PasswordField();
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
-		textBox.setText(textValue);
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 		textBox.setPromptText(promptText);
 
 		errorButton = new Button();

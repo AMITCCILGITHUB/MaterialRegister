@@ -32,20 +32,15 @@ import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
 import org.map.utils.Confirm;
 import org.map.utils.TableContextMenu;
+import org.map.utils.ViewLayout;
 
 public class EditUser extends TabPane {
-
-	private double COLUMN_WIDTH = 100;
-	private double COLUMN_WIDTH_MAX = 120;
-	private double LABEL_WIDTH = 100;
-	private double H_SPACE = 8;
-	private double V_SPACE = 20;
 
 	public EditUser() {
 		Tab tab = new Tab("Edit User : Search");
 
 		try {
-			VBox main = new VBox(H_SPACE);
+			VBox main = new VBox(ViewLayout.H_SPACE);
 			main.getStyleClass().add("category-page");
 
 			Label header = new Label("Edit User Details");
@@ -60,11 +55,11 @@ public class EditUser extends TabPane {
 
 			final TableView<UserMaster> tableMailbox = new TableView<>();
 			TableColumn MCol1 = new TableColumn("User Name");
-			MCol1.setPrefWidth(COLUMN_WIDTH);
+			MCol1.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol1.setCellValueFactory(new PropertyValueFactory<UserMaster, String>(
 					"userName"));
 			TableColumn MCol2 = new TableColumn("Password");
-			MCol2.setPrefWidth(COLUMN_WIDTH);
+			MCol2.setPrefWidth(ViewLayout.COLUMN_WIDTH);
 			MCol2.setCellValueFactory(new PropertyValueFactory<UserMaster, String>(
 					"password"));
 			MCol2.setCellFactory(new Callback<TableColumn<UserMaster, String>, TableCell<UserMaster, String>>() {
@@ -92,11 +87,11 @@ public class EditUser extends TabPane {
 				}
 			});
 			TableColumn MCol3 = new TableColumn("Role");
-			MCol3.setPrefWidth(COLUMN_WIDTH_MAX);
+			MCol3.setPrefWidth(ViewLayout.COLUMN_WIDTH_MAX);
 			MCol3.setCellValueFactory(new PropertyValueFactory<UserMaster, String>(
 					"role"));
 			TableColumn MCol4 = new TableColumn("User Status");
-			MCol4.setPrefWidth(COLUMN_WIDTH_MAX);
+			MCol4.setPrefWidth(ViewLayout.COLUMN_WIDTH_MAX);
 			MCol4.setCellValueFactory(new PropertyValueFactory<UserMaster, String>(
 					"userStatus"));
 			tableMailbox.getColumns().addAll(MCol1, MCol2, MCol3, MCol4);
@@ -225,15 +220,7 @@ public class EditUser extends TabPane {
 		Tab tab = new Tab("Edit User : " + user.getUserName());
 		tab.setId(user.getUserName());
 
-		final VBox main = new VBox(H_SPACE) {
-
-			@Override
-			protected double computePrefHeight(double width) {
-
-				return Math.max(super.computePrefHeight(width), getParent()
-						.getBoundsInLocal().getHeight());
-			}
-		};
+		VBox main = new VBox(ViewLayout.H_SPACE);
 		main.getStyleClass().add("category-page");
 
 		Label header = new Label("Edit User");
@@ -246,26 +233,26 @@ public class EditUser extends TabPane {
 		detailCategoryHeader.getStyleClass().add("category-header");
 		main.getChildren().add(detailCategoryHeader);
 
-		final VBox userDetailsVBox = new VBox(V_SPACE);
-		final HBox userNameHBox = new HBox(H_SPACE);
+		final VBox userDetailsVBox = new VBox(ViewLayout.V_SPACE);
+		final HBox userNameHBox = new HBox(ViewLayout.H_SPACE);
 		Label userNameLabel = new Label("User Name");
-		userNameLabel.setPrefWidth(LABEL_WIDTH);
-		ViewBox userNameTextBox = new ViewBox("", user.userNameProperty(), true);
-		final HBox passwordHBox = new HBox(H_SPACE);
+		userNameLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
+		ViewBox userNameTextBox = new ViewBox("", user.userNameProperty());
+		final HBox passwordHBox = new HBox(ViewLayout.H_SPACE);
 		Label passwordLabel = new Label("Password");
-		passwordLabel.setPrefWidth(LABEL_WIDTH);
+		passwordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final PasswordBox passwordBox = new PasswordBox("", "Password",
-				user.passwordProperty(), true);
-		final HBox confirmPasswordHBox = new HBox(H_SPACE);
+				user.passwordProperty());
+		final HBox confirmPasswordHBox = new HBox(ViewLayout.H_SPACE);
 		Label confirmPasswordLabel = new Label("Confirm Password");
-		confirmPasswordLabel.setPrefWidth(LABEL_WIDTH);
+		confirmPasswordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final PasswordBox confirmPasswordBox = new PasswordBox("",
-				"Confirm Password", user.passwordProperty(), true);
-		final HBox roleHBox = new HBox(H_SPACE);
+				"Confirm Password", user.passwordProperty());
+		final HBox roleHBox = new HBox(ViewLayout.H_SPACE);
 		Label roleLabel = new Label("Role");
-		roleLabel.setPrefWidth(LABEL_WIDTH);
+		roleLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EComboBox roleChoiceBox = new EComboBox("", "Role", "Role",
-				user.roleProperty(), true);
+				user.roleProperty());
 		userNameHBox.getChildren().addAll(userNameLabel, userNameTextBox);
 		passwordHBox.getChildren().addAll(passwordLabel, passwordBox);
 		confirmPasswordHBox.getChildren().addAll(confirmPasswordLabel,
@@ -275,7 +262,7 @@ public class EditUser extends TabPane {
 				confirmPasswordHBox, roleHBox);
 		main.getChildren().addAll(userDetailsVBox);
 
-		final HBox buttons = new HBox(H_SPACE);
+		final HBox buttons = new HBox(ViewLayout.H_SPACE);
 		buttons.setTranslateY(32);
 		final Button updateButton = new Button("Update");
 		updateButton.getStyleClass().add("submit-button");

@@ -33,11 +33,11 @@ import org.map.utils.ViewLayout;
 public class ViewUser extends TabPane {
 
 	public ViewUser() {
+
 		Tab tab = new Tab("View User : Search");
 
 		try {
 			VBox main = new VBox(ViewLayout.H_SPACE);
-			VBox.setVgrow(main, Priority.ALWAYS);
 			main.getStyleClass().add("category-page");
 
 			Label header = new Label("View User Details");
@@ -132,6 +132,7 @@ public class ViewUser extends TabPane {
 
 				@Override
 				public void handle(MouseEvent mouseEvent) {
+
 					if (mouseEvent.getClickCount() == 2) {
 
 						UserMaster selUSer = tableMailbox.getSelectionModel()
@@ -164,6 +165,7 @@ public class ViewUser extends TabPane {
 	}
 
 	private void createViewTab(final UserMaster user) {
+
 		for (Tab selTab : getTabs()) {
 			if (selTab.getId() != null
 					&& selTab.getId().equalsIgnoreCase(user.getUserName())) {
@@ -193,15 +195,15 @@ public class ViewUser extends TabPane {
 		final HBox userNameHBox = new HBox(ViewLayout.H_SPACE);
 		Label userNameLabel = new Label("User Name");
 		userNameLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		ViewBox userNameTextBox = new ViewBox("", user.userNameProperty(), true);
+		ViewBox userNameTextBox = new ViewBox(user.userNameProperty());
 		final HBox passwordHBox = new HBox(ViewLayout.H_SPACE);
 		Label passwordLabel = new Label("Password");
 		passwordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		ViewBox passwordBox = new ViewBox("", user.passwordProperty(), true);
+		ViewBox passwordBox = new ViewBox(user.passwordProperty());
 		final HBox roleHBox = new HBox(ViewLayout.H_SPACE);
 		Label roleLabel = new Label("Role");
 		roleLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		ViewBox roleTextBox = new ViewBox("", user.roleProperty(), true);
+		ViewBox roleTextBox = new ViewBox(user.roleProperty());
 		userNameHBox.getChildren().addAll(userNameLabel, userNameTextBox);
 		passwordHBox.getChildren().addAll(passwordLabel, passwordBox);
 		roleHBox.getChildren().addAll(roleLabel, roleTextBox);

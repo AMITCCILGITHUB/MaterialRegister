@@ -1,47 +1,27 @@
 package org.map.utils;
 
-import java.io.File;
 import java.net.MalformedURLException;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ContextMenuBuilder;
 import javafx.scene.control.MenuItemBuilder;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageViewBuilder;
 
 public class TableContextMenu {
-
-	private static File undo = new File("resources/images/undo.png");
-	private static File delete = new File("resources/images/delete.png");
-	private static File print = new File("resources/images/print.png");
-	private static File search = new File("resources/images/search.png");
-	private static File user = new File("resources/images/view_user.png");
 
 	public static ContextMenu getViewUserContextMenu(
 			EventHandler... eventHandler) throws MalformedURLException {
 
 		return ContextMenuBuilder
 				.create()
-				.items(MenuItemBuilder
-						.create()
-						.text("Show Password")
+				.items(MenuItemBuilder.create().text("Show Password")
 						.onAction(eventHandler[0])
-						.graphic(
-								ImageViewBuilder
-										.create()
-										.image(new Image(search.toURI().toURL()
-												.toString())).build()).build(),
-						MenuItemBuilder
-								.create()
-								.text("View User")
+						.graphic(FileUtil.getImageAsImageView("search"))
+						.build(),
+						MenuItemBuilder.create().text("View User")
 								.onAction(eventHandler[1])
-								.graphic(
-										ImageViewBuilder
-												.create()
-												.image(new Image(user.toURI()
-														.toURL().toString()))
-												.build()).build()).build();
+								.graphic(FileUtil.getImageAsImageView("user"))
+								.build()).build();
 	}
 
 	public static ContextMenu getEditUserContextMenu(
@@ -49,35 +29,19 @@ public class TableContextMenu {
 
 		return ContextMenuBuilder
 				.create()
-				.items(MenuItemBuilder
-						.create()
-						.text("Edit")
+				.items(MenuItemBuilder.create().text("Edit")
 						.onAction(eventHandler[0])
-						.graphic(
-								ImageViewBuilder
-										.create()
-										.image(new Image(user.toURI().toURL()
-												.toString())).build()).build(),
-						MenuItemBuilder
-								.create()
-								.text("Restore")
+						.graphic(FileUtil.getImageAsImageView("user")).build(),
+						MenuItemBuilder.create().text("Restore")
 								.onAction(eventHandler[1])
-								.graphic(
-										ImageViewBuilder
-												.create()
-												.image(new Image(undo.toURI()
-														.toURL().toString()))
-												.build()).build(),
+								.graphic(FileUtil.getImageAsImageView("undo"))
+								.build(),
 						MenuItemBuilder
 								.create()
 								.text("Delete")
 								.onAction(eventHandler[2])
-								.graphic(
-										ImageViewBuilder
-												.create()
-												.image(new Image(delete.toURI()
-														.toURL().toString()))
-												.build()).build()).build();
+								.graphic(FileUtil.getImageAsImageView("delete"))
+								.build()).build();
 	}
 
 	public static ContextMenu getPrintMaterialContextMenu(
@@ -85,15 +49,9 @@ public class TableContextMenu {
 
 		return ContextMenuBuilder
 				.create()
-				.items(MenuItemBuilder
-						.create()
-						.text("Print")
+				.items(MenuItemBuilder.create().text("Print")
 						.onAction(eventHandler[0])
-						.graphic(
-								ImageViewBuilder
-										.create()
-										.image(new Image(print.toURI().toURL()
-												.toString())).build()).build())
+						.graphic(FileUtil.getImageAsImageView("print")).build())
 				.build();
 	}
 
@@ -102,35 +60,19 @@ public class TableContextMenu {
 
 		return ContextMenuBuilder
 				.create()
-				.items(MenuItemBuilder
-						.create()
-						.text("Edit")
+				.items(MenuItemBuilder.create().text("Edit")
 						.onAction(eventHandler[0])
-						.graphic(
-								ImageViewBuilder
-										.create()
-										.image(new Image(user.toURI().toURL()
-												.toString())).build()).build(),
-						MenuItemBuilder
-								.create()
-								.text("Restore")
+						.graphic(FileUtil.getImageAsImageView("user")).build(),
+						MenuItemBuilder.create().text("Restore")
 								.onAction(eventHandler[1])
-								.graphic(
-										ImageViewBuilder
-												.create()
-												.image(new Image(undo.toURI()
-														.toURL().toString()))
-												.build()).build(),
+								.graphic(FileUtil.getImageAsImageView("undo"))
+								.build(),
 						MenuItemBuilder
 								.create()
 								.text("Delete")
 								.onAction(eventHandler[2])
-								.graphic(
-										ImageViewBuilder
-												.create()
-												.image(new Image(delete.toURI()
-														.toURL().toString()))
-												.build()).build()).build();
+								.graphic(FileUtil.getImageAsImageView("delete"))
+								.build()).build();
 	}
 
 	// public TableContextMenu(EventHandler eventHandler1,

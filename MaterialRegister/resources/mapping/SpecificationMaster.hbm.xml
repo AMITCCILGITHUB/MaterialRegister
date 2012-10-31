@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class catalog="metalplants" name="org.map.hibernate.ddo.SpecificationMaster"
+		table="specificationmaster" dynamic-update="true">
+		<id name="specificationCode" type="int">
+			<column name="Specification_Code" />
+			<generator class="assigned" />
+		</id>
+		<property name="specificationName" type="string">
+			<column length="64" name="Specification_Name" />
+		</property>
+		<property name="remarks" type="string">
+			<column length="128" name="Remarks" />
+		</property>
+		<property name="status" type="string">
+			<column length="8" name="Status" not-null="true" />
+		</property>
+		<property name="createdBy" type="string">
+			<column length="32" name="Created_By" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column length="19" name="Created_Date" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

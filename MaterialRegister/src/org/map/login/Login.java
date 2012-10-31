@@ -1,6 +1,5 @@
 package org.map.login;
 
-import java.io.File;
 import java.net.MalformedURLException;
 
 import javafx.application.Application;
@@ -26,6 +25,7 @@ import org.map.hibernate.ddo.UserMaster;
 import org.map.logger.LoggerUtil;
 import org.map.service.ServiceManager;
 import org.map.utils.Alert;
+import org.map.utils.FileUtil;
 import org.map.utils.LoadingBar;
 
 public class Login extends Application {
@@ -76,19 +76,9 @@ public class Login extends Application {
 		root.getStyleClass().add("login-pane");
 
 		Scene scene = new Scene(root, 500, 400, Color.TRANSPARENT);
-		try {
-			File loginStyle = new File("resources/style/login.css");
-			scene.getStylesheets().addAll(
-					loginStyle.toURI().toURL().toExternalForm());
-			File mainStyle = new File("resources/style/style.css");
-			scene.getStylesheets().addAll(
-					mainStyle.toURI().toURL().toExternalForm());
-			File popupStyle = new File("resources/style/popup.css");
-			scene.getStylesheets().addAll(
-					popupStyle.toURI().toURL().toExternalForm());
-		} catch (Exception e) {
-			LoggerUtil.getLogger().debug(e);
-		}
+		scene.getStylesheets().addAll(FileUtil.getStyleAsUrl("style"),
+				FileUtil.getStyleAsUrl("login"),
+				FileUtil.getStyleAsUrl("popup"));
 
 		VBox windowButtons = new VBox();
 		Button closeBtn = new Button();
@@ -102,13 +92,13 @@ public class Login extends Application {
 		root.getChildren().addAll(windowButtons);
 
 		VBox textFields = new VBox(15);
-		final LoginTextBox userName = new LoginTextBox("", "User Name",
-				userMaster.userNameProperty(), true);
+		final LoginTextBox userName = new LoginTextBox("User Name",
+				userMaster.userNameProperty());
 		userName.setMaxSize(176, 20);
 		userName.setPrefSize(176, 20);
 		userName.setMinSize(176, 20);
 		final PasswordBox password = new PasswordBox("", "Password",
-				userMaster.passwordProperty(), true);
+				userMaster.passwordProperty());
 		password.setMaxSize(176, 20);
 		password.setPrefSize(176, 20);
 		password.setMinSize(176, 20);
@@ -216,13 +206,9 @@ public class Login extends Application {
 			}
 		});
 
-		Image[] icon = {
-				new Image(new File("resources/images/mr_logo_16.png").toURI()
-						.toURL().toString()),
-				new Image(new File("resources/images/mr_logo_24.png").toURI()
-						.toURL().toString()),
-				new Image(new File("resources/images/mr_logo_32.png").toURI()
-						.toURL().toString()) };
+		Image[] icon = { FileUtil.getImageAsImage("mr_logo_16"),
+				FileUtil.getImageAsImage("mr_logo_24"),
+				FileUtil.getImageAsImage("mr_logo_32") };
 		primaryStage.getIcons().addAll(icon);
 
 		primaryStage.setScene(scene);

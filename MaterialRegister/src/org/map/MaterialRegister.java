@@ -1,6 +1,5 @@
 package org.map;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +21,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -43,8 +41,8 @@ import javafx.util.Duration;
 
 import org.map.controls.SearchBox;
 import org.map.controls.WindowButtons;
-import org.map.logger.LoggerUtil;
 import org.map.login.Login;
+import org.map.utils.FileUtil;
 import org.map.utils.StatusBar;
 import org.map.view.AddHeatChart;
 import org.map.view.AddMaterial;
@@ -111,29 +109,13 @@ public class MaterialRegister {
 		layerPane.getChildren().add(root);
 
 		scene = new Scene(layerPane, 1020, 700, false);
-		try {
-			File mainStyle = new File("resources/style/style.css");
-			scene.getStylesheets().addAll(
-					mainStyle.toURI().toURL().toExternalForm());
-			File calendarStyle = new File("resources/style/calendar.css");
-			scene.getStylesheets().addAll(
-					calendarStyle.toURI().toURL().toExternalForm());
-			File controlStyle = new File("resources/style/controls.css");
-			scene.getStylesheets().addAll(
-					controlStyle.toURI().toURL().toExternalForm());
-		} catch (Exception e) {
-			LoggerUtil.getLogger().debug(e);
-		}
+		scene.getStylesheets().addAll(FileUtil.getStyleAsUrl("style"),
+				FileUtil.getStyleAsUrl("calendar"),
+				FileUtil.getStyleAsUrl("controls"));
 
 		toolBar = new ToolBar();
 		toolBar.setId("mainToolBar");
-		ImageView logo = null;
-		try {
-			File logoFile = new File("resources/images/logo.png");
-			logo = new ImageView(new Image(logoFile.toURI().toURL().toString()));
-		} catch (Exception ex) {
-
-		}
+		ImageView logo = FileUtil.getImageAsImageView("logo");
 
 		HBox.setMargin(logo, new Insets(0, 0, 0, 5));
 		toolBar.getItems().add(logo);
@@ -174,10 +156,8 @@ public class MaterialRegister {
 		toolBar.setMinHeight(66);
 		toolBar.setMaxHeight(66);
 		GridPane.setConstraints(toolBar, 0, 0);
-		// add close min max
 		final WindowButtons windowButtons = new WindowButtons(primaryStage);
 		toolBar.getItems().add(windowButtons);
-		// add window header double clicking
 		toolBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -188,7 +168,6 @@ public class MaterialRegister {
 				}
 			}
 		});
-		// add window dragging
 		toolBar.setOnMousePressed(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -313,13 +292,7 @@ public class MaterialRegister {
 		HBox.setHgrow(spacer3, Priority.ALWAYS);
 		logoutButton.setId("LogoutButton");
 
-		try {
-			File logoutFile = new File("resources/images/logout.png");
-			logoutButton.setGraphic(new ImageView(new Image(logoutFile.toURI()
-					.toURL().toString())));
-		} catch (Exception ex) {
-
-		}
+		logoutButton.setGraphic(FileUtil.getImageAsImageView("logout"));
 		logoutButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -345,11 +318,9 @@ public class MaterialRegister {
 			}
 		};
 		pageArea.setId("page-area");
-		// create right split pane
 		BorderPane rightSplitPane = new BorderPane();
 		rightSplitPane.setTop(pageToolBar);
 		rightSplitPane.setCenter(pageArea);
-		// create split pane
 		splitPane = new SplitPane();
 		splitPane.setId("page-splitpane");
 		splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -397,6 +368,7 @@ public class MaterialRegister {
 	 *            If view should be swapped to new page
 	 */
 	public void goToPage(String page) {
+
 		Text statusText = (Text) bottom.getChildren().get(0);
 		statusText.setText("");
 

@@ -1,6 +1,5 @@
 package org.map.utils;
 
-import java.io.File;
 import java.net.MalformedURLException;
 
 import javafx.beans.property.SimpleDoubleProperty;
@@ -17,9 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.ImageViewBuilder;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -31,8 +28,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import org.map.logger.LoggerUtil;
 
 public class MessagePopUp {
 
@@ -66,13 +61,7 @@ public class MessagePopUp {
 
 		this.scene = new Scene(root, DEFAULT_WIDTH, DEFAULT_HEIGHT,
 				Color.web("#FFFFFF"));
-		try {
-			File popupStyle = new File("resources/style/popup.css");
-			this.scene.getStylesheets().add(
-					popupStyle.toURI().toURL().toExternalForm());
-		} catch (Exception e) {
-			LoggerUtil.getLogger().debug(e);
-		}
+		this.scene.getStylesheets().add(FileUtil.getStyleAsUrl("popup"));
 		this.scene.setFill(Color.TRANSPARENT);
 
 		this.stage = new Stage();
@@ -103,9 +92,6 @@ public class MessagePopUp {
 		this.root.getChildren().add(mainRoot);
 
 		VBox vb = new VBox();
-		/*
-		 * HEADER
-		 */
 		HBox header = new HBox();
 		header.setAlignment(Pos.CENTER_LEFT);
 		header.getStyleClass().add("popUpHeader");
@@ -145,39 +131,24 @@ public class MessagePopUp {
 		content.setMinHeight(50);
 
 		HBox messageBox = new HBox(16);
-		ImageView icon;
+		ImageView icon = null;
+
 		if (type.equalsIgnoreCase("Error")) {
-			File errorFile = new File("resources/images/error.png");
-
-			icon = ImageViewBuilder.create()
-					.image(new Image(errorFile.toURI().toURL().toString()))
-					.build();
+			icon = FileUtil.getImageAsImageView("error");
 		} else if (type.equalsIgnoreCase("Info")) {
-			File infoFile = new File("resources/images/info.png");
-			icon = ImageViewBuilder.create()
-					.image(new Image(infoFile.toURI().toURL().toString()))
-					.build();
+			icon = FileUtil.getImageAsImageView("info");
 		} else if (type.equalsIgnoreCase("Confirm")) {
-			File confirmFile = new File("resources/images/confirm.png");
-			icon = ImageViewBuilder.create()
-					.image(new Image(confirmFile.toURI().toURL().toString()))
-					.build();
+			icon = FileUtil.getImageAsImageView("confirm");
 		} else {
-			File infoFile = new File("resources/images/info.png");
-			icon = ImageViewBuilder.create()
-					.image(new Image(infoFile.toURI().toURL().toString()))
-					.build();
-
+			icon = FileUtil.getImageAsImageView("info");
 		}
+
 		Text contentTxt = new Text(message);
 		contentTxt.wrappingWidthProperty().bind(this.wrapWidth);
 		messageBox.getChildren().addAll(icon, contentTxt);
 		content.getChildren().add(messageBox);
 		VBox.setVgrow(content, Priority.ALWAYS);
 
-		/*
-		 * ACTION BOX
-		 */
 		actionBox = new HBox();
 		actionBox.setAlignment(Pos.CENTER);
 		actionBox.getStyleClass().add("popUpActionBox");

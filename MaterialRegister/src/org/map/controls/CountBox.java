@@ -11,30 +11,14 @@ import org.map.utils.Layout;
 
 public class CountBox extends Region {
 
-	private String type;
 	private IntField textBox;
 	private Button addButton;
 	private Button subButton;
 
-	public CountBox() {
+	public CountBox(IntegerProperty propertyValue) {
 
-		initComponent("", "");
-	}
-
-	public CountBox(String type, String promptText) {
-
-		initComponent(type, promptText);
-	}
-
-	public CountBox(String type, String promptText,
-			IntegerProperty propertyValue, boolean bidirectional) {
-
-		initComponent(type, promptText);
-		if (bidirectional) {
-			textBox.valueProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.valueProperty().bind(propertyValue);
-		}
+		initComponent();
+		textBox.valueProperty().bindBidirectional(propertyValue);
 	}
 
 	public void bind(StringProperty propertyValue) {
@@ -47,18 +31,15 @@ public class CountBox extends Region {
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
-	private void initComponent(String type, String promptText) {
+	private void initComponent() {
 
-		setType(type);
-
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new IntField(0);
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 		textBox.setDisable(true);
-		textBox.setPromptText(promptText);
 
 		addButton = new Button();
 		addButton.getStyleClass().add("next-button");
@@ -79,16 +60,6 @@ public class CountBox extends Region {
 	public void setOnSubButtonAction(EventHandler<ActionEvent> eh) {
 
 		subButton.setOnAction(eh);
-	}
-
-	public void setType(String type) {
-
-		this.type = type;
-	}
-
-	public String getType() {
-
-		return this.type;
 	}
 
 	public void setValue(int textValue) {

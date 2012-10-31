@@ -83,19 +83,19 @@ public class ViewCheckBox extends Region {
 
 		getStyleClass().add("view-box");
 
-		setMinSize(Layout.getLabelWidth() + Layout.getCheckBoxWidth(),
-				Layout.getRegionHeight());
-		setPrefSize(Layout.getLabelWidth() + Layout.getCheckBoxWidth(),
-				Layout.getRegionHeight());
-		setMaxSize(Layout.getLabelWidth() + Layout.getCheckBoxWidth(),
-				Layout.getRegionHeight());
+		setMinSize(Layout.LABEL_WIDTH + Layout.CHECKBOX_WIDTH,
+				Layout.REGION_HEIGHT);
+		setPrefSize(Layout.LABEL_WIDTH + Layout.CHECKBOX_WIDTH,
+				Layout.REGION_HEIGHT);
+		setMaxSize(Layout.LABEL_WIDTH + Layout.CHECKBOX_WIDTH,
+				Layout.REGION_HEIGHT);
 
 		label = new Label(labelText);
-		label.setPrefWidth(Layout.getLabelWidth());
+		label.setPrefWidth(Layout.LABEL_WIDTH);
 
 		checkBox = CheckBoxBuilder.create().allowIndeterminate(true)
-				.disable(true).prefHeight(Layout.getCheckBoxHeight())
-				.prefWidth(Layout.getCheckBoxWidth()).build();
+				.disable(true).prefHeight(Layout.CHECKBOX_HEIGHT)
+				.prefWidth(Layout.CHECKBOX_WIDTH).build();
 		checkBox.getStyleClass().add("view-check-box");
 		checkBox.textProperty().addListener(new ChangeListener<String>() {
 

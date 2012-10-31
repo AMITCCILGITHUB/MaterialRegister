@@ -1344,7 +1344,7 @@
 }
 
 /* The main scrollbar CSS class of ListView */
-.scroll-bar:horizontal ,
+.scroll-bar:horizontal,
 .scroll-bar:vertical {
     -fx-background-color:transparent;
 }
@@ -1415,4 +1415,22 @@
 
 .tab-header-area .tab-close-button:hover {
 	-fx-background-image: url("../images/search-clear-over.png");
+}
+
+
+.titled-pane .title {
+	-fx-padding: 4px 0 5px 0;
+	-fx-background-color: rgba(0, 0, 0, 0.12);
+	-fx-background-insets: 2 -4 2 -4;
+	-fx-border-color: rgba(255, 255, 255, 0.2);
+	-fx-border-insets: 3 -8 3 -8;	
+}
+
+.titled-pane .title .text {
+	-fx-fill: white;
+}
+
+.titled-pane .content {
+	-fx-background-color: null; 
+	-fx-padding: 12 0 12 0;
 }

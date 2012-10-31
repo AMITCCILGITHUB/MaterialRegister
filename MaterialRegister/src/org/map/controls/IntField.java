@@ -28,9 +28,9 @@ public class IntField extends TextField {
 	}
 
 	public IntField(int initialValue) {
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 		
 		value = new SimpleIntegerProperty(initialValue);
 		setText(initialValue + "");

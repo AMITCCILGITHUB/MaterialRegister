@@ -1,25 +1,15 @@
 package org.map.view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import org.map.MaterialRegister;
-import org.map.controls.EditableBox;
-import org.map.controls.ViewBox;
-import org.map.controls.ViewIntegerBox;
 import org.map.hibernate.dao.ValidationData;
-import org.map.hibernate.ddo.ValidationMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
 import org.map.utils.ViewLayout;
@@ -42,7 +32,6 @@ public class EditValidation extends ScrollPane {
 			detailCategoryHeader.getStyleClass().add("category-header");
 			main.getChildren().add(detailCategoryHeader);
 
-			final HBox validationBox = new HBox(ViewLayout.V_SPACE);
 			final VBox validationTop = new VBox(ViewLayout.V_SPACE);
 			final ObservableList<String> validationTypes = FXCollections
 					.observableArrayList(ValidationData.getValidationTypes());
@@ -59,109 +48,88 @@ public class EditValidation extends ScrollPane {
 			validationResultListView.setPrefSize(300, 234);
 			validationBottom.getChildren().addAll(validationResultListView);
 
-			final ValidationMaster validation = new ValidationMaster();
-			final VBox validationRight = new VBox(ViewLayout.V_SPACE);
-			final HBox validationType = new HBox(ViewLayout.H_SPACE);
-			Label validationTypeLabel = new Label("Validation Type");
-			validationTypeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ViewBox validationTypeBox = new ViewBox("", validation
-					.getId().validationTypeProperty(), true);
-			validationType.getChildren().addAll(validationTypeLabel,
-					validationTypeBox);
-			final HBox validationCode = new HBox(ViewLayout.H_SPACE);
-			Label validationCodeLabel = new Label("Validation Code");
-			validationCodeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ViewIntegerBox validationCodeBox = new ViewIntegerBox(0,
-					validation.getId().validationCodeProperty(), true);
-			validationCode.getChildren().addAll(validationCodeLabel,
-					validationCodeBox);
-			final HBox validationName = new HBox(ViewLayout.H_SPACE);
-			Label validationNameLabel = new Label("Validation Name");
-			validationNameLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final EditableBox validationNameBox = new EditableBox("",
-					"Validation Name", validation.validationNameProperty(),
-					true);
-			validationName.getChildren().addAll(validationNameLabel,
-					validationNameBox);
-			final HBox validationDesc = new HBox(ViewLayout.H_SPACE);
-			Label validationDescLabel = new Label("Validation Description");
-			validationDescLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final EditableBox validationDescBox = new EditableBox("",
-					"Validation Desc", validation.validationDescProperty(),
-					true);
-			validationDesc.getChildren().addAll(validationDescLabel,
-					validationDescBox);
-
-			validationTypeListView.getSelectionModel().selectedItemProperty()
-					.addListener(new ChangeListener() {
-
-						@Override
-						public void changed(ObservableValue observable,
-								Object oldValue, Object newValue) {
-
-							Object selectedValue = validationTypeListView
-									.getSelectionModel().getSelectedItem();
-							if (selectedValue != null) {
-								validationResult.setAll(ValidationData
-										.getValidationName(selectedValue
-												.toString()));
-							}
-						}
-					});
-
-			validationResultListView.getSelectionModel().selectedItemProperty()
-					.addListener(new ChangeListener() {
-
-						@Override
-						public void changed(ObservableValue observable,
-								Object oldValue, Object newValue) {
-
-							Object selectedValue = validationResultListView
-									.getSelectionModel().getSelectedItem();
-							if (selectedValue != null) {
-								validation.resetDetails(ValidationData
-										.getValidationDetail(
-												validationTypeListView
-														.getSelectionModel()
-														.getSelectedItem(),
-												selectedValue.toString()));
-							}
-						}
-					});
-
-			final HBox buttons = new HBox(ViewLayout.H_SPACE);
-			buttons.setTranslateY(32);
-			final Button updateButton = new Button("Update");
-			updateButton.getStyleClass().add("submit-button");
-			updateButton.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent e) {
-					if (validationNameBox.getText().trim().length() > 0) {
-						if (validationDescBox.getText().trim().length() > 0) {
-							validation.setValidationDesc(validation
-									.getValidationName());
-						}
-
-						ValidationData.updateValidationTypes(validation);
-
-						Alert.showAlert(MaterialRegister.getMaterialRegister()
-								.getPrimaryStage(), "Alert", "Alert",
-								"Validation updated successfully.");
-					} else {
-						Alert.showAlert(MaterialRegister.getMaterialRegister()
-								.getPrimaryStage(), "Error", "Error",
-								"Please enter validation name");
-					}
-				}
-			});
-			buttons.getChildren().addAll(updateButton);
-
-			validationRight.getChildren().addAll(validationType,
-					validationCode, validationName, validationDesc, buttons);
-			validationBox.getChildren().addAll(validationTop, validationBottom,
-					validationRight);
-			main.getChildren().addAll(validationBox);
+			/*
+			 * final ValidationMaster validation = new ValidationMaster("");
+			 * final VBox validationRight = new VBox(ViewLayout.V_SPACE); final
+			 * HBox validationType = new HBox(ViewLayout.H_SPACE); Label
+			 * validationTypeLabel = new Label("Validation Type");
+			 * validationTypeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH); final
+			 * ViewBox validationTypeBox = new ViewBox("", validation
+			 * .getId().validationTypeProperty());
+			 * validationType.getChildren().addAll(validationTypeLabel,
+			 * validationTypeBox); final HBox validationCode = new
+			 * HBox(ViewLayout.H_SPACE); Label validationCodeLabel = new
+			 * Label("Validation Code");
+			 * validationCodeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH); final
+			 * ViewIntegerBox validationCodeBox = new ViewIntegerBox(0,
+			 * validation.getId().validationCodeProperty());
+			 * validationCode.getChildren().addAll(validationCodeLabel,
+			 * validationCodeBox); final HBox validationName = new
+			 * HBox(ViewLayout.H_SPACE); Label validationNameLabel = new
+			 * Label("Validation Name");
+			 * validationNameLabel.setPrefWidth(ViewLayout.LABEL_WIDTH); final
+			 * EditableBox validationNameBox = new EditableBox("",
+			 * "Validation Name", validation.validationNameProperty());
+			 * validationName.getChildren().addAll(validationNameLabel,
+			 * validationNameBox); final HBox validationDesc = new
+			 * HBox(ViewLayout.H_SPACE); Label validationDescLabel = new
+			 * Label("Validation Description");
+			 * validationDescLabel.setPrefWidth(ViewLayout.LABEL_WIDTH); final
+			 * EditableBox validationDescBox = new EditableBox("",
+			 * "Validation Desc", validation.validationDescProperty());
+			 * validationDesc.getChildren().addAll(validationDescLabel,
+			 * validationDescBox);
+			 * 
+			 * validationTypeListView.getSelectionModel().selectedItemProperty()
+			 * .addListener(new ChangeListener() {
+			 * 
+			 * @Override public void changed(ObservableValue observable, Object
+			 * oldValue, Object newValue) {
+			 * 
+			 * Object selectedValue = validationTypeListView
+			 * .getSelectionModel().getSelectedItem(); if (selectedValue !=
+			 * null) { validationResult.setAll(ValidationData
+			 * .getValidationName(selectedValue .toString())); } } });
+			 * 
+			 * validationResultListView.getSelectionModel().selectedItemProperty(
+			 * ) .addListener(new ChangeListener() {
+			 * 
+			 * @Override public void changed(ObservableValue observable, Object
+			 * oldValue, Object newValue) {
+			 * 
+			 * Object selectedValue = validationResultListView
+			 * .getSelectionModel().getSelectedItem(); if (selectedValue !=
+			 * null) { validation.resetDetails(ValidationData
+			 * .getValidationDetail( validationTypeListView .getSelectionModel()
+			 * .getSelectedItem(), selectedValue.toString())); } } });
+			 * 
+			 * final HBox buttons = new HBox(ViewLayout.H_SPACE);
+			 * buttons.setTranslateY(32); final Button updateButton = new
+			 * Button("Update");
+			 * updateButton.getStyleClass().add("submit-button");
+			 * updateButton.setOnAction(new EventHandler<ActionEvent>() {
+			 * 
+			 * @Override public void handle(ActionEvent e) { if
+			 * (validationNameBox.getText().trim().length() > 0) { if
+			 * (validationDescBox.getText().trim().length() > 0) {
+			 * validation.setValidationDesc(validation .getValidationName()); }
+			 * 
+			 * ValidationData.updateValidationTypes(validation);
+			 * 
+			 * Alert.showAlert(MaterialRegister.getMaterialRegister()
+			 * .getPrimaryStage(), "Alert", "Alert",
+			 * "Validation updated successfully."); } else {
+			 * Alert.showAlert(MaterialRegister.getMaterialRegister()
+			 * .getPrimaryStage(), "Error", "Error",
+			 * "Please enter validation name"); } } });
+			 * buttons.getChildren().addAll(updateButton);
+			 * 
+			 * validationRight.getChildren().addAll(validationType,
+			 * validationCode, validationName, validationDesc, buttons);
+			 * validationBox.getChildren().addAll(validationTop,
+			 * validationBottom, validationRight);
+			 * main.getChildren().addAll(validationBox);
+			 */
 
 			getStyleClass().addAll("noborder-scroll-pane", "texture-bg");
 			setFitToWidth(true);

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -25,65 +24,56 @@ import javafx.scene.layout.Region;
 import javafx.util.Duration;
 
 import org.map.hibernate.dao.ValidationData;
-import org.map.hibernate.ddo.ValidationMaster;
+import org.map.hibernate.ddo.TestMaster;
+import org.map.hibernate.ddo.TestProperty;
 import org.map.utils.Layout;
 
-public class ComboVBox extends Region {
+public class TestComboBox extends Region {
 
-	private String type;
+	private TestProperty testProperty;
 	private TextField textBox;
 	private Button errorButton;
 	private ContextMenu resultContextMenu = new ContextMenu();
 	private Tooltip searchErrorTooltip = new Tooltip();
 	private Timeline searchErrorTooltipHidder = null;
 
-	public ComboVBox() {
+	public TestComboBox() {
 
-		initComponent("", "", "");
+		testProperty = new TestProperty();
+		initComponent();
 	}
 
-	public ComboVBox(String textValue, String promptText, String type) {
+	public TestComboBox(String promptText) {
 
-		initComponent(textValue, promptText, type);
+		testProperty = new TestProperty();
+		initComponent();
+
+		textBox.setPromptText(promptText);
+		testProperty.get().testNameProperty()
+				.bindBidirectional(textBox.textProperty());
 	}
 
-	public ComboVBox(String textValue, String promptText, String type,
-			StringProperty propertyValue, boolean bidirectional) {
+	public TestComboBox(String promptText, TestProperty test) {
 
-		initComponent(textValue, promptText, type);
-		textBox.setText(textValue);
-		if (bidirectional) {
-			textBox.textProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.textProperty().bind(propertyValue);
-		}
-		textBox.setText(textValue);
+		testProperty = new TestProperty();
+		initComponent();
+
+		textBox.setPromptText(promptText);
+		testProperty.bindBidirectional(test);
+		testProperty.get().testNameProperty()
+				.bindBidirectional(textBox.textProperty());
 	}
 
-	public void bind(StringProperty propertyValue) {
-
-		textBox.textProperty().bind(propertyValue);
-	}
-
-	public void bindBidirectional(StringProperty propertyValue) {
-
-		textBox.textProperty().bindBidirectional(propertyValue);
-	}
-
-	private void initComponent(String textValue, String promptText,
-			final String type) {
+	private void initComponent() {
 
 		setId("ResultBox");
-		setType(type);
 
-		setMinHeight(Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxHeight(Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new TextField();
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
-		textBox.setText(textValue);
-		textBox.setPromptText(promptText);
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 
 		errorButton = new Button();
 		errorButton.getStyleClass().add("error-button");
@@ -120,16 +110,6 @@ public class ComboVBox extends Region {
 		getChildren().addAll(textBox, errorButton);
 		resultContextMenu.setAutoFix(true);
 		showResults();
-	}
-
-	public String getType() {
-
-		return type;
-	}
-
-	public void setType(String type) {
-
-		this.type = type;
 	}
 
 	public void setText(String textValue) {
@@ -204,6 +184,8 @@ public class ComboVBox extends Region {
 					resultContextMenu.requestFocus();
 				} else if (keyEvent.getCode() == KeyCode.ENTER) {
 					resultContextMenu.hide();
+				} else if (keyEvent.getCode() == KeyCode.ESCAPE) {
+					resultContextMenu.hide();
 				}
 			}
 		});
@@ -221,10 +203,9 @@ public class ComboVBox extends Region {
 						}
 						showError(null, null);
 					} else {
+						List<TestMaster> resultList = ValidationData
+								.getTestList();
 
-						List<ValidationMaster> resultList = ValidationData
-								.searchValidationDetails(type, textBox
-										.getText().trim());
 						if (resultList.size() > 0) {
 							showError(null, null);
 							populateMenu(resultList);
@@ -245,15 +226,16 @@ public class ComboVBox extends Region {
 		});
 	}
 
-	private void populateMenu(List<ValidationMaster> resultList) {
+	private void populateMenu(List<TestMaster> resultList) {
 
 		resultContextMenu.getItems().clear();
-		Iterator<ValidationMaster> results = resultList.iterator();
+		Iterator<TestMaster> results = resultList.iterator();
+
 		while (results.hasNext()) {
-			final ValidationMaster result = (ValidationMaster) results.next();
+			final TestMaster result = (TestMaster) results.next();
 			final HBox hBox = new HBox();
 			hBox.setFillHeight(true);
-			Label itemLabel = new Label(result.getValidationName());
+			Label itemLabel = new Label(result.getTestName());
 			itemLabel.getStyleClass().add("item-label");
 			hBox.getChildren().addAll(itemLabel);
 
@@ -270,14 +252,14 @@ public class ComboVBox extends Region {
 				@Override
 				public void handle(ActionEvent actionEvent) {
 
-					textBox.setText(result.getValidationName());
+					testProperty.set(result);
 				}
 			});
 		}
 	}
 
-	public void addFocusListener(ChangeListener<Boolean> focusChangeListener) {
+	public TestProperty testProperty() {
 
-		textBox.focusedProperty().addListener(focusChangeListener);
+		return testProperty;
 	}
 }

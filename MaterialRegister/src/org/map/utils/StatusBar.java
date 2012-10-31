@@ -1,7 +1,5 @@
 package org.map.utils;
 
-import java.io.File;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -17,8 +15,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import org.map.logger.LoggerUtil;
 
 public class StatusBar {
 
@@ -45,13 +41,7 @@ public class StatusBar {
 
 		this.scene = new Scene(root, parentStage.getScene().getWidth(),
 				statusBarHeight, Color.web("#FFFFFF"));
-		try {
-			File statusBarStyle = new File("resources/style/statusbar.css");
-			this.scene.getStylesheets().add(
-					statusBarStyle.toURI().toURL().toExternalForm());
-		} catch (Exception e) {
-			LoggerUtil.getLogger().debug(e);
-		}
+		this.scene.getStylesheets().add(FileUtil.getStyleAsUrl("statusbar"));
 		this.scene.setFill(Color.TRANSPARENT);
 
 		this.stage = new Stage();

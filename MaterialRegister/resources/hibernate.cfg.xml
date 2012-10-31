@@ -12,11 +12,17 @@
 		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.connection.autocommit">true</property>
 
-		<mapping resource="resources/mapping/MaterialMaster.hbm.xml" />
-		<mapping resource="resources/mapping/MaterialTestMap.hbm.xml" />
-		<mapping resource="resources/mapping/HeatChartSheets.hbm.xml" />
+		<mapping resource="resources/mapping/AgencyMaster.hbm.xml" />
+		<mapping resource="resources/mapping/CustomerMaster.hbm.xml" />
 		<mapping resource="resources/mapping/HeatChartMaster.hbm.xml" />
-		<mapping resource="resources/mapping/ValidationMaster.hbm.xml" />
+		<mapping resource="resources/mapping/HeatChartSheets.hbm.xml" />
+		<mapping resource="resources/mapping/ItemMaster.hbm.xml" />
+		<mapping resource="resources/mapping/LaboratoryMaster.hbm.xml" />
+		<mapping resource="resources/mapping/MaterialMaster.hbm.xml" />
+		<mapping resource="resources/mapping/ResultMaster.hbm.xml" />
+		<mapping resource="resources/mapping/RoleMaster.hbm.xml" />
+		<mapping resource="resources/mapping/SpecificationMaster.hbm.xml" />
+		<mapping resource="resources/mapping/TestMaster.hbm.xml" />
 		<mapping resource="resources/mapping/UserMaster.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

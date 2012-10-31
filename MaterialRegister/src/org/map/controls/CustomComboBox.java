@@ -17,7 +17,6 @@ public class CustomComboBox extends Region {
 	public CustomComboBox() {
 
 		initComponent("", "");
-		comboBox.getSelectionModel().clearSelection();
 	}
 
 	public CustomComboBox(String textValue, String promptText, String type) {
@@ -26,16 +25,19 @@ public class CustomComboBox extends Region {
 		comboBox.getSelectionModel().select(textValue);
 	}
 
-	public CustomComboBox(String textValue, String promptText, String type,
-			StringProperty propertyValue, boolean bidirectional) {
+	public CustomComboBox(String promptText, String type,
+			StringProperty propertyValue) {
 
 		initComponent(promptText, type);
-		if (bidirectional) {
-			comboBox.valueProperty().bindBidirectional(propertyValue);
-		} else {
-			comboBox.valueProperty().bind(propertyValue);
-		}
+		comboBox.valueProperty().bindBidirectional(propertyValue);
+	}
+
+	public CustomComboBox(String textValue, String promptText, String type,
+			StringProperty propertyValue) {
+
+		initComponent(promptText, type);
 		comboBox.getSelectionModel().select(textValue);
+		comboBox.valueProperty().bindBidirectional(propertyValue);
 	}
 
 	public void bind(StringProperty propertyValue) {
@@ -52,25 +54,47 @@ public class CustomComboBox extends Region {
 
 		setType(type);
 
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		comboBox = new ComboBox();
 		comboBox.getStyleClass().add("result-combo-box");
-		comboBox.setPrefWidth(Layout.getTextBoxWidth());
+		comboBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
+
 		if (type.equalsIgnoreCase("Material")) {
 			comboBox.getItems().addAll(
 					AppProperties.getValue("material.year.list").split(","));
 		} else if (type.equalsIgnoreCase("HeatChart")) {
 			comboBox.getItems().addAll(
 					AppProperties.getValue("heatchart.year.list").split(","));
+
+		} else if (type.equalsIgnoreCase("Agency")) {
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Agency"));
+		} else if (type.equalsIgnoreCase("Customer")) {
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Customer"));
+		} else if (type.equalsIgnoreCase("Item")) {
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Item"));
+		} else if (type.equalsIgnoreCase("Laboratory")) {
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Laboratory"));
+		} else if (type.equalsIgnoreCase("Result")) {
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Result"));
+		} else if (type.equalsIgnoreCase("Role")) {
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Role"));
+		} else if (type.equalsIgnoreCase("Specification")) {
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Specification"));
 		} else if (type.equalsIgnoreCase("Test")) {
-			comboBox.getItems().addAll(ValidationData.getValidationName(type));
+			comboBox.getItems().addAll(
+					ValidationData.getValidationNameList("Test"));
 		} else if (type.equalsIgnoreCase("ValidationType")) {
 			comboBox.getItems().addAll(ValidationData.getValidationTypes());
-		} else if (type.equalsIgnoreCase("Role")) {
-			comboBox.getItems().addAll(ValidationData.getValidationName(type));
 		}
 
 		getChildren().addAll(comboBox);

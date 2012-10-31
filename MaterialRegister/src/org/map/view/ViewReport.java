@@ -21,7 +21,6 @@ import org.map.calendar.DatePicker;
 import org.map.controls.TextBox;
 import org.map.hibernate.dao.MaterialData;
 import org.map.hibernate.ddo.MaterialMaster;
-import org.map.hibernate.ddo.MaterialTestMap;
 import org.map.logger.LoggerUtil;
 import org.map.service.ServiceManager;
 import org.map.utils.Alert;
@@ -64,11 +63,10 @@ public class ViewReport extends ScrollPane {
 			final HBox search1 = new HBox(ViewLayout.H_SPACE);
 			Label ctNumberFromLabel = new Label("CT Number From");
 			ctNumberFromLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox ctNumberFromTextField = new TextBox("",
-					"CT Number From");
+			final TextBox ctNumberFromTextField = new TextBox("CT Number From");
 			Label ctNumberToLabel = new Label("CT Number To");
 			ctNumberToLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox ctNumberToTextField = new TextBox("", "CT Number To");
+			final TextBox ctNumberToTextField = new TextBox("CT Number To");
 			final Button searchRecordButton1 = new Button("Search");
 			searchRecordButton1.getStyleClass().add("submit-button");
 			search1.getChildren().addAll(ctNumberFromLabel,
@@ -126,7 +124,7 @@ public class ViewReport extends ScrollPane {
 					"specification"));
 			TableColumn Col5 = new TableColumn("Tests");
 			Col5.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-			Col5.setCellValueFactory(new PropertyValueFactory<MaterialMaster, MaterialTestMap>(
+			Col5.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
 					"tests"));
 			TableColumn Col6 = new TableColumn("Customer");
 			Col6.setPrefWidth(ViewLayout.COLUMN_WIDTH);

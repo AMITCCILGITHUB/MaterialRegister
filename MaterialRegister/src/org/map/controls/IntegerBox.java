@@ -1,7 +1,6 @@
 package org.map.controls;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.layout.Region;
 
 import org.map.utils.Layout;
@@ -12,49 +11,29 @@ public class IntegerBox extends Region {
 
 	public IntegerBox() {
 
-		initComponent(0, "");
+		initComponent("");
 	}
 
 	public IntegerBox(Integer textValue, String promptText) {
 
-		initComponent(textValue, promptText);
+		initComponent(promptText);
+		textBox.setValue(textValue);
 	}
 
-	public IntegerBox(Integer textValue, String promptText,
-			IntegerProperty propertyValue, boolean bidirectional) {
+	public IntegerBox(String promptText, IntegerProperty propertyValue) {
 
-		if (textValue.intValue() == 0) {
-			initComponent(textValue, promptText);
-		} else {
-			initComponent(propertyValue.getValue(), promptText);
-		}
-
-		if (bidirectional) {
-			textBox.valueProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.valueProperty().bind(propertyValue);
-		}
+		initComponent(promptText);
+		textBox.valueProperty().bindBidirectional(propertyValue);
 	}
 
-	public void bind(StringProperty propertyValue) {
+	private void initComponent(String promptText) {
 
-		textBox.textProperty().bind(propertyValue);
-	}
-
-	public void bindBidirectional(StringProperty propertyValue) {
-
-		textBox.textProperty().bindBidirectional(propertyValue);
-	}
-
-	private void initComponent(Integer textValue, String promptText) {
-
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new IntField(0);
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
-		textBox.setValue(textValue);
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 		textBox.setPromptText(promptText);
 
 		getChildren().addAll(textBox);

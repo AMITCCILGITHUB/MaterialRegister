@@ -24,6 +24,7 @@ import org.map.utils.ViewLayout;
 public class AddUser extends ScrollPane {
 
 	public AddUser() {
+
 		try {
 			VBox main = new VBox(ViewLayout.H_SPACE);
 			main.getStyleClass().add("category-page");
@@ -32,13 +33,13 @@ public class AddUser extends ScrollPane {
 			header.getStyleClass().add("page-header");
 			main.getChildren().add(header);
 
-			Label detailCategoryHeader = new Label("Details");
-			detailCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			detailCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			detailCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(detailCategoryHeader);
+			Label detailHeader = new Label("Details");
+			detailHeader.setMaxWidth(Double.MAX_VALUE);
+			detailHeader.setMinHeight(Control.USE_PREF_SIZE);
+			detailHeader.getStyleClass().add("category-header");
+			main.getChildren().add(detailHeader);
 
-			final UserMaster newUser = new UserMaster();
+			final UserMaster user = new UserMaster();
 
 			GridPane form = new GridPane();
 			form.setHgap(ViewLayout.H_SPACE);
@@ -46,13 +47,13 @@ public class AddUser extends ScrollPane {
 
 			Label userNameLabel = new Label("User Name");
 			userNameLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox userNameTextBox = new TextBox("", "User Name",
-					newUser.userNameProperty(), true);
+			final TextBox userNameTextBox = new TextBox("User Name",
+					user.userNameProperty());
 
 			Label passwordLabel = new Label("Password");
 			passwordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final PasswordBox passwordBox = new PasswordBox("", "Password",
-					newUser.passwordProperty(), true);
+			final PasswordBox passwordBox = new PasswordBox("Password",
+					user.passwordProperty());
 
 			Label confirmPasswordLabel = new Label("Confirm Password");
 			confirmPasswordLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
@@ -61,8 +62,8 @@ public class AddUser extends ScrollPane {
 
 			Label roleLabel = new Label("Role");
 			roleLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final CustomComboBox roleChoiceBox = new CustomComboBox("", "Role",
-					"Role", newUser.roleProperty(), true);
+			final CustomComboBox roleChoiceBox = new CustomComboBox("Role",
+					"Role", user.roleProperty());
 
 			form.add(userNameLabel, 0, 0);
 			form.add(userNameTextBox, 1, 0);
@@ -89,7 +90,7 @@ public class AddUser extends ScrollPane {
 							if (passwordBox.getText().equalsIgnoreCase(
 									confirmPasswordBox.getText())) {
 								if (roleChoiceBox.getText().trim().length() > 0) {
-									UserData.insertUser(newUser);
+									UserData.insertUser(user);
 									Alert.showAlert(MaterialRegister
 											.getMaterialRegister()
 											.getPrimaryStage(), "Alert",
@@ -130,7 +131,7 @@ public class AddUser extends ScrollPane {
 				@Override
 				public void handle(ActionEvent e) {
 
-					newUser.resetUserMaster();
+					user.resetUserMaster();
 				}
 			});
 			buttons.getChildren().addAll(submitButton, resetButton);

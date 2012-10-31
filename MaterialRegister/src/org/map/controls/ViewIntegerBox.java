@@ -1,9 +1,10 @@
 package org.map.controls;
 
-import org.map.utils.Layout;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.layout.Region;
+
+import org.map.utils.Layout;
 
 public class ViewIntegerBox extends Region {
 
@@ -21,16 +22,17 @@ public class ViewIntegerBox extends Region {
 		textBox.setValue(value);
 	}
 
-	public ViewIntegerBox(int value, IntegerProperty propertyValue,
-			boolean bidirectional) {
+	public ViewIntegerBox(IntegerProperty propertyValue) {
 
 		initComponent();
-		if (bidirectional) {
-			textBox.valueProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.valueProperty().bind(propertyValue);
-		}
+		textBox.valueProperty().bindBidirectional(propertyValue);
+	}
+
+	public ViewIntegerBox(int value, IntegerProperty propertyValue) {
+
+		initComponent();
 		textBox.setValue(value);
+		textBox.valueProperty().bindBidirectional(propertyValue);
 	}
 
 	public void bind(StringProperty propertyValue) {
@@ -47,12 +49,12 @@ public class ViewIntegerBox extends Region {
 
 		getStyleClass().add("view-text-box");
 
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new IntField(0);
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 
 		textBox.setDisable(true);
 

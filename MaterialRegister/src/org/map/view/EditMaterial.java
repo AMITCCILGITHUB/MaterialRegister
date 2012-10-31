@@ -1,10 +1,6 @@
 package org.map.view;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,15 +28,11 @@ import org.map.MaterialRegister;
 import org.map.calendar.DatePicker;
 import org.map.controls.CountBox;
 import org.map.controls.EComboBox;
-import org.map.controls.EIntegerBox;
-import org.map.controls.EditTestGroup;
 import org.map.controls.EditableBox;
 import org.map.controls.TextBox;
 import org.map.controls.ViewBox;
 import org.map.hibernate.dao.MaterialData;
-import org.map.hibernate.dao.ValidationData;
 import org.map.hibernate.ddo.MaterialMaster;
-import org.map.hibernate.ddo.ValidationMaster;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
 import org.map.utils.Confirm;
@@ -57,6 +49,7 @@ public class EditMaterial extends TabPane {
 	}
 
 	public EditMaterial() {
+
 		Tab tab = new Tab("Edit Material : Search");
 
 		try {
@@ -77,11 +70,10 @@ public class EditMaterial extends TabPane {
 			final HBox search1 = new HBox(ViewLayout.H_SPACE);
 			Label ctNumberFromLabel = new Label("CT No From");
 			ctNumberFromLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox ctNumberFromTextField = new TextBox("",
-					"CT Number From");
+			final TextBox ctNumberFromTextField = new TextBox("CT Number From");
 			Label ctNumberToLabel = new Label("CT No To");
 			ctNumberToLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox ctNumberToTextField = new TextBox("", "CT Number To");
+			final TextBox ctNumberToTextField = new TextBox("CT Number To");
 			final Button searchRecordButton1 = new Button("Search");
 			searchRecordButton1.getStyleClass().add("submit-button");
 			search1.getChildren().addAll(ctNumberFromLabel,
@@ -205,6 +197,7 @@ public class EditMaterial extends TabPane {
 
 				@Override
 				public void handle(MouseEvent mouseEvent) {
+
 					if (mouseEvent.getClickCount() == 2) {
 
 						MaterialMaster selMaterial = tableMailbox
@@ -304,6 +297,7 @@ public class EditMaterial extends TabPane {
 	}
 
 	private void createEditTab(final MaterialMaster material) {
+
 		for (Tab selTab : getTabs()) {
 			if (selTab.getId() != null
 					&& selTab.getId().equalsIgnoreCase(material.getCtNumber())) {
@@ -314,8 +308,6 @@ public class EditMaterial extends TabPane {
 
 		Tab tab = new Tab("Edit Material : " + material.getCtNumber());
 		tab.setId(material.getCtNumber());
-
-		final ArrayList<EditTestGroup> etgp = new ArrayList<>();
 
 		final VBox main = new VBox(ViewLayout.H_SPACE) {
 
@@ -343,16 +335,17 @@ public class EditMaterial extends TabPane {
 		Label ctNumberLabel = new Label("CT Number");
 		ctNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final ViewBox ctNumberTextField = new ViewBox("",
-				material.ctNumberProperty(), true);
+				material.ctNumberProperty());
 		Label agencyLabel = new Label("Inspection Agency");
 		agencyLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EComboBox agencyTextField = new EComboBox("",
-				"Inspection Agency", "Agency",
-				material.inspectionAgencyProperty(), true);
+				"Inspection Agency", "Agency", material.getInspectionAgency()
+						.agencyNameProperty());
 		Label specLabel = new Label("Specification");
 		specLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EComboBox specTextField = new EComboBox("", "Specification",
-				"Specification", material.specificationProperty(), true);
+				"Specification", material.getSpecification()
+						.specificationNameProperty());
 		detail.getChildren().addAll(ctNumberLabel, ctNumberTextField,
 				agencyLabel, agencyTextField, specLabel, specTextField);
 		main.getChildren().add(detail);
@@ -369,43 +362,29 @@ public class EditMaterial extends TabPane {
 		Label itemLabel = new Label("Item");
 		itemLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EComboBox itemTextField = new EComboBox("", "Item Name", "Item",
-				material.itemProperty(), true);
+				material.getItem().itemNameProperty());
 		Label sizeLabel = new Label("Size");
 		sizeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox sizeTextField = new EditableBox("", "Size",
-				material.sizeProperty(), true);
+				material.sizeProperty());
 		Label quantityLabel = new Label("Test Quantity");
 		quantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final CountBox quantityTextField = new CountBox("1", "Test Quantity",
-				material.testQuantityProperty(), true);
+		final CountBox quantityTextField = new CountBox(
+				material.quantityProperty());
 		Label heatNumberLabel = new Label("Heat / Lot Number");
 		heatNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox heatNumberTextField = new EditableBox("",
-				"Heat / Lot Number", material.heatNumberProperty(), true);
+				"Heat / Lot Number", material.heatNumberProperty());
 		Label plateNumberLabel = new Label("Plate / Product Number");
 		plateNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox plateNumberTextField = new EditableBox("",
-				"Plate / Product Number", material.plateNumberProperty(), true);
-		Label productQuantityLabel = new Label("Offered Quantity");
-		productQuantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final EIntegerBox productQuantityTextField = new EIntegerBox(0,
-				"Offered Number", material.offeredQuantityProperty(), true);
+				"Plate / Product Number", material.plateNumberProperty());
 		descriptionLine1.getChildren().addAll(itemLabel, itemTextField,
 				sizeLabel, sizeTextField, quantityLabel, quantityTextField);
 		descriptionLine2.getChildren().addAll(heatNumberLabel,
-				heatNumberTextField, plateNumberLabel, plateNumberTextField,
-				productQuantityLabel, productQuantityTextField);
+				heatNumberTextField, plateNumberLabel, plateNumberTextField);
 		description.getChildren().addAll(descriptionLine1, descriptionLine2);
 		main.getChildren().add(description);
-
-		final VBox testBox = new VBox();
-		EditTestGroup etg = new EditTestGroup(material.getCtNumber(), material
-				.getTests().iterator());
-
-		etgp.add(etg);
-		testBox.getChildren().add(etg.getView());
-
-		main.getChildren().add(testBox);
 
 		Label otherCategoryHeader = new Label("Other Details");
 		otherCategoryHeader.setMaxWidth(Double.MAX_VALUE);
@@ -420,35 +399,35 @@ public class EditMaterial extends TabPane {
 		Label custLabel = new Label("Customer");
 		custLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EComboBox custTextField = new EComboBox("", "Customer Name",
-				"Customer", material.customerProperty(), true);
+				"Customer", material.getCustomer().customerNameProperty());
 		Label equipLabel = new Label("Equipments");
 		equipLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox equipTextField = new EditableBox("", "Equipments",
-				material.equipmentsProperty(), true);
+				material.equipmentsProperty());
 		Label labLabel = new Label("Laboratory");
 		labLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EComboBox labTextField = new EComboBox("", "Laboratory",
-				"Laboratory", material.laboratoryProperty(), true);
+				"Laboratory", material.getLaboratory().laboratoryNameProperty());
 		Label repDateLabel = new Label("Report Date");
 		repDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox repDateCalendarBox = new EditableBox("",
-				"dd-MM-yyyy", material.reportDateProperty(), true);
+				"dd-MM-yyyy", material.reportDateProperty());
 		Label repNumberLabel = new Label("Report Number");
 		repNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox repNumberTextField = new EditableBox("",
-				"Report Number", material.reportNumberProperty(), true);
+				"Report Number", material.reportNumberProperty());
 		Label remarksLabel = new Label("Remarks");
 		remarksLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EComboBox remarksTextField = new EComboBox("", "Remarks",
-				"Remarks", material.remarksProperty(), true);
+				"Remarks", material.remarksProperty());
 		Label resulLabel = new Label("Result");
 		resulLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox resultTextField = new EditableBox("", "Result",
-				material.resultProperty(), true);
+				material.getResult().resultNameProperty());
 		Label witnessedByLabel = new Label("Witnessed By");
 		witnessedByLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 		final EditableBox witnessedByTextField = new EditableBox("",
-				"Witnessed By", material.witnessedByProperty(), true);
+				"Witnessed By", material.witnessedByProperty());
 		otherDetailsLine1.getChildren().addAll(custLabel, custTextField,
 				equipLabel, equipTextField, labLabel, labTextField);
 		otherDetailsLine2.getChildren().addAll(repDateLabel,
@@ -488,47 +467,6 @@ public class EditMaterial extends TabPane {
 
 				});
 
-		quantityTextField.setOnAddButtonAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-
-				EditTestGroup etg1 = new EditTestGroup(material.getCtNumber()
-						+ "-" + ((char) (65 + testBox.getChildren().size())),
-						material.getTests().iterator());
-
-				etgp.add(etg1);
-				testBox.getChildren().add(etg1.getView());
-
-				quantityTextField.setValue(quantityTextField.getValue() + 1);
-
-				if (quantityTextField.getValue() > 1) {
-					etgp.get(0).setCtNumber(material.getCtNumber() + "-A");
-				}
-			}
-		});
-
-		quantityTextField.setOnSubButtonAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-
-				if (etgp.size() > 1) {
-					etgp.remove(etgp.size() - 1);
-					testBox.getChildren().remove(
-							testBox.getChildren().size() - 1);
-
-					quantityTextField
-							.setValue((quantityTextField.getValue() < 2) ? 1
-									: (quantityTextField.getValue() - 1));
-
-					if (quantityTextField.getValue() == 1) {
-						etgp.get(0).setCtNumber(material.getCtNumber());
-					}
-				}
-			}
-		});
-
 		final HBox buttons = new HBox(ViewLayout.H_SPACE);
 		buttons.setTranslateY(32);
 		final Button updateButton = new Button("Update");
@@ -546,29 +484,6 @@ public class EditMaterial extends TabPane {
 					Alert.showAlert(MaterialRegister.getMaterialRegister()
 							.getPrimaryStage(), "Error", "Error",
 							"Please enter reason of Failure.");
-				} else {
-					Iterator<EditTestGroup> etgpit = etgp.iterator();
-					Set<ValidationMaster> vmSet = new TreeSet<>();
-					while (etgpit.hasNext()) {
-						EditTestGroup etg2 = (EditTestGroup) etgpit.next();
-						vmSet.addAll(etg2.getNewTestList());
-					}
-					ValidationData.insertTests(vmSet.iterator());
-
-					MaterialData.deleteMaterial(material);
-
-					etgpit = etgp.iterator();
-					while (etgpit.hasNext()) {
-						EditTestGroup etg3 = (EditTestGroup) etgpit.next();
-						MaterialMaster mat = new MaterialMaster(material);
-						mat.setCtNumber(etg3.getCtNumber());
-						MaterialData.updateMaterialTestMap(mat, etg3
-								.getNewTestList().iterator());
-					}
-
-					Alert.showAlert(MaterialRegister.getMaterialRegister()
-							.getPrimaryStage(), "Alert", "Alert",
-							"Material details updated successfully.");
 				}
 			}
 		});

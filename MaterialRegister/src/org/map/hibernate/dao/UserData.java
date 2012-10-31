@@ -22,6 +22,7 @@ public class UserData {
 
 		transaction.commit();
 		session.close();
+
 		return ((rowCount > 0) ? true : false);
 	}
 

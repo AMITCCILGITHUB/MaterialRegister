@@ -1,10 +1,24 @@
 package org.map.calendar;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.StringBinding;
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,13 +33,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.map.utils.Layout;
 
 /**
@@ -59,10 +66,10 @@ public final class DatePicker extends HBox {
 		textField = new TextField();
 		textField.setId("TextBox");
 
-		textField.setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		textField.setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 		textField
-				.setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		textField.setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+				.setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		textField.setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		this.locale.set(locale);
 		setDateFormat(new SimpleDateFormat("dd-MM-yy"));
@@ -467,5 +474,10 @@ public final class DatePicker extends HBox {
 
 		popup.show(this, posX, posY);
 
+	}
+
+	public StringProperty textProperty() {
+
+		return textField.textProperty();
 	}
 }

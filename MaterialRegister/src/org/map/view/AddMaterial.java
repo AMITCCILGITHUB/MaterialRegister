@@ -1,34 +1,49 @@
 package org.map.view;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 import org.map.MaterialRegister;
-import org.map.controls.ComboVBox;
-import org.map.controls.CountBox;
+import org.map.controls.AgencyComboBox;
 import org.map.controls.CustomComboBox;
+import org.map.controls.CustomerCellFactory;
+import org.map.controls.DatePickerCellFactory;
 import org.map.controls.IntegerBox;
-import org.map.controls.TestGroup;
+import org.map.controls.ItemComboBox;
+import org.map.controls.LaboratoryCellFactory;
+import org.map.controls.ResultCellFactory;
+import org.map.controls.SpecificationComboBox;
+import org.map.controls.TestCellFactory;
 import org.map.controls.TextBox;
+import org.map.controls.TextCellFactory;
 import org.map.controls.ViewBox;
 import org.map.hibernate.dao.MaterialData;
 import org.map.hibernate.dao.ValidationData;
+import org.map.hibernate.ddo.CustomerMaster;
+import org.map.hibernate.ddo.CustomerProperty;
+import org.map.hibernate.ddo.LaboratoryMaster;
+import org.map.hibernate.ddo.LaboratoryProperty;
 import org.map.hibernate.ddo.MaterialMaster;
-import org.map.hibernate.ddo.ValidationMaster;
+import org.map.hibernate.ddo.ResultMaster;
+import org.map.hibernate.ddo.ResultProperty;
+import org.map.hibernate.ddo.TestMaster;
+import org.map.hibernate.ddo.TestProperty;
 import org.map.logger.LoggerUtil;
 import org.map.utils.Alert;
 import org.map.utils.AppProperties;
@@ -36,13 +51,10 @@ import org.map.utils.ViewLayout;
 
 public class AddMaterial extends ScrollPane {
 
-	private ArrayList<TestGroup> tgp = new ArrayList<>();
-
 	public AddMaterial() {
 
 		try {
 			VBox main = new VBox(ViewLayout.H_SPACE);
-			VBox.setVgrow(main, Priority.ALWAYS);
 			main.getStyleClass().add("category-page");
 
 			final MaterialMaster material = new MaterialMaster();
@@ -72,6 +84,7 @@ public class AddMaterial extends ScrollPane {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					try {
 						AppProperties.setValue("material.current.year",
 								yearChoiceBox.getText());
@@ -94,194 +107,188 @@ public class AddMaterial extends ScrollPane {
 			yearBox.getChildren().addAll(yearLabel, yearChoiceBox, yearButton);
 			main.getChildren().add(yearBox);
 
-			Label detailCategoryHeader = new Label("Details");
-			detailCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			detailCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			detailCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(detailCategoryHeader);
+			/*--------------------------------------*/
+			Label detailHeader = new Label("Details");
+			detailHeader.setMaxWidth(Double.MAX_VALUE);
+			detailHeader.setMinHeight(Control.USE_PREF_SIZE);
+			detailHeader.getStyleClass().add("category-header");
+			main.getChildren().add(detailHeader);
 
-			final HBox detail = new HBox(ViewLayout.H_SPACE);
+			GridPane form = new GridPane();
+			form.setHgap(ViewLayout.H_SPACE);
+			form.setVgap(ViewLayout.V_SPACE);
+
 			Label ctNumberLabel = new Label("CT Number");
 			ctNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			final ViewBox ctNumberTextField = new ViewBox(
 					MaterialData.getNextCtNumber(AppProperties
 							.getValue("material.current.year")),
-					material.ctNumberProperty(), true);
+					material.ctNumberProperty());
+
 			Label agencyLabel = new Label("Inspection Agency");
 			agencyLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ComboVBox agencyTextField = new ComboVBox("",
-					"Inspection Agency", "Agency",
-					material.inspectionAgencyProperty(), true);
+			final AgencyComboBox agencyTextField = new AgencyComboBox(
+					"Inspection Agency", material.inspectionAgencyProperty());
+			material.setInspectionAgency(ValidationData.getAgencyList().get(0));
+
 			Label specLabel = new Label("Specification");
 			specLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ComboVBox specTextField = new ComboVBox("", "Specification",
-					"Specification", material.specificationProperty(), true);
-			detail.getChildren().addAll(ctNumberLabel, ctNumberTextField,
-					agencyLabel, agencyTextField, specLabel, specTextField);
-			main.getChildren().add(detail);
+			final SpecificationComboBox specTextField = new SpecificationComboBox(
+					"Specification", material.specificationProperty());
+			material.setSpecification(ValidationData.getSpecificationList()
+					.get(0));
 
-			Label descriptionCategoryHeader = new Label("Description");
-			descriptionCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			descriptionCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			descriptionCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(descriptionCategoryHeader);
-
-			final VBox description = new VBox(ViewLayout.V_SPACE);
-			final HBox descriptionLine1 = new HBox(ViewLayout.H_SPACE);
-			final HBox descriptionLine2 = new HBox(ViewLayout.H_SPACE);
 			Label itemLabel = new Label("Item");
 			itemLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ComboVBox itemTextField = new ComboVBox("", "Item Name",
-					"Item", material.itemProperty(), true);
+			final ItemComboBox itemTextField = new ItemComboBox("Item Name",
+					material.itemProperty());
+			material.setItem(ValidationData.getItemList().get(0));
+
 			Label sizeLabel = new Label("Size");
 			sizeLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox sizeTextField = new TextBox("", "Size",
-					material.sizeProperty(), true);
-			Label quantityLabel = new Label("Test Quantity");
+			final TextBox sizeTextField = new TextBox("Size",
+					material.sizeProperty());
+
+			Label quantityLabel = new Label("Quantity");
 			quantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final CountBox quantityTextField = new CountBox("",
-					"Test Quantity", material.testQuantityProperty(), true);
+			final IntegerBox quantityTextField = new IntegerBox("Quantity",
+					material.quantityProperty());
+
 			Label heatNumberLabel = new Label("Heat / Lot Number");
 			heatNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox heatNumberTextField = new TextBox("",
-					"Heat / Lot Number", material.heatNumberProperty(), true);
+			final TextBox heatNumberTextField = new TextBox(
+					"Heat / Lot Number", material.heatNumberProperty());
+
 			Label plateNumberLabel = new Label("Plate / Product Number");
 			plateNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox plateNumberTextField = new TextBox("",
-					"Plate / Product Number", material.plateNumberProperty(),
-					true);
-			Label productQuantityLabel = new Label("Offered Quantity");
-			productQuantityLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final IntegerBox productQuantityTextField = new IntegerBox(0,
-					"Offered Quantity", material.offeredQuantityProperty(),
-					true);
-			descriptionLine1.getChildren().addAll(itemLabel, itemTextField,
-					sizeLabel, sizeTextField, quantityLabel, quantityTextField);
-			descriptionLine2.getChildren().addAll(heatNumberLabel,
-					heatNumberTextField, plateNumberLabel,
-					plateNumberTextField, productQuantityLabel,
-					productQuantityTextField);
-			description.getChildren()
-					.addAll(descriptionLine1, descriptionLine2);
-			main.getChildren().add(description);
+			final TextBox plateNumberTextField = new TextBox(
+					"Plate / Product Number", material.plateNumberProperty());
 
-			final VBox testBox = new VBox();
-			final TestGroup tg = new TestGroup(material.getCtNumber());
+			final TableView<MaterialMaster> table = new TableView<>();
 
-			tgp.add(tg);
-			testBox.getChildren().add(tg.getView());
+			TableColumn MCol1 = new TableColumn("Sample Id");
+			MCol1.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol1.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
+					"sampleId"));
+			MCol1.setCellFactory(new TextCellFactory());
 
-			main.getChildren().add(testBox);
+			TableColumn MCol2 = new TableColumn("Test");
+			MCol2.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol2.setCellValueFactory(new Callback<CellDataFeatures<MaterialMaster, TestMaster>, TestProperty>() {
 
-			Label otherCategoryHeader = new Label("Other Details");
-			otherCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			otherCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			otherCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(otherCategoryHeader);
+				@Override
+				public TestProperty call(
+						CellDataFeatures<MaterialMaster, TestMaster> p) {
 
-			final VBox otherDetails = new VBox(ViewLayout.V_SPACE);
-			final HBox otherDetailsLine1 = new HBox(ViewLayout.H_SPACE);
-			final HBox otherDetailsLine2 = new HBox(ViewLayout.H_SPACE);
-			final HBox otherDetailsLine3 = new HBox(ViewLayout.H_SPACE);
-			Label custLabel = new Label("Customer");
-			custLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ComboVBox custTextField = new ComboVBox("", "Customer Name",
-					"Customer", material.customerProperty(), true);
-			Label equipLabel = new Label("Equipments");
-			equipLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox equipTextField = new TextBox("", "Equipments",
-					material.equipmentsProperty(), true);
-			Label labLabel = new Label("Laboratory");
-			labLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ComboVBox labTextField = new ComboVBox("", "Laboratory",
-					"Laboratory", material.laboratoryProperty(), true);
-			Label repDateLabel = new Label("Report Date");
-			repDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox repDateCalendarBox = new TextBox("", "dd-MM-yy",
-					material.reportDateProperty(), true);
-			Label repNumberLabel = new Label("Report Number");
-			repNumberLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox repNumberTextField = new TextBox("", "Report Number",
-					material.reportNumberProperty(), true);
-			Label remarksLabel = new Label("Remarks");
-			remarksLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final ComboVBox remarksTextField = new ComboVBox("", "Remarks",
-					"Remarks", material.remarksProperty(), true);
-			Label resulLabel = new Label("Result");
-			resulLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox resultTextField = new TextBox("", "Result",
-					material.resultProperty(), true);
-			Label witnessedByLabel = new Label("Witnessed By");
-			witnessedByLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox witnessedByTextField = new TextBox("",
-					"Witnessed By", material.witnessedByProperty(), true);
-			otherDetailsLine1.getChildren().addAll(custLabel, custTextField,
-					equipLabel, equipTextField, labLabel, labTextField);
-			otherDetailsLine2.getChildren().addAll(repDateLabel,
-					repDateCalendarBox, repNumberLabel, repNumberTextField,
-					resulLabel, resultTextField);
-			otherDetailsLine3.getChildren().addAll(remarksLabel,
-					remarksTextField, witnessedByLabel, witnessedByTextField);
-			otherDetails.getChildren().addAll(otherDetailsLine1,
-					otherDetailsLine2, otherDetailsLine3);
-			main.getChildren().add(otherDetails);
+					return p.getValue().testProperty();
+				}
+			});
+			MCol2.setCellFactory(new TestCellFactory());
+			material.setTest(ValidationData.getTestList().get(0));
 
-			final VBox resonBox = new VBox();
-			Label reasonLabel = new Label(
-					"Reason of Failure (In case of rejected remarks.)");
-			final TextArea reasonOfFailure = new TextArea("");
-			reasonOfFailure.textProperty().bindBidirectional(
-					material.failureReasonProperty());
-			resonBox.getChildren().addAll(reasonLabel, reasonOfFailure);
-			main.getChildren().add(resonBox);
+			TableColumn MCol3 = new TableColumn("Customer");
+			MCol3.setPrefWidth(ViewLayout.COLUMN_WIDTH_MAX);
+			MCol3.setCellValueFactory(new Callback<CellDataFeatures<MaterialMaster, CustomerMaster>, CustomerProperty>() {
 
-			quantityTextField
-					.setOnAddButtonAction(new EventHandler<ActionEvent>() {
+				@Override
+				public CustomerProperty call(
+						CellDataFeatures<MaterialMaster, CustomerMaster> p) {
 
-						@Override
-						public void handle(ActionEvent event) {
+					return p.getValue().customerProperty();
+				}
+			});
+			MCol3.setCellFactory(new CustomerCellFactory());
+			material.setCustomer(ValidationData.getCustomerList().get(0));
 
-							TestGroup tg1 = new TestGroup(material
-									.getCtNumber()
-									+ "-"
-									+ ((char) (65 + testBox.getChildren()
-											.size())));
+			TableColumn MCol4 = new TableColumn("Equipments");
+			MCol4.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol4.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
+					"equipments"));
+			MCol4.setCellFactory(new TextCellFactory());
 
-							tgp.add(tg1);
-							testBox.getChildren().add(tg1.getView());
+			TableColumn MCol5 = new TableColumn("Laboratory");
+			MCol5.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol5.setCellValueFactory(new Callback<CellDataFeatures<MaterialMaster, LaboratoryMaster>, LaboratoryProperty>() {
 
-							quantityTextField.setValue(quantityTextField
-									.getValue() + 1);
+				@Override
+				public LaboratoryProperty call(
+						CellDataFeatures<MaterialMaster, LaboratoryMaster> p) {
 
-							if (quantityTextField.getValue() > 1) {
-								tgp.get(0).setCtNumber(
-										material.getCtNumber() + "-A");
-							}
-						}
-					});
+					return p.getValue().laboratoryProperty();
+				}
+			});
+			MCol5.setCellFactory(new LaboratoryCellFactory());
+			material.setLaboratory(ValidationData.getLaboratoryList().get(0));
 
-			quantityTextField
-					.setOnSubButtonAction(new EventHandler<ActionEvent>() {
+			TableColumn MCol6 = new TableColumn("Report Date");
+			MCol6.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol6.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
+					"reportDate"));
+			MCol6.setCellFactory(new DatePickerCellFactory());
 
-						@Override
-						public void handle(ActionEvent event) {
+			TableColumn MCol7 = new TableColumn("Report Number");
+			MCol7.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol7.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
+					"reportNumber"));
+			MCol7.setCellFactory(new TextCellFactory());
 
-							if (tgp.size() > 1) {
-								tgp.remove(tgp.size() - 1);
-								testBox.getChildren().remove(
-										testBox.getChildren().size() - 1);
+			TableColumn MCol8 = new TableColumn("Result");
+			MCol8.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol8.setCellValueFactory(new Callback<CellDataFeatures<MaterialMaster, ResultMaster>, ResultProperty>() {
 
-								quantityTextField.setValue((quantityTextField
-										.getValue() < 2) ? 1
-										: (quantityTextField.getValue() - 1));
+				@Override
+				public ResultProperty call(
+						CellDataFeatures<MaterialMaster, ResultMaster> p) {
 
-								if (quantityTextField.getValue() == 1) {
-									tgp.get(0).setCtNumber(
-											material.getCtNumber());
-								}
-							}
-						}
-					});
+					return p.getValue().resultProperty();
+				}
+			});
+			MCol8.setCellFactory(new ResultCellFactory());
+			material.setResult(ValidationData.getResultList().get(0));
+
+			TableColumn MCol9 = new TableColumn("Remarks");
+			MCol9.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol9.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
+					"remarks"));
+			MCol9.setCellFactory(new TextCellFactory());
+
+			TableColumn MCol10 = new TableColumn("Witnessed By");
+			MCol10.setPrefWidth(ViewLayout.COLUMN_WIDTH);
+			MCol10.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
+					"witnessedBy"));
+			MCol10.setCellFactory(new TextCellFactory());
+
+			TableColumn MCol11 = new TableColumn("Failure Reason");
+			MCol11.setPrefWidth(ViewLayout.COLUMN_WIDTH * 2);
+			MCol11.setCellValueFactory(new PropertyValueFactory<MaterialMaster, String>(
+					"failureReason"));
+			MCol11.setCellFactory(new TextCellFactory());
+
+			table.getColumns().addAll(MCol1, MCol2, MCol3, MCol4, MCol5, MCol6,
+					MCol7, MCol8, MCol9, MCol10, MCol11);
+
+			ObservableList<MaterialMaster> materialData = FXCollections
+					.observableArrayList(material);
+			table.setItems(materialData);
+
+			form.add(ctNumberLabel, 0, 0);
+			form.add(ctNumberTextField, 1, 0);
+			form.add(agencyLabel, 2, 0);
+			form.add(agencyTextField, 3, 0);
+			form.add(specLabel, 4, 0);
+			form.add(specTextField, 5, 0);
+			form.add(itemLabel, 0, 1);
+			form.add(itemTextField, 1, 1);
+			form.add(sizeLabel, 2, 1);
+			form.add(sizeTextField, 3, 1);
+			form.add(quantityLabel, 4, 1);
+			form.add(quantityTextField, 5, 1);
+			form.add(heatNumberLabel, 0, 2);
+			form.add(heatNumberTextField, 1, 2);
+			form.add(plateNumberLabel, 2, 2);
+			form.add(plateNumberTextField, 3, 2);
+
+			main.getChildren().addAll(form, table);
 
 			final HBox buttons = new HBox(ViewLayout.H_SPACE);
 			buttons.setTranslateY(32);
@@ -292,36 +299,7 @@ public class AddMaterial extends ScrollPane {
 				@Override
 				public void handle(ActionEvent e) {
 
-					if (resultTextField.getText().equalsIgnoreCase("Rejected")
-							&& reasonOfFailure.getText().trim().length() == 0) {
-						Alert.showAlert(MaterialRegister.getMaterialRegister()
-								.getPrimaryStage(), "Error", "Error",
-								"Please enter reason of Failure.");
-					} else {
-						Iterator<TestGroup> it = tgp.iterator();
-						Set<ValidationMaster> vmSet = new TreeSet<>();
-						while (it.hasNext()) {
-							TestGroup tg2 = (TestGroup) it.next();
-							vmSet.addAll(tg2.getNewTestList());
-						}
-						ValidationData.insertTests(vmSet.iterator());
-
-						it = tgp.iterator();
-						while (it.hasNext()) {
-							TestGroup tg2 = (TestGroup) it.next();
-							material.setCtNumber(tg2.getCtNumber());
-							MaterialData.insertMaterialTestMap(material, tg2
-									.getNewTestList().iterator(), tg2
-									.getTestList().iterator());
-						}
-
-						Alert.showAlert(MaterialRegister.getMaterialRegister()
-								.getPrimaryStage(), "Alert", "Alert",
-								"Material details saved successfully.");
-
-						MaterialRegister.getMaterialRegister().reloadPage(
-								"Add Material");
-					}
+					MaterialData.insertMaterialDetails(material);
 				}
 			});
 

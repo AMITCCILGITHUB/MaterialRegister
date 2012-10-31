@@ -1,57 +1,39 @@
 package org.map.controls;
 
-import org.map.utils.Layout;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
+
+import org.map.utils.Layout;
 
 public class TextBox extends Region {
 
 	private TextField textBox;
 	private Button errorButton;
 
-	public TextBox() {
+	public TextBox(String promptText) {
 
-		initComponent("", "");
+		initComponent(promptText);
 	}
 
-	public TextBox(String textValue, String promptText) {
+	public TextBox(String promptText, StringProperty propertyValue) {
 
-		initComponent(textValue, promptText);
-	}
-
-	public TextBox(String textValue, String promptText,
-			StringProperty propertyValue, boolean bidirectional) {
-
-		initComponent(textValue, promptText);
-		if (bidirectional) {
-			textBox.textProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.textProperty().bind(propertyValue);
-		}
-	}
-
-	public void bind(StringProperty propertyValue) {
-
-		textBox.textProperty().bind(propertyValue);
-	}
-
-	public void bindBidirectional(StringProperty propertyValue) {
-
+		initComponent(promptText);
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
-	private void initComponent(String textValue, String promptText) {
+	private void initComponent(String promptText) {
 
-		setMinSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxSize(Layout.getRegionWidth(), Layout.getRegionHeight());
+		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
 
 		textBox = new TextField();
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
-		textBox.setText(textValue);
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 		textBox.setPromptText(promptText);
 
 		errorButton = new Button();

@@ -1,8 +1,5 @@
 package org.map.controls;
 
-import java.util.Iterator;
-import java.util.List;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.StringProperty;
@@ -11,21 +8,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
 
-import org.map.hibernate.dao.ValidationData;
-import org.map.hibernate.ddo.ValidationMaster;
 import org.map.utils.Layout;
 
 public class EComboBox extends Region {
@@ -50,7 +41,7 @@ public class EComboBox extends Region {
 	}
 
 	public EComboBox(String textValue, String promptText, String type,
-			StringProperty propertyValue, boolean bidirectional) {
+			StringProperty propertyValue) {
 
 		if (textValue.trim().length() > 0) {
 			initComponent(textValue, promptText, type);
@@ -58,11 +49,7 @@ public class EComboBox extends Region {
 			initComponent(propertyValue.getValue(), promptText, type);
 		}
 
-		if (bidirectional) {
-			textBox.textProperty().bindBidirectional(propertyValue);
-		} else {
-			textBox.textProperty().bind(propertyValue);
-		}
+		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
 	public void bind(StringProperty propertyValue) {
@@ -80,12 +67,12 @@ public class EComboBox extends Region {
 
 		setType(type);
 
-		setMinHeight(Layout.getRegionHeight());
-		setPrefSize(Layout.getRegionWidth(), Layout.getRegionHeight());
-		setMaxHeight(Layout.getRegionHeight());
+		setMinHeight(Layout.REGION_HEIGHT);
+		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMaxHeight(Layout.REGION_HEIGHT);
 
 		textBox = new TextField();
-		textBox.setPrefWidth(Layout.getTextBoxWidth());
+		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
 		textBox.setText(textValue);
 		textBox.setDisable(true);
 		textBox.setPromptText(promptText);
@@ -260,23 +247,17 @@ public class EComboBox extends Region {
 						}
 						showError(null, null);
 					} else {
-
-						List<ValidationMaster> resultList = ValidationData
-								.searchValidationDetails(type, textBox
-										.getText().trim());
-						if (resultList.size() > 0) {
-							showError(null, null);
-							populateMenu(resultList);
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
-						} else {
-							if (searchErrorTooltip.getText() != null) {
-								showError(textBox, "No matches");
-							}
-							resultContextMenu.hide();
-						}
+						/*
+						 * List<ValidationMaster> resultList = ValidationData
+						 * .searchValidationDetails(type, textBox
+						 * .getText().trim()); if (resultList.size() > 0) {
+						 * showError(null, null); populateMenu(resultList); if
+						 * (!resultContextMenu.isShowing()) {
+						 * resultContextMenu.show(textBox, Side.BOTTOM, 10, -5);
+						 * } } else { if (searchErrorTooltip.getText() != null)
+						 * { showError(textBox, "No matches"); }
+						 * resultContextMenu.hide(); }
+						 */
 						resultContextMenu.requestFocus();
 					}
 				}
@@ -284,34 +265,28 @@ public class EComboBox extends Region {
 		});
 	}
 
-	private void populateMenu(List<ValidationMaster> resultList) {
-
-		resultContextMenu.getItems().clear();
-		Iterator<ValidationMaster> results = resultList.iterator();
-		while (results.hasNext()) {
-			final ValidationMaster result = (ValidationMaster) results.next();
-			final HBox hBox = new HBox();
-			hBox.setFillHeight(true);
-			Label itemLabel = new Label(result.getValidationName());
-			itemLabel.getStyleClass().add("item-label");
-			hBox.getChildren().addAll(itemLabel);
-
-			final Region popRegion = new Region();
-			popRegion.getStyleClass().add("result-menu-item-popup-region");
-			popRegion.setPrefSize(10, 10);
-			hBox.getChildren().add(popRegion);
-
-			CustomMenuItem menuItem = new CustomMenuItem(hBox, true);
-			menuItem.getStyleClass().add("result-menu-item");
-			resultContextMenu.getItems().add(menuItem);
-			menuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent actionEvent) {
-
-					textBox.setText(result.getValidationName());
-				}
-			});
-		}
-	}
+	/*
+	 * private void populateMenu(List<ValidationMaster> resultList) {
+	 * 
+	 * resultContextMenu.getItems().clear(); Iterator<ValidationMaster> results
+	 * = resultList.iterator(); while (results.hasNext()) { final
+	 * ValidationMaster result = (ValidationMaster) results.next(); final HBox
+	 * hBox = new HBox(); hBox.setFillHeight(true); Label itemLabel = new
+	 * Label(result.getValidationName());
+	 * itemLabel.getStyleClass().add("item-label");
+	 * hBox.getChildren().addAll(itemLabel);
+	 * 
+	 * final Region popRegion = new Region();
+	 * popRegion.getStyleClass().add("result-menu-item-popup-region");
+	 * popRegion.setPrefSize(10, 10); hBox.getChildren().add(popRegion);
+	 * 
+	 * CustomMenuItem menuItem = new CustomMenuItem(hBox, true);
+	 * menuItem.getStyleClass().add("result-menu-item");
+	 * resultContextMenu.getItems().add(menuItem); menuItem.setOnAction(new
+	 * EventHandler<ActionEvent>() {
+	 * 
+	 * @Override public void handle(ActionEvent actionEvent) {
+	 * 
+	 * textBox.setText(result.getValidationName()); } }); } }
+	 */
 }

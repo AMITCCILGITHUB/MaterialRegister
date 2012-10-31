@@ -50,6 +50,7 @@ public class AddHeatChart extends ScrollPane {
 	}
 
 	public AddHeatChart() {
+
 		viewHeatChart = this;
 
 		try {
@@ -85,6 +86,7 @@ public class AddHeatChart extends ScrollPane {
 
 				@Override
 				public void handle(ActionEvent e) {
+
 					try {
 						AppProperties.setValue("heatchart.current.year",
 								yearChoiceBox.getText());
@@ -124,12 +126,12 @@ public class AddHeatChart extends ScrollPane {
 			final HBox detail1 = new HBox(ViewLayout.H_SPACE);
 			Label equipmentLabel = new Label("Equipment");
 			equipmentLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox equipmentTextField = new TextBox("", "Equipment",
-					heatChart.equipmentProperty(), true);
+			final TextBox equipmentTextField = new TextBox("Equipment",
+					heatChart.equipmentProperty());
 			Label customerLabel = new Label("Customer");
 			customerLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox customerTextField = new TextBox("", "Customer",
-					heatChart.customerProperty(), true);
+			final TextBox customerTextField = new TextBox("Customer",
+					heatChart.customerProperty());
 			Label poDetailsLabel = new Label("PO Details");
 			poDetailsLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 			detail1.getChildren().addAll(equipmentLabel, equipmentTextField,
@@ -139,14 +141,14 @@ public class AddHeatChart extends ScrollPane {
 			final HBox detail2 = new HBox(ViewLayout.H_SPACE);
 			Label drawingLabel = new Label("Drawing No.");
 			drawingLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox drawingTextField = new TextBox("", "Drawing No.",
-					heatChart.drawingNumberProperty(), true);
+			final TextBox drawingTextField = new TextBox("Drawing No.",
+					heatChart.drawingNumberProperty());
 			Label suryeyorLabel = new Label("Surveyor");
 			suryeyorLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox suryeyorTextField = new TextBox("", "Suryeyor",
-					heatChart.surveyorProperty(), true);
-			final TextBox poDetailsTextField = new TextBox("", "PO Details",
-					heatChart.poDetailsProperty(), true);
+			final TextBox suryeyorTextField = new TextBox("Suryeyor",
+					heatChart.surveyorProperty());
+			final TextBox poDetailsTextField = new TextBox("PO Details",
+					heatChart.poDetailsProperty());
 			detail2.getChildren().addAll(drawingLabel, drawingTextField,
 					suryeyorLabel, suryeyorTextField, poDetailsTextField);
 			main.getChildren().add(detail2);
@@ -223,8 +225,8 @@ public class AddHeatChart extends ScrollPane {
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
 
-					return p.getValue().getMaterialmaster()
-							.specificationProperty();
+					return p.getValue().getMaterialmaster().getSpecification()
+							.specificationNameProperty();
 				}
 			});
 			TableColumn Col53 = new TableColumn("Check / Testing");
@@ -276,8 +278,8 @@ public class AddHeatChart extends ScrollPane {
 				public ObservableValue<String> call(
 						CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
 
-					return p.getValue().getMaterialmaster()
-							.laboratoryProperty();
+					return p.getValue().getMaterialmaster().getLaboratory()
+							.laboratoryNameProperty();
 				}
 			});
 			Col6.getColumns().addAll(Col61, Col62, Col63);
