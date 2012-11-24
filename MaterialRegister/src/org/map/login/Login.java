@@ -24,50 +24,26 @@ import org.map.controls.PasswordBox;
 import org.map.hibernate.ddo.UserMaster;
 import org.map.logger.LoggerUtil;
 import org.map.service.ServiceManager;
-import org.map.utils.Alert;
+import org.map.utils.Context;
 import org.map.utils.FileUtil;
-import org.map.utils.LoadingBar;
+import org.map.validation.Validator;
 
 public class Login extends Application {
 
-	private static Login login;
-	private static Stage outerPrimaryStage;
 	private double startDragX;
 	private double startDragY;
-	private UserMaster userMaster = new UserMaster();
-	private LoadingBar sb = new LoadingBar();
-
-	public static Login getLoginPanel() {
-
-		return login;
-	}
-
-	public Stage getPrimaryStage() {
-
-		return outerPrimaryStage;
-	}
 
 	public static void main(String[] args) {
 
 		launch(args);
 	}
 
-	public UserMaster getUserMaster() {
-
-		return userMaster;
-	}
-
-	public LoadingBar getStatusBar() {
-
-		return sb;
-	}
-
 	@Override
 	public void start(final Stage primaryStage) throws MalformedURLException {
 
+		Context.setHostServices(getHostServices());
+		Context.setLoginStage(primaryStage);
 		LoggerUtil.getLogger().info("Application Started");
-		outerPrimaryStage = primaryStage;
-		login = this;
 
 		primaryStage.setTitle("Login: Material Register");
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -91,14 +67,16 @@ public class Login extends Application {
 		windowButtons.getChildren().add(closeBtn);
 		root.getChildren().addAll(windowButtons);
 
+		final UserMaster user = new UserMaster();
+
 		VBox textFields = new VBox(15);
 		final LoginTextBox userName = new LoginTextBox("User Name",
-				userMaster.userNameProperty());
+				user.userNameProperty());
 		userName.setMaxSize(176, 20);
 		userName.setPrefSize(176, 20);
 		userName.setMinSize(176, 20);
-		final PasswordBox password = new PasswordBox("", "Password",
-				userMaster.passwordProperty());
+		final PasswordBox password = new PasswordBox("Password",
+				user.passwordProperty());
 		password.setMaxSize(176, 20);
 		password.setPrefSize(176, 20);
 		password.setMinSize(176, 20);
@@ -138,13 +116,10 @@ public class Login extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 
-				if (userMaster.getUserName().trim().length() > 0
-						&& userMaster.getPassword().trim().length() > 0) {
-					sb.show();
-					ServiceManager.getUserValidationService().restart();
-				} else {
-					Alert.showAlert(primaryStage, "Invalid Login", "Error",
-							"Either user name or password is empty.\nPlease try again.");
+				if (Validator.validateUserLogin(user)) {
+					
+					Context.getLoginSatusbar().show();
+					ServiceManager.getUserValidationService(user).restart();
 				}
 			}
 		});
@@ -173,7 +148,7 @@ public class Login extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 
-				userMaster.resetUserMaster();
+				Context.getLoggedUser().clean();
 			}
 		});
 
@@ -214,6 +189,6 @@ public class Login extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
-		sb.initComponents(primaryStage, "Loading...");
+		Context.getLoginSatusbar().initComponents(primaryStage, "Loading...");
 	}
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class catalog="metalplants" name="org.map.hibernate.ddo.MaterialTests" table="materialtests" dynamic-update="true">
+		<id name="testCode" type="int">
+			<column name="Test_Code" />
+			<generator class="assigned" />
+		</id>
+		<property name="sampleId" type="string">
+			<column length="32" name="Sample_Id" />
+		</property>
+		<many-to-one name="test" column="Test" class="org.map.hibernate.ddo.TestMaster" fetch="select" lazy="false" />
+		<many-to-one name="customer" column="Customer" class="org.map.hibernate.ddo.CustomerMaster" fetch="select" lazy="false" />
+		<property name="equipments" type="string">
+			<column length="128" name="Equipments" />
+		</property>
+		<many-to-one name="laboratory" column="Laboratory" class="org.map.hibernate.ddo.LaboratoryMaster" fetch="select" lazy="false" />
+		<property name="reportDate" type="string">
+			<column length="64" name="Report_Date" />
+		</property>
+		<property name="reportNumber" type="string">
+			<column length="128" name="Report_Number" />
+		</property>
+		<many-to-one name="result" column="Result" class="org.map.hibernate.ddo.ResultMaster" fetch="select" lazy="false" />
+		<property name="remarks" type="string">
+			<column length="128" name="Remarks" />
+		</property>
+		<property name="witnessedBy" type="string">
+			<column length="128" name="Witnessed_By" />
+		</property>
+		<property name="failureReason" type="string">
+			<column length="256" name="Failure_Reason" />
+		</property>
+		<many-to-one name="materialMaster" column="Material_Code" class="org.map.hibernate.ddo.MaterialMaster" fetch="select" lazy="false" />
+		<property name="status" type="string">
+			<column length="8" name="Status" />
+		</property>
+		<property name="createdBy" type="string">
+			<column length="32" name="Created_By" />
+		</property>
+		<property name="createdDate" type="java.util.Date">
+			<column length="19" name="Created_Date" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,19 +1,18 @@
 <?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="org.map.hibernate.ddo.UserMaster" table="usermaster"
-		catalog="metalplants" dynamic-update="true">
-		<id name="userName" type="string">
-			<column name="User_Name" length="64" />
+	<class name="org.map.hibernate.ddo.UserMaster" table="usermaster" catalog="metalplants" dynamic-update="true">
+		<id name="userCode" type="int">
+			<column name="User_Code" />
 			<generator class="assigned" />
 		</id>
+		<property name="userName" type="string">
+			<column name="User_Name" length="64" not-null="true" />
+		</property>
 		<property name="password" type="string">
 			<column name="Password" length="32" not-null="true" />
 		</property>
-		<property name="role" type="string">
-			<column name="Role" length="32" not-null="true" />
-		</property>
+		<many-to-one name="role" column="Role_Code" class="org.map.hibernate.ddo.RoleMaster" fetch="select" lazy="false" />
 		<property name="userStatus" type="string">
 			<column name="User_Status" length="8" not-null="true" />
 		</property>

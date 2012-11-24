@@ -1,2 +1,8 @@
-jfx.build.stagingdir = ${workspace}/MaterialRegister/build
-jfx.build.apptitle = MaterialRegister
+<?xml version="1.0" encoding="UTF-8"?>
+<anttasks:AntTask xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:anttasks="http://at.bestsolution.efxclipse.tooling.jdt/1.0" buildDirectory="${workspace}/MaterialRegister/build">
+  <deploy embedjnlp="true" includeDT="true" nativePackage="true">
+    <application name="Material Register" mainclass="org.map.login.Login" preloaderclass="org.map.preloader.Loading" version="Ver1.0"/>
+    <info vendor="MAP Consultancy Services"/>
+  </deploy>
+  <signjar/>
+</anttasks:AntTask>

@@ -4,7 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.layout.Region;
 
-import org.map.utils.Layout;
+import org.map.utils.ViewLayout;
 
 public class ViewIntegerBox extends Region {
 
@@ -49,12 +49,12 @@ public class ViewIntegerBox extends Region {
 
 		getStyleClass().add("view-text-box");
 
-		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMinSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setPrefSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setMaxSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 
 		textBox = new IntField(0);
-		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
+		textBox.setPrefWidth(ViewLayout.TEXTBOX_WIDTH);
 
 		textBox.setDisable(true);
 

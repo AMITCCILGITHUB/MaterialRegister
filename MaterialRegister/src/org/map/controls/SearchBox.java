@@ -3,20 +3,16 @@ package org.map.controls;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -24,10 +20,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 
-import org.map.MaterialRegister;
 import org.map.hibernate.dao.MaterialData;
+import org.map.utils.Context;
 
 public class SearchBox extends Region {
 
@@ -38,8 +33,6 @@ public class SearchBox extends Region {
 	private Label infoName;
 	private Label infoDescription;
 	private VBox infoBox;
-	private Tooltip searchErrorTooltip = new Tooltip();
-	private Timeline searchErrorTooltipHidder = null;
 
 	public SearchBox() {
 
@@ -79,27 +72,22 @@ public class SearchBox extends Region {
 					String oldValue, String newValue) {
 
 				clearButton.setVisible(textBox.getText().length() != 0);
-				if (textBox.getText().length() == 0) {
+				if (textBox.getText().trim().length() <= 2) {
 					if (contextMenu != null) {
 						contextMenu.hide();
 					}
-					showError(null);
 				} else {
 					ArrayList results = (ArrayList) MaterialData
 							.searchMaterialDetails(textBox.getText().trim());
 
 					if (results.size() > 0) {
-						showError(null);
 						populateMenu(results.iterator());
-						if (!contextMenu.isShowing()) {
-							contextMenu.show(SearchBox.this, Side.BOTTOM, 10,
-									-5);
-						}
 					} else {
-						if (searchErrorTooltip.getText() != null) {
-							showError("No matches");
-						}
-						contextMenu.hide();
+						populateMenu("No matches");
+					}
+					if (!contextMenu.isShowing()) {
+						contextMenu.show(textBox, Side.BOTTOM,
+								10, -5);
 					}
 					contextMenu.requestFocus();
 				}
@@ -132,36 +120,23 @@ public class SearchBox extends Region {
 		});
 	}
 
-	private void showError(String message) {
+	private void populateMenu(String errorMsg) {
+		contextMenu.getItems().clear();
 
-		searchErrorTooltip.setText(message);
-		if (searchErrorTooltipHidder != null) {
-			searchErrorTooltipHidder.stop();
-		}
-		if (message != null) {
-			Point2D toolTipPos = textBox.localToScene(0, textBox
-					.getLayoutBounds().getHeight());
-			double x = toolTipPos.getX() + textBox.getScene().getX()
-					+ textBox.getScene().getWindow().getX();
-			double y = toolTipPos.getY() + textBox.getScene().getY()
-					+ textBox.getScene().getWindow().getY();
-			searchErrorTooltip.show(textBox.getScene().getWindow(), x, y);
-			searchErrorTooltipHidder = new Timeline();
-			searchErrorTooltipHidder.getKeyFrames().add(
-					new KeyFrame(Duration.seconds(3),
-							new EventHandler<ActionEvent>() {
+		final HBox hBox = new HBox();
+		hBox.setFillHeight(true);
+		Label itemLabel = new Label(errorMsg);
+		itemLabel.getStyleClass().add("item-label");
+		hBox.getChildren().addAll(itemLabel);
 
-								@Override
-								public void handle(ActionEvent t) {
+		final Region popRegion = new Region();
+		popRegion.getStyleClass().add("result-menu-item-popup-region");
+		popRegion.setPrefSize(10, 10);
+		hBox.getChildren().add(popRegion);
 
-									searchErrorTooltip.hide();
-									searchErrorTooltip.setText(null);
-								}
-							}));
-			searchErrorTooltipHidder.play();
-		} else {
-			searchErrorTooltip.hide();
-		}
+		CustomMenuItem menuItem = new CustomMenuItem(hBox, true);
+		menuItem.getStyleClass().add("result-menu-item");
+		contextMenu.getItems().add(menuItem);
 	}
 
 	private void populateMenu(Iterator<String> results) {
@@ -187,9 +162,7 @@ public class SearchBox extends Region {
 
 				@Override
 				public void handle(ActionEvent actionEvent) {
-
-					MaterialRegister.getMaterialRegister().goToPage(
-							"TreeItem [ value: View Material ]", result);
+					Context.changePageArea("View Material");
 				}
 			});
 		}

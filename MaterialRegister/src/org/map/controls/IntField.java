@@ -1,6 +1,6 @@
 package org.map.controls;
 
-import org.map.utils.Layout;
+import org.map.utils.ViewLayout;
 
 import javafx.beans.property.*;
 import javafx.beans.value.*;
@@ -28,9 +28,9 @@ public class IntField extends TextField {
 	}
 
 	public IntField(int initialValue) {
-		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMinSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setPrefSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setMaxSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 		
 		value = new SimpleIntegerProperty(initialValue);
 		setText(initialValue + "");

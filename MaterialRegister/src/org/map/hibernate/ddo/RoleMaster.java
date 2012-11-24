@@ -3,6 +3,7 @@ package org.map.hibernate.ddo;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -22,27 +23,17 @@ public class RoleMaster implements Serializable, Comparable<RoleMaster> {
 		this.roleCode = new SimpleIntegerProperty(0);
 		this.roleName = new SimpleStringProperty("");
 		this.remarks = new SimpleStringProperty("");
+		
 		this.status = "TRUE";
 		this.createdBy = "YSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public RoleMaster(int roleCode, String roleName,
-			String remarks, String status, String createdBy, Date createdDate) {
-
-		this.roleCode = new SimpleIntegerProperty(roleCode);
-		this.roleName = new SimpleStringProperty(roleName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public RoleMaster(RoleMaster vm) {
 
-		setRoleCode(vm.getRoleCode());
-		setRoleName(vm.getRoleName());
-		setRemarks(vm.getRemarks());
+		this.roleCode = new SimpleIntegerProperty(vm.getRoleCode());
+		this.roleName = new SimpleStringProperty(vm.getRoleName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -123,18 +114,18 @@ public class RoleMaster implements Serializable, Comparable<RoleMaster> {
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(RoleMaster vm) {
+	public void resetTo(RoleMaster vm) {
 
-		setRoleCode(vm.getRoleCode());
-		setRoleName(vm.getRoleName());
-		setRemarks(vm.getRemarks());
+		this.roleCode.set(vm.getRoleCode());
+		this.roleName.set(vm.getRoleName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.roleCode.set(0);
 		this.roleName.set("");

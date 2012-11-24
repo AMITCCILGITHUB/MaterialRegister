@@ -33,7 +33,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Popup;
 
-import org.map.utils.Layout;
+import org.map.utils.ViewLayout;
+
 
 /**
  * @author Christian Schudt
@@ -66,10 +67,10 @@ public final class DatePicker extends HBox {
 		textField = new TextField();
 		textField.setId("TextBox");
 
-		textField.setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		textField.setMinSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 		textField
-				.setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		textField.setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+				.setPrefSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		textField.setMaxSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 
 		this.locale.set(locale);
 		setDateFormat(new SimpleDateFormat("dd-MM-yy"));

@@ -19,10 +19,12 @@
 		<mapping resource="resources/mapping/ItemMaster.hbm.xml" />
 		<mapping resource="resources/mapping/LaboratoryMaster.hbm.xml" />
 		<mapping resource="resources/mapping/MaterialMaster.hbm.xml" />
+		<mapping resource="resources/mapping/MaterialTests.hbm.xml" />
 		<mapping resource="resources/mapping/ResultMaster.hbm.xml" />
 		<mapping resource="resources/mapping/RoleMaster.hbm.xml" />
 		<mapping resource="resources/mapping/SpecificationMaster.hbm.xml" />
 		<mapping resource="resources/mapping/TestMaster.hbm.xml" />
 		<mapping resource="resources/mapping/UserMaster.hbm.xml" />
+		<mapping resource="resources/mapping/CodeMaster.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

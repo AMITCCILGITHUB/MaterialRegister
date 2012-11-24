@@ -3,6 +3,7 @@ package org.map.hibernate.ddo;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -10,64 +11,94 @@ public class HeatChartSheets implements Serializable,
 		Comparable<HeatChartSheets> {
 
 	private static final long serialVersionUID = 1L;
-	private HeatChartSheetsId id;
-	private MaterialMaster materialmaster;
-	private HeatChartMaster heatchartmaster;
+	private SimpleIntegerProperty heatChartSheetCode;
+	private SimpleIntegerProperty sheetNumber;
 	private SimpleIntegerProperty sequenceNumber;
+
+	private MaterialMaster materialmaster;
+	private MaterialTests materialtests;
+	private HeatChartMaster heatchartmaster;
+
 	private SimpleStringProperty partNumber;
 	private SimpleStringProperty partName;
-	private SimpleStringProperty speciedSize;
-	private SimpleStringProperty speciedGrade;
+	private SimpleStringProperty specifiedSize;
+	private SimpleStringProperty specifiedGrade;
+	
 	private String status;
 	private String createdBy;
 	private Date createdDate;
 
 	public HeatChartSheets() {
 
-		this.id = new HeatChartSheetsId();
+		this.heatChartSheetCode = new SimpleIntegerProperty(0);
+		this.sheetNumber = new SimpleIntegerProperty(1);
+		this.sequenceNumber = new SimpleIntegerProperty(1);
+
 		this.materialmaster = new MaterialMaster();
+		this.materialtests = new MaterialTests();
 		this.heatchartmaster = new HeatChartMaster();
 
-		this.sequenceNumber = new SimpleIntegerProperty(1);
 		this.partNumber = new SimpleStringProperty("");
 		this.partName = new SimpleStringProperty("");
-		this.speciedSize = new SimpleStringProperty("");
-		this.speciedGrade = new SimpleStringProperty("");
+		this.specifiedSize = new SimpleStringProperty("");
+		this.specifiedGrade = new SimpleStringProperty("");
 
 		this.status = "TRUE";
 		this.createdBy = "SYSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public HeatChartSheets(HeatChartSheetsId id, MaterialMaster materialmaster,
-			HeatChartMaster heatchartmaster, int sequenceNumber,
-			String partNumber, String partName, String speciedSize,
-			String speciedGrade, String status, String createdBy,
-			Date createdDate) {
+	public HeatChartSheets(HeatChartSheets hSheets) {
 
-		this.id = id;
-		this.materialmaster = materialmaster;
-		this.heatchartmaster = heatchartmaster;
+		this.heatChartSheetCode = new SimpleIntegerProperty(
+				hSheets.getHeatChartSheetCode());
 
-		this.sequenceNumber = new SimpleIntegerProperty(sequenceNumber);
-		this.partNumber = new SimpleStringProperty(partNumber);
-		this.partName = new SimpleStringProperty(partName);
-		this.speciedSize = new SimpleStringProperty(speciedSize);
-		this.speciedGrade = new SimpleStringProperty(speciedGrade);
+		this.sheetNumber = new SimpleIntegerProperty(hSheets.getSheetNumber());
+		this.sequenceNumber = new SimpleIntegerProperty(
+				hSheets.getSequenceNumber());
 
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
+		this.materialmaster = new MaterialMaster(hSheets.getMaterialmaster());
+		this.materialtests = new MaterialTests(hSheets.getMaterialtests());
+		this.heatchartmaster = new HeatChartMaster(hSheets.getHeatchartmaster());
+
+		this.partNumber = new SimpleStringProperty(hSheets.getPartNumber());
+		this.partName = new SimpleStringProperty(hSheets.getPartName());
+		this.specifiedSize = new SimpleStringProperty(hSheets.getSpecifiedSize());
+		this.specifiedGrade = new SimpleStringProperty(hSheets.getSpecifiedGrade());
+
+		this.status = hSheets.getStatus();
+		this.createdBy = hSheets.getCreatedBy();
+		this.createdDate = hSheets.getCreatedDate();
 	}
 
-	public HeatChartSheetsId getId() {
+	public int getHeatChartSheetCode() {
 
-		return this.id;
+		return this.heatChartSheetCode.get();
 	}
 
-	public void setId(HeatChartSheetsId id) {
+	public void setHeatChartSheetCode(int heatChartSheetCode) {
 
-		this.id = id;
+		this.heatChartSheetCode.set(heatChartSheetCode);
+	}
+
+	public SimpleIntegerProperty heatChartSheetCodeProperty() {
+
+		return this.heatChartSheetCode;
+	}
+
+	public int getSheetNumber() {
+
+		return this.sheetNumber.get();
+	}
+
+	public void setSheetNumber(int sheetNumber) {
+
+		this.sheetNumber.set(sheetNumber);
+	}
+
+	public SimpleIntegerProperty sheetNumberProperty() {
+
+		return this.sheetNumber;
 	}
 
 	public MaterialMaster getMaterialmaster() {
@@ -78,6 +109,16 @@ public class HeatChartSheets implements Serializable,
 	public void setMaterialmaster(MaterialMaster materialmaster) {
 
 		this.materialmaster = materialmaster;
+	}
+
+	public MaterialTests getMaterialtests() {
+
+		return materialtests;
+	}
+
+	public void setMaterialtests(MaterialTests materialtests) {
+
+		this.materialtests = materialtests;
 	}
 
 	public HeatChartMaster getHeatchartmaster() {
@@ -135,34 +176,34 @@ public class HeatChartSheets implements Serializable,
 		return this.partName;
 	}
 
-	public String getSpeciedSize() {
+	public String getSpecifiedSize() {
 
-		return this.speciedSize.get();
+		return this.specifiedSize.get();
 	}
 
-	public void setSpeciedSize(String speciedSize) {
+	public void setSpecifiedSize(String specifiedSize) {
 
-		this.speciedSize.set(speciedSize);
+		this.specifiedSize.set(specifiedSize);
 	}
 
-	public SimpleStringProperty speciedSizeProperty() {
+	public SimpleStringProperty specifiedSizeProperty() {
 
-		return this.speciedSize;
+		return this.specifiedSize;
 	}
 
-	public String getSpeciedGrade() {
+	public String getSpecifiedGrade() {
 
-		return this.speciedGrade.get();
+		return this.specifiedGrade.get();
 	}
 
-	public void setSpeciedGrade(String speciedGrade) {
+	public void setSpecifiedGrade(String specifiedGrade) {
 
-		this.speciedGrade.set(speciedGrade);
+		this.specifiedGrade.set(specifiedGrade);
 	}
 
-	public SimpleStringProperty speciedGradeProperty() {
+	public SimpleStringProperty specifiedGradeProperty() {
 
-		return this.speciedGrade;
+		return this.specifiedGrade;
 	}
 
 	public String getStatus() {
@@ -195,32 +236,56 @@ public class HeatChartSheets implements Serializable,
 		this.createdDate = createdDate;
 	}
 
-	public void resetHeatChartSheets(HeatChartSheets hSheets) {
+	public void resetTo(HeatChartSheets hSheets) {
 
-		this.id.resetHeatChartSheetsId(hSheets.getId());
+		this.heatChartSheetCode = new SimpleIntegerProperty(
+				hSheets.getHeatChartSheetCode());
 
+		this.sheetNumber = new SimpleIntegerProperty(hSheets.getSheetNumber());
 		this.sequenceNumber = new SimpleIntegerProperty(
 				hSheets.getSequenceNumber());
+
+		this.materialmaster = new MaterialMaster(hSheets.getMaterialmaster());
+		this.materialtests = new MaterialTests(hSheets.getMaterialtests());
+		this.heatchartmaster = new HeatChartMaster(hSheets.getHeatchartmaster());
+
 		this.partNumber = new SimpleStringProperty(hSheets.getPartNumber());
 		this.partName = new SimpleStringProperty(hSheets.getPartName());
-		this.speciedSize = new SimpleStringProperty(hSheets.getSpeciedSize());
-		this.speciedGrade = new SimpleStringProperty(hSheets.getSpeciedGrade());
+		this.specifiedSize = new SimpleStringProperty(hSheets.getSpecifiedSize());
+		this.specifiedGrade = new SimpleStringProperty(hSheets.getSpecifiedGrade());
 
 		this.status = hSheets.getStatus();
 		this.createdBy = hSheets.getCreatedBy();
 		this.createdDate = hSheets.getCreatedDate();
 	}
 
+	public void clean() {
+
+		this.heatChartSheetCode.set(0);
+
+		this.sheetNumber.set(1);
+		this.sequenceNumber.set(1);
+
+		this.materialmaster.clean();
+		this.materialtests.clean();
+		this.heatchartmaster.clean();
+
+		this.partNumber.set("");
+		this.partName.set("");
+		this.specifiedSize.set("");
+		this.specifiedGrade.set("");
+
+		this.status = "TRUE";
+		this.createdBy = "SYSTEM";
+		this.createdDate = Calendar.getInstance().getTime();
+	}
+	
 	@Override
 	public int compareTo(HeatChartSheets o) {
 
 		if (o instanceof HeatChartSheets && o != null) {
-			if (this.id.equals(o.getId())) {
-				return sequenceNumber.getValue().compareTo(
-						o.sequenceNumberProperty().getValue());
-			} else {
-				return this.id.compareTo(o.getId());
-			}
+			return this.heatChartSheetCode.getValue().compareTo(
+					o.getHeatChartSheetCode());
 		} else {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}

@@ -1,16 +1,14 @@
 package org.map.calendar;
 
+import java.util.Calendar;
+
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-
-import java.util.Calendar;
 
 /**
  * The main navigation pane.
@@ -19,8 +17,8 @@ import java.util.Calendar;
  */
 final class MainNavigationPane extends HBox {
 
-	private static final String CSS_CALENDAR_NAVIGATION_ARROW = "calendar-navigation-arrow";
-	private static final String CSS_CALENDAR_NAVIGATION_BUTTON = "calendar-navigation-button";
+	private static final String CSS_CALENDAR_NAV_LEFT_BUTTON = "calendar-nav-left";
+	private static final String CSS_CALENDAR_NAV_RIGHT_BUTTON = "calendar-nav-right";
 	private static final String CSS_CALENDAR_NAVIGATION_TITLE = "calendar-navigation-title";
 	private static final String CSS_CALENDAR_HEADER = "calendar-header";
 
@@ -109,15 +107,14 @@ final class MainNavigationPane extends HBox {
 			}
 		});
 
-		// Make a region, so that -fx-shape can be applied from CSS.
-		Region rectangle = new Region();
-		rectangle.setMaxWidth(Control.USE_PREF_SIZE);
-		rectangle.setMaxHeight(Control.USE_PREF_SIZE);
-		rectangle.setRotate(direction < 0 ? 90 : 270);
-		rectangle.getStyleClass().add(CSS_CALENDAR_NAVIGATION_ARROW);
-		// Set that region as the button graphic.
-		button.setGraphic(rectangle);
-		button.getStyleClass().add(CSS_CALENDAR_NAVIGATION_BUTTON);
+		button.setPrefSize(36, 36);
+		button.setScaleX(0.8);
+		button.setScaleY(0.8);
+		if(direction < 0){
+			button.getStyleClass().add(CSS_CALENDAR_NAV_LEFT_BUTTON);
+		}else{
+			button.getStyleClass().add(CSS_CALENDAR_NAV_RIGHT_BUTTON);	
+		}
 		return button;
 	}
 

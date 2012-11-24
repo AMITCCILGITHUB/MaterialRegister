@@ -15,6 +15,7 @@ public class LaboratoryMaster implements Serializable,
 	private SimpleIntegerProperty laboratoryCode;
 	private SimpleStringProperty laboratoryName;
 	private SimpleStringProperty remarks;
+	
 	private String status;
 	private String createdBy;
 	private Date createdDate;
@@ -24,27 +25,17 @@ public class LaboratoryMaster implements Serializable,
 		this.laboratoryCode = new SimpleIntegerProperty(0);
 		this.laboratoryName = new SimpleStringProperty("");
 		this.remarks = new SimpleStringProperty("");
+		
 		this.status = "TRUE";
 		this.createdBy = "YSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public LaboratoryMaster(int laboratoryCode, String laboratoryName,
-			String remarks, String status, String createdBy, Date createdDate) {
-
-		this.laboratoryCode = new SimpleIntegerProperty(laboratoryCode);
-		this.laboratoryName = new SimpleStringProperty(laboratoryName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public LaboratoryMaster(LaboratoryMaster vm) {
 
-		setLaboratoryCode(vm.getLaboratoryCode());
-		setLaboratoryName(vm.getLaboratoryName());
-		setRemarks(vm.getRemarks());
+		this.laboratoryCode = new SimpleIntegerProperty(vm.getLaboratoryCode());
+		this.laboratoryName = new SimpleStringProperty(vm.getLaboratoryName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -126,18 +117,18 @@ public class LaboratoryMaster implements Serializable,
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(LaboratoryMaster vm) {
+	public void resetTo(LaboratoryMaster vm) {
 
-		setLaboratoryCode(vm.getLaboratoryCode());
-		setLaboratoryName(vm.getLaboratoryName());
-		setRemarks(vm.getRemarks());
+		this.laboratoryCode.set(vm.getLaboratoryCode());
+		this.laboratoryName.set(vm.getLaboratoryName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.laboratoryCode.set(0);
 		this.laboratoryName.set("");

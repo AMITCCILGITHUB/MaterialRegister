@@ -15,6 +15,7 @@ public class SpecificationMaster implements Serializable,
 	private SimpleIntegerProperty specificationCode;
 	private SimpleStringProperty specificationName;
 	private SimpleStringProperty remarks;
+	
 	private String status;
 	private String createdBy;
 	private Date createdDate;
@@ -24,27 +25,17 @@ public class SpecificationMaster implements Serializable,
 		this.specificationCode = new SimpleIntegerProperty(0);
 		this.specificationName = new SimpleStringProperty("");
 		this.remarks = new SimpleStringProperty("");
+		
 		this.status = "TRUE";
 		this.createdBy = "YSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public SpecificationMaster(int specificationCode, String specificationName,
-			String remarks, String status, String createdBy, Date createdDate) {
-
-		this.specificationCode = new SimpleIntegerProperty(specificationCode);
-		this.specificationName = new SimpleStringProperty(specificationName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public SpecificationMaster(SpecificationMaster vm) {
 
-		setSpecificationCode(vm.getSpecificationCode());
-		setSpecificationName(vm.getSpecificationName());
-		setRemarks(vm.getRemarks());
+		this.specificationCode = new SimpleIntegerProperty(vm.getSpecificationCode());
+		this.specificationName = new SimpleStringProperty(vm.getSpecificationName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -126,18 +117,18 @@ public class SpecificationMaster implements Serializable,
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(SpecificationMaster vm) {
+	public void resetTo(SpecificationMaster vm) {
 
-		setSpecificationCode(vm.getSpecificationCode());
-		setSpecificationName(vm.getSpecificationName());
-		setRemarks(vm.getRemarks());
+		this.specificationCode.set(vm.getSpecificationCode());
+		this.specificationName.set(vm.getSpecificationName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.specificationCode.set(0);
 		this.specificationName.set("");

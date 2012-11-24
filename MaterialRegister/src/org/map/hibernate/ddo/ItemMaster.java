@@ -28,22 +28,11 @@ public class ItemMaster implements Serializable, Comparable<ItemMaster> {
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public ItemMaster(int itemCode, String itemName, String remarks,
-			String status, String createdBy, Date createdDate) {
-
-		this.itemCode = new SimpleIntegerProperty(itemCode);
-		this.itemName = new SimpleStringProperty(itemName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public ItemMaster(ItemMaster vm) {
 
-		setItemCode(vm.getItemCode());
-		setItemName(vm.getItemName());
-		setRemarks(vm.getRemarks());
+		this.itemCode = new SimpleIntegerProperty(vm.getItemCode());
+		this.itemName = new SimpleStringProperty(vm.getItemName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -125,18 +114,18 @@ public class ItemMaster implements Serializable, Comparable<ItemMaster> {
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(ItemMaster vm) {
+	public void resetTo(ItemMaster vm) {
 
-		setItemCode(vm.getItemCode());
-		setItemName(vm.getItemName());
-		setRemarks(vm.getRemarks());
+		this.itemCode.set(vm.getItemCode());
+		this.itemName.set(vm.getItemName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.itemCode.set(0);
 		this.itemName.set("");

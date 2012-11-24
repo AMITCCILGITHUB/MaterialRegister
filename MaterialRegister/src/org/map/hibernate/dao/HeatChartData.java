@@ -11,10 +11,13 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.map.hibernate.HibernateUtil;
 import org.map.hibernate.OrderBySqlFormula;
 import org.map.hibernate.ddo.HeatChartMaster;
+import org.map.hibernate.ddo.HeatChartSheets;
+import org.map.hibernate.ddo.MaterialTests;
 
 public class HeatChartData {
 
@@ -23,6 +26,17 @@ public class HeatChartData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
+		heatChart.setHeatChartCode(getNextHeatChartCode());
+		
+		int nextSheetCode = getNextHeatChartSheetCode();
+		for (HeatChartSheets sheet : heatChart.getHeatChartSheets()) {
+			if(sheet.getHeatChartSheetCode() == 0){
+				sheet.setHeatChartSheetCode(nextSheetCode);
+				sheet.setHeatchartmaster(heatChart);
+				nextSheetCode++;
+			}
+		}
+		
 		session.save(heatChart);
 
 		transaction.commit();
@@ -40,7 +54,18 @@ public class HeatChartData {
 		session.close();
 	}
 
-	public static String getNextChartNumber(String selectedYear)
+	public static void deleteHeatChart(HeatChartMaster heatChart) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(heatChart);
+
+		transaction.commit();
+		session.close();
+	}
+	
+	public static String getNextChartNumber()
 			throws HibernateException {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -48,7 +73,7 @@ public class HeatChartData {
 
 		String chartNumber = (String) session
 				.getNamedQuery("nextHcNumberQuery")
-				.setString("year", selectedYear.substring(2)).uniqueResult();
+				.setString("year", CodeData.getCurrentYear()).uniqueResult();
 
 		transaction.commit();
 		session.close();
@@ -70,7 +95,7 @@ public class HeatChartData {
 
 		if (it.hasNext()) {
 			hcMaster = (HeatChartMaster) it.next();
-			hcMaster.getHeatchartsheets().size();
+			hcMaster.getHeatChartSheets().size();
 		}
 
 		transaction.commit();
@@ -98,7 +123,7 @@ public class HeatChartData {
 		Iterator it = heatCharts.iterator();
 		while (it.hasNext()) {
 			HeatChartMaster heatChart = (HeatChartMaster) it.next();
-			heatChart.getHeatchartsheets().size();
+			heatChart.getHeatChartSheets().size();
 		}
 
 		transaction.commit();
@@ -139,11 +164,45 @@ public class HeatChartData {
 
 		while (it.hasNext()) {
 			HeatChartMaster heatChart = (HeatChartMaster) it.next();
-			heatChart.getHeatchartsheets().size();
+			heatChart.getHeatChartSheets().size();
 		}
 
 		transaction.commit();
 		session.close();
 		return heatCharts;
+	}
+
+	public static int getNextHeatChartCode() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		Object result = session
+		.createCriteria(HeatChartMaster.class)
+		.setProjection(Projections.max("heatChartCode")).uniqueResult();
+		
+		int heatChartCode = 1001;
+		if(result != null)
+			heatChartCode = (int) result + 1;
+
+		transaction.commit();
+		session.close();
+		return heatChartCode;	
+	}
+	
+	public static int getNextHeatChartSheetCode() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		Object result = session
+		.createCriteria(HeatChartSheets.class)
+		.setProjection(Projections.max("heatChartSheetCode")).uniqueResult();
+		
+		int heatChartCode = 1001;
+		if(result != null)
+			heatChartCode = (int) result + 1;
+
+		transaction.commit();
+		session.close();
+		return heatChartCode;	
 	}
 }

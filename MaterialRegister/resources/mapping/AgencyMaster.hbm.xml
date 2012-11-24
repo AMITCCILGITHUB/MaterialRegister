@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class catalog="metalplants" name="org.map.hibernate.ddo.AgencyMaster"
-		table="agencymaster" dynamic-update="true">
+	<class catalog="metalplants" name="org.map.hibernate.ddo.AgencyMaster" table="agencymaster" dynamic-update="true">
 		<id name="agencyCode" type="int">
 			<column name="Agency_Code" />
 			<generator class="assigned" />

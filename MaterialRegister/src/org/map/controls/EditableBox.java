@@ -11,7 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 
-import org.map.utils.Layout;
+import org.map.utils.ViewLayout;
 
 public class EditableBox extends Region {
 
@@ -20,23 +20,19 @@ public class EditableBox extends Region {
 
 	public EditableBox() {
 
-		initComponent("", "");
+		initComponent("");
 	}
 
 	public EditableBox(String textValue, String promptText) {
 
-		initComponent(textValue, promptText);
+		initComponent(promptText);
+		textBox.setText(textValue);
 	}
 
-	public EditableBox(String textValue, String promptText,
+	public EditableBox(String promptText,
 			StringProperty propertyValue) {
 
-		if (textValue.trim().length() > 0) {
-			initComponent(textValue, promptText);
-		} else {
-			initComponent(propertyValue.getValue(), promptText);
-		}
-
+		initComponent(promptText);
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
@@ -50,17 +46,16 @@ public class EditableBox extends Region {
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
-	private void initComponent(String textValue, String promptText) {
+	private void initComponent(String promptText) {
 
-		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMinSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setPrefSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setMaxSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 
 		textBox = new TextField();
-		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
-		textBox.setText(textValue);
-		textBox.setDisable(true);
+		textBox.setPrefWidth(ViewLayout.TEXTBOX_WIDTH);
 		textBox.setPromptText(promptText);
+		textBox.setDisable(true);
 
 		textBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
 

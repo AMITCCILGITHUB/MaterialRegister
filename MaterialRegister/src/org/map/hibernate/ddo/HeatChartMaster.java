@@ -1,16 +1,18 @@
 package org.map.hibernate.ddo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class HeatChartMaster implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private SimpleIntegerProperty heatChartCode;
 	private SimpleStringProperty chartNumber;
 	private SimpleStringProperty equipment;
 	private SimpleStringProperty customer;
@@ -21,10 +23,11 @@ public class HeatChartMaster implements Serializable {
 	private String status;
 	private String createdBy;
 	private Date createdDate;
-	private Set<HeatChartSheets> heatchartsheets = new HashSet<>();
+	private List<HeatChartSheets> heatChartSheets = new ArrayList<>();
 
 	public HeatChartMaster() {
 
+		this.heatChartCode = new SimpleIntegerProperty(0);
 		this.chartNumber = new SimpleStringProperty("");
 		this.equipment = new SimpleStringProperty("");
 		this.customer = new SimpleStringProperty("");
@@ -33,46 +36,46 @@ public class HeatChartMaster implements Serializable {
 		this.surveyor = new SimpleStringProperty("");
 		this.tagNumber = new SimpleStringProperty("");
 
+		heatChartSheets = new ArrayList<>();
+
 		this.status = "TRUE";
 		this.createdBy = "SYSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public HeatChartMaster(String chartNumber, String equipment,
-			String customer, String poDetails, String drawingNumber,
-			String surveyor, String tagNumber, String status, String createdBy,
-			Date createdDate) {
+	public HeatChartMaster(HeatChartMaster hcMaster) {
 
-		this.chartNumber = new SimpleStringProperty(chartNumber);
-		this.equipment = new SimpleStringProperty(equipment);
-		this.customer = new SimpleStringProperty(customer);
-		this.poDetails = new SimpleStringProperty(poDetails);
-		this.drawingNumber = new SimpleStringProperty(drawingNumber);
-		this.surveyor = new SimpleStringProperty(surveyor);
-		this.tagNumber = new SimpleStringProperty(tagNumber);
+		this.heatChartCode = new SimpleIntegerProperty(
+				hcMaster.getHeatChartCode());
+		this.chartNumber = new SimpleStringProperty(hcMaster.getChartNumber());
+		this.equipment = new SimpleStringProperty(hcMaster.getEquipment());
+		this.customer = new SimpleStringProperty(hcMaster.getCustomer());
+		this.poDetails = new SimpleStringProperty(hcMaster.getPoDetails());
+		this.drawingNumber = new SimpleStringProperty(
+				hcMaster.getDrawingNumber());
+		this.surveyor = new SimpleStringProperty(hcMaster.getDrawingNumber());
+		this.tagNumber = new SimpleStringProperty(hcMaster.getTagNumber());
 
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
+		this.heatChartSheets = new ArrayList<>(hcMaster.getHeatChartSheets());
+
+		this.status = hcMaster.getStatus();
+		this.createdBy = hcMaster.getCreatedBy();
+		this.createdDate = hcMaster.getCreatedDate();
 	}
 
-	public HeatChartMaster(String chartNumber, String equipment,
-			String customer, String poDetails, String drawingNumber,
-			String surveyor, String tagNumber, String status, String createdBy,
-			Date createdDate, Set<HeatChartSheets> heatchartsheets) {
+	public int getHeatChartCode() {
 
-		this.chartNumber = new SimpleStringProperty(chartNumber);
-		this.equipment = new SimpleStringProperty(equipment);
-		this.customer = new SimpleStringProperty(customer);
-		this.poDetails = new SimpleStringProperty(poDetails);
-		this.drawingNumber = new SimpleStringProperty(drawingNumber);
-		this.surveyor = new SimpleStringProperty(surveyor);
-		this.tagNumber = new SimpleStringProperty(tagNumber);
+		return this.heatChartCode.get();
+	}
 
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.heatchartsheets = heatchartsheets;
+	public void setHeatChartCode(int heatChartCode) {
+
+		this.heatChartCode.set(heatChartCode);
+	}
+
+	public SimpleIntegerProperty heatChartCodeProperty() {
+
+		return this.heatChartCode;
 	}
 
 	public String getChartNumber() {
@@ -210,18 +213,19 @@ public class HeatChartMaster implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public Set<HeatChartSheets> getHeatchartsheets() {
+	public List<HeatChartSheets> getHeatChartSheets() {
 
-		return this.heatchartsheets;
+		return this.heatChartSheets;
 	}
 
-	public void setHeatchartsheets(Set<HeatChartSheets> heatchartsheets) {
+	public void setHeatChartSheets(List<HeatChartSheets> heatChartSheets) {
 
-		this.heatchartsheets = heatchartsheets;
+		this.heatChartSheets = heatChartSheets;
 	}
 
-	public void resetHeatChart(HeatChartMaster hcMaster) {
+	public void resetTo(HeatChartMaster hcMaster) {
 
+		this.heatChartCode.set(hcMaster.getHeatChartCode());
 		this.chartNumber.set(hcMaster.getChartNumber());
 		this.equipment.set(hcMaster.getEquipment());
 		this.customer.set(hcMaster.getCustomer());
@@ -230,9 +234,28 @@ public class HeatChartMaster implements Serializable {
 		this.surveyor.set(hcMaster.getDrawingNumber());
 		this.tagNumber.set(hcMaster.getTagNumber());
 
+		this.heatChartSheets = new ArrayList<>(hcMaster.getHeatChartSheets());
+
 		this.status = hcMaster.getStatus();
 		this.createdBy = hcMaster.getCreatedBy();
 		this.createdDate = hcMaster.getCreatedDate();
-		this.heatchartsheets = hcMaster.getHeatchartsheets();
+	}
+
+	public void clean() {
+
+		this.heatChartCode.set(0);
+		this.chartNumber.set("");
+		this.equipment.set("");
+		this.customer.set("");
+		this.poDetails.set("");
+		this.drawingNumber.set("");
+		this.surveyor.set("");
+		this.tagNumber.set("");
+
+		this.heatChartSheets = new ArrayList<>();
+
+		this.status = "TRUE";
+		this.createdBy = "SYSTEM";
+		this.createdDate = Calendar.getInstance().getTime();
 	}
 }

@@ -1,6 +1,6 @@
 package org.map.controls;
 
-import org.map.utils.Layout;
+import org.map.utils.ViewLayout;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -83,19 +83,19 @@ public class ViewCheckBox extends Region {
 
 		getStyleClass().add("view-box");
 
-		setMinSize(Layout.LABEL_WIDTH + Layout.CHECKBOX_WIDTH,
-				Layout.REGION_HEIGHT);
-		setPrefSize(Layout.LABEL_WIDTH + Layout.CHECKBOX_WIDTH,
-				Layout.REGION_HEIGHT);
-		setMaxSize(Layout.LABEL_WIDTH + Layout.CHECKBOX_WIDTH,
-				Layout.REGION_HEIGHT);
+		setMinSize(ViewLayout.LABEL_WIDTH + ViewLayout.CHECKBOX_WIDTH,
+				ViewLayout.REGION_HEIGHT);
+		setPrefSize(ViewLayout.LABEL_WIDTH + ViewLayout.CHECKBOX_WIDTH,
+				ViewLayout.REGION_HEIGHT);
+		setMaxSize(ViewLayout.LABEL_WIDTH + ViewLayout.CHECKBOX_WIDTH,
+				ViewLayout.REGION_HEIGHT);
 
 		label = new Label(labelText);
-		label.setPrefWidth(Layout.LABEL_WIDTH);
+		label.setPrefWidth(ViewLayout.LABEL_WIDTH);
 
 		checkBox = CheckBoxBuilder.create().allowIndeterminate(true)
-				.disable(true).prefHeight(Layout.CHECKBOX_HEIGHT)
-				.prefWidth(Layout.CHECKBOX_WIDTH).build();
+				.disable(true).prefHeight(ViewLayout.CHECKBOX_HEIGHT)
+				.prefWidth(ViewLayout.CHECKBOX_WIDTH).build();
 		checkBox.getStyleClass().add("view-check-box");
 		checkBox.textProperty().addListener(new ChangeListener<String>() {
 

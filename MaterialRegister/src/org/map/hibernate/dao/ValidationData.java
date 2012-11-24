@@ -27,19 +27,16 @@ public class ValidationData {
 		return Arrays.asList(validationTypes);
 	}
 
-	public static List<String> getRoleList() {
+	public static List<RoleMaster> getRoleList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<String> roleTypes = session
-				.createCriteria(RoleMaster.class)
-				.setProjection(
-						Projections.distinct(Projections.property("roleName")))
+		List<RoleMaster> roleList = session.createCriteria(RoleMaster.class)
 				.list();
 
 		transaction.commit();
 		session.close();
-		return roleTypes;
+		return roleList;
 	}
 
 	public static List<String> getValidationNameList(String validationType) {
@@ -47,72 +44,72 @@ public class ValidationData {
 		Transaction transaction = session.beginTransaction();
 
 		List<String> validationNames = null;
-		
+
 		switch (validationType) {
 		case "Agency":
 			validationNames = session
 					.createCriteria(RoleMaster.class)
 					.setProjection(
-							Projections.distinct(Projections.property("agencyName")))
-					.list();
+							Projections.distinct(Projections
+									.property("agencyName"))).list();
 			break;
 		case "Customer":
 			validationNames = session
-			.createCriteria(RoleMaster.class)
-			.setProjection(
-					Projections.distinct(Projections.property("customerName")))
-			.list();
+					.createCriteria(RoleMaster.class)
+					.setProjection(
+							Projections.distinct(Projections
+									.property("customerName"))).list();
 			break;
 		case "Item":
 			validationNames = session
-			.createCriteria(RoleMaster.class)
-			.setProjection(
-					Projections.distinct(Projections.property("itemName")))
-			.list();
+					.createCriteria(RoleMaster.class)
+					.setProjection(
+							Projections.distinct(Projections
+									.property("itemName"))).list();
 			break;
 		case "Laboratory":
 			validationNames = session
-			.createCriteria(RoleMaster.class)
-			.setProjection(
-					Projections.distinct(Projections.property("laboratoryName")))
-			.list();
+					.createCriteria(RoleMaster.class)
+					.setProjection(
+							Projections.distinct(Projections
+									.property("laboratoryName"))).list();
 			break;
 		case "Result":
 			validationNames = session
-			.createCriteria(RoleMaster.class)
-			.setProjection(
-					Projections.distinct(Projections.property("resultName")))
-			.list();
+					.createCriteria(RoleMaster.class)
+					.setProjection(
+							Projections.distinct(Projections
+									.property("resultName"))).list();
 			break;
 		case "Role":
 			validationNames = session
-			.createCriteria(RoleMaster.class)
-			.setProjection(
-					Projections.distinct(Projections.property("roleName")))
-			.list();
+					.createCriteria(RoleMaster.class)
+					.setProjection(
+							Projections.distinct(Projections
+									.property("roleName"))).list();
 			break;
 		case "Specification":
 			validationNames = session
-			.createCriteria(RoleMaster.class)
-			.setProjection(
-					Projections.distinct(Projections.property("specificationName")))
-			.list();
+					.createCriteria(RoleMaster.class)
+					.setProjection(
+							Projections.distinct(Projections
+									.property("specificationName"))).list();
 			break;
 		case "Test":
 			validationNames = session
-			.createCriteria(RoleMaster.class)
-			.setProjection(
-					Projections.distinct(Projections.property("testName")))
-			.list();
+					.createCriteria(RoleMaster.class)
+					.setProjection(
+							Projections.distinct(Projections
+									.property("testName"))).list();
 			break;
 		}
-		
+
 		transaction.commit();
 		session.close();
-		
+
 		return validationNames;
 	}
-	
+
 	public static int getNextValidationNumber(String validationType)
 			throws HibernateException {
 
@@ -122,52 +119,44 @@ public class ValidationData {
 		int validationNumber = -1;
 		switch (validationType) {
 		case "Agency":
-			validationNumber = 1001 + ((Long) session
-					.createCriteria(AgencyMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+			validationNumber = (int) session.createCriteria(AgencyMaster.class)
+					.setProjection(Projections.max("agencyCode"))
+					.uniqueResult() + 1;
 			break;
 		case "Customer":
-			validationNumber = 1001 + ((Long) session
+			validationNumber = (int) session
 					.createCriteria(CustomerMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+					.setProjection(Projections.max("customerCode"))
+					.uniqueResult() + 1;
 			break;
 		case "Item":
-			validationNumber = 1001 + ((Long) session
-					.createCriteria(ItemMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+			validationNumber = (int) session.createCriteria(ItemMaster.class)
+					.setProjection(Projections.max("itemCode")).uniqueResult() + 1;
 			break;
 		case "Laboratory":
-			validationNumber = 1001 + ((Long) session
+			validationNumber = (int) session
 					.createCriteria(LaboratoryMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+					.setProjection(Projections.max("laboratoryCode"))
+					.uniqueResult() + 1;
 			break;
 		case "Result":
-			validationNumber = 1001 + ((Long) session
-					.createCriteria(ResultMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+			validationNumber = (int) session.createCriteria(ResultMaster.class)
+					.setProjection(Projections.max("resultCode"))
+					.uniqueResult() + 1;
 			break;
 		case "Role":
-			validationNumber = 1001 + ((Long) session
-					.createCriteria(RoleMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+			validationNumber = (int) session.createCriteria(RoleMaster.class)
+					.setProjection(Projections.max("roleCode")).uniqueResult() + 1;
 			break;
 		case "Specification":
-			validationNumber = 1001 + ((Long) session
+			validationNumber = (int) session
 					.createCriteria(SpecificationMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+					.setProjection(Projections.max("specificationCode"))
+					.uniqueResult() + 1;
 			break;
 		case "Test":
-			validationNumber = 1001 + ((Long) session
-					.createCriteria(TestMaster.class)
-					.setProjection(Projections.rowCount()).uniqueResult())
-					.intValue();
+			validationNumber = (int) session.createCriteria(TestMaster.class)
+					.setProjection(Projections.max("testCode")).uniqueResult() + 1;
 			break;
 		}
 
@@ -175,7 +164,7 @@ public class ValidationData {
 		session.close();
 		return validationNumber;
 	}
-	
+
 	public static void insertAgency(AgencyMaster agency) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -186,7 +175,7 @@ public class ValidationData {
 		transaction.commit();
 		session.close();
 	}
-	
+
 	public static void insertCustomer(CustomerMaster customer) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -196,8 +185,8 @@ public class ValidationData {
 
 		transaction.commit();
 		session.close();
-	}	
-	
+	}
+
 	public static void insertItem(ItemMaster item) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -207,8 +196,8 @@ public class ValidationData {
 
 		transaction.commit();
 		session.close();
-	}	
-	
+	}
+
 	public static void insertLaboratory(LaboratoryMaster lab) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -218,8 +207,8 @@ public class ValidationData {
 
 		transaction.commit();
 		session.close();
-	}	
-	
+	}
+
 	public static void insertResult(ResultMaster result) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -229,8 +218,8 @@ public class ValidationData {
 
 		transaction.commit();
 		session.close();
-	}	
-	
+	}
+
 	public static void insertSpecification(SpecificationMaster spec) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -241,7 +230,7 @@ public class ValidationData {
 		transaction.commit();
 		session.close();
 	}
-	
+
 	public static void insertTest(TestMaster test) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -252,262 +241,249 @@ public class ValidationData {
 		transaction.commit();
 		session.close();
 	}
-	
+
+	public static void updateAgency(AgencyMaster agency) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.update(agency);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void updateCustomer(CustomerMaster customer) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.update(customer);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void updateItem(ItemMaster item) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.update(item);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void updateLaboratory(LaboratoryMaster lab) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.update(lab);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void updateResult(ResultMaster result) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.update(result);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void updateSpecification(SpecificationMaster spec) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.update(spec);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void updateTest(TestMaster test) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.update(test);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void deleteAgency(AgencyMaster agency) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(agency);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void deleteCustomer(CustomerMaster customer) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(customer);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void deleteItem(ItemMaster item) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(item);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void deleteLaboratory(LaboratoryMaster lab) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(lab);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void deleteResult(ResultMaster result) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(result);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void deleteSpecification(SpecificationMaster spec) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(spec);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void deleteTest(TestMaster test) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		session.delete(test);
+
+		transaction.commit();
+		session.close();
+	}
+
 	public static List<AgencyMaster> getAgencyList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<AgencyMaster> agencyList = session
-				.createCriteria(AgencyMaster.class)
-				.list();
+		List<AgencyMaster> agencyList = session.createCriteria(
+				AgencyMaster.class).list();
 
 		transaction.commit();
 		session.close();
-		
+
 		return agencyList;
 	}
-	
+
 	public static List<CustomerMaster> getCustomerList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<CustomerMaster> customerList = session
-				.createCriteria(CustomerMaster.class)
-				.list();
+		List<CustomerMaster> customerList = session.createCriteria(
+				CustomerMaster.class).list();
 
 		transaction.commit();
 		session.close();
-		
+
 		return customerList;
 	}
-	
+
 	public static List<ItemMaster> getItemList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<ItemMaster> itemList = session
-				.createCriteria(ItemMaster.class)
+		List<ItemMaster> itemList = session.createCriteria(ItemMaster.class)
 				.list();
 
 		transaction.commit();
 		session.close();
-		
+
 		return itemList;
 	}
-	
+
 	public static List<LaboratoryMaster> getLaboratoryList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<LaboratoryMaster> laboratoryList = session
-				.createCriteria(LaboratoryMaster.class)
-				.list();
+		List<LaboratoryMaster> laboratoryList = session.createCriteria(
+				LaboratoryMaster.class).list();
 
 		transaction.commit();
 		session.close();
-		
+
 		return laboratoryList;
 	}
-	
+
 	public static List<ResultMaster> getResultList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<ResultMaster> resultList = session
-				.createCriteria(ResultMaster.class)
-				.list();
+		List<ResultMaster> resultList = session.createCriteria(
+				ResultMaster.class).list();
 
 		transaction.commit();
 		session.close();
-		
+
 		return resultList;
 	}
-	
+
 	public static List<SpecificationMaster> getSpecificationList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<SpecificationMaster> specificationList = session
-				.createCriteria(SpecificationMaster.class)
-				.list();
+		List<SpecificationMaster> specificationList = session.createCriteria(
+				SpecificationMaster.class).list();
 
 		transaction.commit();
 		session.close();
-		
+
 		return specificationList;
 	}
-	
+
 	public static List<TestMaster> getTestList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<TestMaster> testList = session
-				.createCriteria(TestMaster.class)
+		List<TestMaster> testList = session.createCriteria(TestMaster.class)
 				.list();
 
 		transaction.commit();
 		session.close();
-		
+
 		return testList;
 	}
-	
-	/*
-	public static List<String> getValidationName(String validationType) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		List<String> validationTypes = session
-				.createCriteria(ValidationMaster.class)
-				.add(Restrictions.eq("id.validationType", validationType))
-				.setProjection(
-						Projections.distinct(Projections
-								.property("validationName"))).list();
-
-		transaction.commit();
-		session.close();
-		return validationTypes;
-	}
-
-	public static List<ValidationMaster> getValidationDetails(
-			String validationType) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		List<ValidationMaster> validationTypes = session
-				.createCriteria(ValidationMaster.class)
-				.add(Restrictions.eq("id.validationType", validationType))
-				.addOrder(
-						OrderBySqlFormula
-								.sqlFormula("cast(Validation_Code as unsigned) asc"))
-				.list();
-
-		transaction.commit();
-		session.close();
-		return validationTypes;
-	}
-
-	public static List<ValidationMaster> searchValidationDetails(
-			String validationType, String validationName) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		List<ValidationMaster> validationTypes = session
-				.createCriteria(ValidationMaster.class)
-				.add(Restrictions.eq("id.validationType", validationType))
-				.add(Restrictions.like("validationName", "%" + validationName
-						+ "%"))
-				.addOrder(
-						OrderBySqlFormula
-								.sqlFormula("cast(Validation_Code as unsigned) asc"))
-				.list();
-
-		transaction.commit();
-		session.close();
-		return validationTypes;
-	}
-
-	public static ValidationMaster getValidationDetail(String validationType,
-			String validationName) {
-
-		ValidationMaster vm = new ValidationMaster(validationType);
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		Iterator it = session.createCriteria(ValidationMaster.class)
-				.add(Restrictions.eq("id.validationType", validationType))
-				.add(Restrictions.eq("validationName", validationName)).list()
-				.iterator();
-
-		if (it.hasNext()) {
-			vm = (ValidationMaster) it.next();
-		}
-
-		transaction.commit();
-		session.close();
-		return vm;
-	}
-
-	public static void insertValidationTypes(Iterator<ValidationMaster> vListIt) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		while (vListIt.hasNext()) {
-			ValidationMaster vm = (ValidationMaster) vListIt.next();
-			session.save(vm);
-		}
-
-		transaction.commit();
-		session.close();
-	}
-
-	public static void insertValidationTypes(ValidationMaster vm) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		session.save(vm);
-
-		transaction.commit();
-		session.close();
-	}
-
-	public static void updateValidationTypes(ValidationMaster vm) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		session.update(vm);
-
-		transaction.commit();
-		session.close();
-	}
-
-	public static int getNextValidationNumber(String validationType)
-			throws HibernateException {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		int validationNumber = 1001 + ((Long) session
-				.createCriteria(ValidationMaster.class)
-				.add(Restrictions.eq("id.validationType", validationType))
-				.setProjection(Projections.rowCount()).uniqueResult())
-				.intValue();
-
-		transaction.commit();
-		session.close();
-		return validationNumber;
-	}
-
-	public static void insertTests(Iterator<ValidationMaster> newListIt) {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction transaction = session.beginTransaction();
-
-		int nextValNum = getNextValidationNumber("Test");
-		int index = 0;
-		while (newListIt.hasNext()) {
-			ValidationMaster vm = (ValidationMaster) newListIt.next();
-
-			if (searchValidationDetails(vm.getId().getValidationType(),
-					vm.getValidationName()).size() == 0
-					&& vm.getValidationName().length() > 0) {
-				if (vm.getValidationDesc().trim().length() == 0) {
-					vm.setValidationDesc(vm.getValidationName());
-				}
-				vm.getId().setValidationCode(nextValNum + index);
-				session.save(vm);
-				index++;
-			}
-		}
-
-		transaction.commit();
-		session.close();
-	}
-	*/
 }

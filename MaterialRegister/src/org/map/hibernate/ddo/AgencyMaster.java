@@ -23,27 +23,17 @@ public class AgencyMaster implements Serializable, Comparable<AgencyMaster> {
 		this.agencyCode = new SimpleIntegerProperty(0);
 		this.agencyName = new SimpleStringProperty("");
 		this.remarks = new SimpleStringProperty("");
+		
 		this.status = "TRUE";
 		this.createdBy = "SYSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public AgencyMaster(int agencyCode, String agencyName, String remarks,
-			String status, String createdBy, Date createdDate) {
-
-		this.agencyCode = new SimpleIntegerProperty(agencyCode);
-		this.agencyName = new SimpleStringProperty(agencyName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public AgencyMaster(AgencyMaster vm) {
 
-		setAgencyCode(vm.getAgencyCode());
-		setAgencyName(vm.getAgencyName());
-		setRemarks(vm.getRemarks());
+		this.agencyCode = new SimpleIntegerProperty(vm.getAgencyCode());
+		this.agencyName = new SimpleStringProperty(vm.getAgencyName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -125,18 +115,18 @@ public class AgencyMaster implements Serializable, Comparable<AgencyMaster> {
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(AgencyMaster vm) {
+	public void resetTo(AgencyMaster vm) {
 
-		setAgencyCode(vm.getAgencyCode());
-		setAgencyName(vm.getAgencyName());
-		setRemarks(vm.getRemarks());
+		this.agencyCode.set(vm.getAgencyCode());
+		this.agencyName.set(vm.getAgencyName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.agencyCode.set(0);
 		this.agencyName.set("");

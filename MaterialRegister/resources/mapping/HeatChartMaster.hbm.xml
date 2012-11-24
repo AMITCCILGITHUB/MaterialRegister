@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Apr 26, 2012 8:43:05 PM by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-	<class catalog="metalplants" name="org.map.hibernate.ddo.HeatChartMaster"
-		table="heatchartmaster" dynamic-update="true">
-		<id name="chartNumber" type="string">
-			<column length="64" name="Chart_Number" />
+	<class catalog="metalplants" name="org.map.hibernate.ddo.HeatChartMaster" table="heatchartmaster" dynamic-update="true">
+		<id name="heatChartCode" type="int">
+			<column name="HeatChart_Code" />
 			<generator class="assigned" />
 		</id>
+		<property name="chartNumber" type="string">
+			<column length="64" name="Chart_Number" />
+		</property>
 		<property name="equipment" type="string">
-			<column length="128" name="Equipment" not-null="true" />
+			<column length="128" name="Equipment" />
 		</property>
 		<property name="customer" type="string">
-			<column length="128" name="Customer" not-null="true" />
+			<column length="128" name="Customer" />
 		</property>
 		<property name="poDetails" type="string">
-			<column length="128" name="Po_Details" not-null="true" />
+			<column length="128" name="Po_Details" />
 		</property>
 		<property name="drawingNumber" type="string">
-			<column length="128" name="Drawing_Number" not-null="true" />
+			<column length="128" name="Drawing_Number" />
 		</property>
 		<property name="surveyor" type="string">
-			<column length="128" name="Surveyor" not-null="true" />
+			<column length="128" name="Surveyor" />
 		</property>
 		<property name="tagNumber" type="string">
-			<column length="128" name="Tag_Number" not-null="true" />
+			<column length="128" name="Tag_Number" />
 		</property>
 		<property name="status" type="string">
 			<column length="8" name="Status" not-null="true" />
@@ -35,13 +36,12 @@
 		<property name="createdDate" type="timestamp">
 			<column length="19" name="Created_Date" not-null="true" />
 		</property>
-		<set name="heatchartsheets" inverse="true" table="heatchartsheets"
-			cascade="all" order-by="Sequence_Number asc">
+		<bag name="heatChartSheets" inverse="true" table="heatchartsheets" cascade="all" lazy="false" fetch="select">
 			<key>
-				<column length="64" name="Chart_Number" not-null="true" />
+				<column name="HeatChart_Code" />
 			</key>
 			<one-to-many class="org.map.hibernate.ddo.HeatChartSheets" />
-		</set>
+		</bag>
 	</class>
 	<sql-query name="nextHcNumberQuery">
         <![CDATA[select concat('HC', :year, '/', ifnull(max(cast(substring(substring_index(Chart_Number, '-', 1), 6) as unsigned)), 0) + 1) from heatchartmaster where substring(substring_index(Chart_Number, '-', 1), 3, 2) = :year]]>

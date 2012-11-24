@@ -1,5 +1,10 @@
 package org.map.calendar;
 
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+import java.util.Date;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
@@ -7,14 +12,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Responsible for displaying the days of a month.
@@ -216,7 +215,6 @@ final class MonthView extends DatePane {
 		for (int i = numberOfDaysPerWeek
 				+ (calendarView.getShowWeeks() ? 1 : 0); i < getChildren()
 				.size(); i++) {
-			final Date currentDate = calendar.getTime();
 			if (i % (numberOfDaysPerWeek + 1) == 0
 					&& (calendarView.getShowWeeks())) {
 				Label label = (Label) getChildren().get(i);
@@ -227,7 +225,6 @@ final class MonthView extends DatePane {
 
 				control.setText(Integer.toString(calendar
 						.get(Calendar.DAY_OF_MONTH)));
-				control.setTooltip(new Tooltip(dateFormat.format(currentDate)));
 
 				boolean disabled = calendarView.getDisabledWeekdays().contains(
 						calendar.get(Calendar.DAY_OF_WEEK));

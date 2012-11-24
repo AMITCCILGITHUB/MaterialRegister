@@ -28,22 +28,11 @@ public class ResultMaster implements Serializable, Comparable<ResultMaster> {
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public ResultMaster(int resultCode, String resultName, String remarks,
-			String status, String createdBy, Date createdDate) {
-
-		this.resultCode = new SimpleIntegerProperty(resultCode);
-		this.resultName = new SimpleStringProperty(resultName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public ResultMaster(ResultMaster vm) {
 
-		setResultCode(vm.getResultCode());
-		setResultName(vm.getResultName());
-		setRemarks(vm.getRemarks());
+		this.resultCode = new SimpleIntegerProperty(vm.getResultCode());
+		this.resultName = new SimpleStringProperty(vm.getResultName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -125,18 +114,18 @@ public class ResultMaster implements Serializable, Comparable<ResultMaster> {
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(ResultMaster vm) {
+	public void resetTo(ResultMaster vm) {
 
-		setResultCode(vm.getResultCode());
-		setResultName(vm.getResultName());
-		setRemarks(vm.getRemarks());
+		this.resultCode.set(vm.getResultCode());
+		this.resultName.set(vm.getResultName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.resultCode.set(0);
 		this.resultName.set("");

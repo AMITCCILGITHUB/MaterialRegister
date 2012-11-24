@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="MaterialRegister">
+	<property environment="env"/>
+	<property name="ECLIPSE_HOME" value="../../../../../opt/eclipse"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.7"/>
+	<property name="source" value="1.7"/>
+	<path id="JavaFX SDK.libraryclasspath">
+		<pathelement location="../../../../../usr/lib/jvm/java-7-oracle/jre/lib/jfxrt.jar"/>
+	</path>
+	<path id="materialregister.userclasspath">
+		<pathelement location="../../../workspace/lib/materialregister/antlr-2.7.7.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/c3p0-0.9.1.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/commons-beanutils-1.8.3.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/commons-collections-3.2.1.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/commons-digester-2.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/commons-javaflow.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/commons-logging-1.1.1.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/dom4j-1.6.1.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/groovy-all-1.7.5.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/hibernate-c3p0-4.1.7.Final.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/hibernate-commons-annotations-4.0.1.Final.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/hibernate-core-4.1.7.Final.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/hibernate-entitymanager-4.1.7.Final.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/hibernate-envers-4.1.7.Final.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/iText-2.1.7.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/itextpdf-5.3.2.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/itext-pdfa-5.3.2.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/itext-xtra-5.3.2.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jasperreports-4.5.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jasperreports-4.7.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jasperreports-applet-4.7.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jasperreports-fonts-4.5.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jasperreports-fonts-4.7.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jasperreports-javaflow-4.7.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/javassist-3.15.0-GA.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jaxp-1.4.6.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jboss-logging-3.1.0.GA.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/jfxrt.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/junit-3.8.1.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/log4j-1.2.16.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/lucene-core-3.2.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/lucene-grouping-3.2.0.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/mysql-connector-java-5.1.21-bin.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/poi-3.8-20120326.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/poi-excelant-3.8-20120326.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/poi-ooxml-3.8-20120326.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/poi-ooxml-schemas-3.8-20120326.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/poi-scratchpad-3.8-20120326.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/stax-api-1.0.1.jar"/>
+		<pathelement location="../../../workspace/lib/materialregister/xmlbeans-2.3.0.jar"/>
+	</path>
+	<path id="MaterialRegister.classpath">
+		<pathelement location="bin"/>
+		<path refid="JavaFX SDK.libraryclasspath"/>
+		<path refid="materialregister.userclasspath"/>
+	</path>
+	<target name="init">
+		<mkdir dir="bin"/>
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+		<mkdir dir="bin/resources"/>
+		<copy includeemptydirs="true" todir="bin/resources">
+			<fileset dir="resources" />
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+	<target depends="clean" name="cleanall"/>
+	<target depends="build-subprojects,build-project" name="build"/>
+	<target name="build-subprojects"/>
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src"/>
+			<classpath refid="MaterialRegister.classpath"/>
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+		<copy todir="${ant.library.dir}">
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+		</copy>
+		<unzip dest="${ant.library.dir}">
+			<patternset includes="jdtCompilerAdapter.jar"/>
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+		</unzip>
+	</target>
+	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+		<antcall target="build"/>
+	</target>
+	<target name="Login">
+		<java classname="org.map.login.Login" failonerror="true" fork="yes">
+			<classpath refid="MaterialRegister.classpath"/>
+		</java>
+	</target>
+</project>

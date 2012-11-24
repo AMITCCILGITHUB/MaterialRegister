@@ -5,10 +5,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
 
-import org.map.utils.Layout;
+import org.map.utils.ViewLayout;
 
 public class PasswordBox extends Region {
 
@@ -20,6 +19,11 @@ public class PasswordBox extends Region {
 		initComponent("");
 	}
 
+	public PasswordBox(String promptText) {
+
+		initComponent(promptText);
+	}
+	
 	public PasswordBox(String promptText, String textValue) {
 
 		initComponent(promptText);
@@ -29,14 +33,6 @@ public class PasswordBox extends Region {
 	public PasswordBox(String promptText, StringProperty propertyValue) {
 
 		initComponent(promptText);
-		textBox.textProperty().bindBidirectional(propertyValue);
-	}
-
-	public PasswordBox(String promptText, String textValue,
-			StringProperty propertyValue) {
-
-		initComponent(promptText);
-		textBox.setText(textValue);
 		textBox.textProperty().bindBidirectional(propertyValue);
 	}
 
@@ -52,18 +48,17 @@ public class PasswordBox extends Region {
 
 	private void initComponent(String promptText) {
 
-		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMinSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setPrefSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setMaxSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 
 		textBox = new PasswordField();
-		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
+		textBox.setPrefWidth(ViewLayout.TEXTBOX_WIDTH);
 		textBox.setPromptText(promptText);
 
 		errorButton = new Button();
 		errorButton.getStyleClass().add("error-button");
 		errorButton.setVisible(false);
-		errorButton.setTooltip(new Tooltip("this field can\nnot be empty"));
 		errorButton.setFocusTraversable(false);
 
 		textBox.focusedProperty().addListener(new ChangeListener<Boolean>() {

@@ -5,10 +5,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
 
-import org.map.utils.Layout;
+import org.map.utils.ViewLayout;
 
 public class LoginTextBox extends Region {
 
@@ -46,18 +45,17 @@ public class LoginTextBox extends Region {
 
 		setId("TextBox");
 
-		setMinSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setPrefSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
-		setMaxSize(Layout.REGION_WIDTH, Layout.REGION_HEIGHT);
+		setMinSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setPrefSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
+		setMaxSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 
 		textBox = new TextField();
-		textBox.setPrefWidth(Layout.TEXTBOX_WIDTH);
+		textBox.setPrefWidth(ViewLayout.TEXTBOX_WIDTH);
 		textBox.setPromptText(promptText);
 
 		errorButton = new Button();
 		errorButton.getStyleClass().add("error-button");
 		errorButton.setVisible(false);
-		errorButton.setTooltip(new Tooltip("this field can\nnot be empty"));
 		errorButton.setFocusTraversable(false);
 
 		textBox.focusedProperty().addListener(new ChangeListener<Boolean>() {

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 import org.map.hibernate.HibernateUtil;
 import org.map.hibernate.OrderBySqlFormula;
 import org.map.hibernate.ddo.MaterialMaster;
+import org.map.hibernate.ddo.MaterialTests;
 
 public class MaterialData {
 
@@ -32,13 +34,27 @@ public class MaterialData {
 		return material;
 	}
 
-	public static String getNextCtNumber(String selectedYear) {
+	public static int getNextMaterialNumber() throws HibernateException {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		int materialNumber = (int) session
+				.createCriteria(MaterialMaster.class)
+				.setProjection(Projections.max("materialCode")).uniqueResult() + 1;
+
+		transaction.commit();
+		session.close();
+		return materialNumber;
+	}
+
+	public static String getNextCtNumber() {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
 		String ctNumber = (String) session.getNamedQuery("nextCtNumberQuery")
-				.setString("year", selectedYear.substring(2)).uniqueResult();
+				.setString("year", CodeData.getCurrentYear()).uniqueResult();
 
 		transaction.commit();
 		session.close();
@@ -46,12 +62,80 @@ public class MaterialData {
 		return ctNumber;
 	}
 
-	public static void insertMaterialDetails(MaterialMaster material) {
+	public static int getNextMaterialCode() {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
+		Object result = session
+				.createCriteria(MaterialMaster.class)
+				.setProjection(Projections.max("materialCode")).uniqueResult();
+
+		int materialCode = 1001;
+		if(result != null)
+			materialCode = (int) result + 1;
+		
+		transaction.commit();
+		session.close();
+
+		return materialCode;
+	}
+
+	public static int getNextTestCode() {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		Object result = session.createCriteria(MaterialTests.class)
+				.setProjection(Projections.max("testCode")).uniqueResult();
+
+		int testCode = 1001;
+		if(result != null)
+			testCode = (int) result + 1;
+		
+		transaction.commit();
+		session.close();
+
+		return testCode;
+	}
+
+	public static void insertMaterial(MaterialMaster material) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		material.setMaterialCode(getNextMaterialCode());
+
+		int nextTestCode = getNextTestCode();
+		for (MaterialTests materialTest : material.getMaterialTests()) {
+			if (materialTest.getTestCode() == 0) {
+				materialTest.setTestCode(nextTestCode);
+				materialTest.setMaterialMaster(material);
+				nextTestCode++;
+			}
+		}
+
 		session.save(material);
+
+		transaction.commit();
+		session.close();
+	}
+
+	public static void updateMaterial(MaterialMaster material) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		int nextTestCode = getNextTestCode();
+		for (MaterialTests materialTest : material.getMaterialTests()) {
+			if (materialTest.getTestCode() == 0) {
+				materialTest.setTestCode(nextTestCode);
+				materialTest.setMaterialMaster(material);
+				nextTestCode++;
+			}
+		}
+
+		session.update(material);
 
 		transaction.commit();
 		session.close();
@@ -76,15 +160,12 @@ public class MaterialData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		session.enableFilter("printFilter");
 		List<MaterialMaster> materials = session
 				.createCriteria(MaterialMaster.class)
 				.addOrder(
 						OrderBySqlFormula
 								.sqlFormula("cast(substring(substring_index(Ct_Number, '-', 1), 6) as unsigned) asc"))
 				.list();
-
-		session.disableFilter("printFilter");
 
 		transaction.commit();
 		session.close();
@@ -100,34 +181,42 @@ public class MaterialData {
 		Disjunction disjunction = Restrictions.disjunction();
 		disjunction.add(Restrictions.like("ctNumber", searchText,
 				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("inspectionAgency", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("item", searchText,
-				MatchMode.ANYWHERE));
+		/*
+		 * disjunction.add(Restrictions.like("inspectionAgency.agencyName",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("item.itemName", searchText,
+		 * MatchMode.ANYWHERE));
+		 */
 		disjunction.add(Restrictions.like("size", searchText,
 				MatchMode.ANYWHERE));
 		disjunction.add(Restrictions.like("heatNumber", searchText,
 				MatchMode.ANYWHERE));
 		disjunction.add(Restrictions.like("plateNumber", searchText,
 				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("specification", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("customer", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("equipments", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("laboratory", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("reportNumber", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("reportDate", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("result", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("remarks", searchText,
-				MatchMode.ANYWHERE));
-		disjunction.add(Restrictions.like("witnessedBy", searchText,
-				MatchMode.ANYWHERE));
+		/*
+		 * disjunction.add(Restrictions.like("specification.specificationName",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.test", searchText,
+		 * MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.customer",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.equipments",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.laboratory",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.reportNumber",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.reportDate",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.result", searchText,
+		 * MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.remarks",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.witnessedBy",
+		 * searchText, MatchMode.ANYWHERE));
+		 * disjunction.add(Restrictions.like("materialTests.failureReason",
+		 * searchText, MatchMode.ANYWHERE));
+		 */
 
 		List<String> ctNumbers = session
 				.createCriteria(MaterialMaster.class)
@@ -142,8 +231,7 @@ public class MaterialData {
 	}
 
 	public static List<MaterialMaster> searchMaterialDetailsCt(
-			String ctNumberFrom, String ctNumberTo, boolean filtered)
-			throws ParseException {
+			String ctNumberFrom, String ctNumberTo) throws ParseException {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
@@ -158,15 +246,7 @@ public class MaterialData {
 			qry.setParameter("toCtNumber", ctNumberTo);
 		}
 
-		if (filtered) {
-			session.enableFilter("printFilter");
-		}
-
 		List<MaterialMaster> materials = qry.list();
-
-		if (filtered) {
-			session.disableFilter("printFilter");
-		}
 
 		transaction.commit();
 		session.close();
@@ -174,14 +254,10 @@ public class MaterialData {
 	}
 
 	public static List<MaterialMaster> searchMaterialDetailsDt(Date fromDate,
-			Date toDate, boolean filtered) throws ParseException {
+			Date toDate) throws ParseException {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
-
-		if (filtered) {
-			session.enableFilter("printFilter");
-		}
 
 		List<MaterialMaster> materials = null;
 		if (toDate == null) {
@@ -206,11 +282,7 @@ public class MaterialData {
 									.sqlFormula("cast(substring(substring_index(Ct_Number, '-', 1), 6) as unsigned) asc"))
 					.list();
 		}
-
-		if (filtered) {
-			session.disableFilter("printFilter");
-		}
-
+		
 		transaction.commit();
 		session.close();
 		return materials;

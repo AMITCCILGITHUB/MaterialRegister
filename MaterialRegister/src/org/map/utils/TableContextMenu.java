@@ -2,12 +2,15 @@ package org.map.utils;
 
 import java.net.MalformedURLException;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ContextMenuBuilder;
 import javafx.scene.control.MenuItemBuilder;
 
 public class TableContextMenu {
+
+	private static EventHandler<ActionEvent>[] eventHandler;
 
 	public static ContextMenu getViewUserContextMenu(
 			EventHandler... eventHandler) throws MalformedURLException {
@@ -20,7 +23,7 @@ public class TableContextMenu {
 						.build(),
 						MenuItemBuilder.create().text("View User")
 								.onAction(eventHandler[1])
-								.graphic(FileUtil.getImageAsImageView("user"))
+								.graphic(FileUtil.getImageAsImageView("view_user"))
 								.build()).build();
 	}
 
@@ -29,17 +32,17 @@ public class TableContextMenu {
 
 		return ContextMenuBuilder
 				.create()
-				.items(MenuItemBuilder.create().text("Edit")
+				.items(MenuItemBuilder
+						.create()
+						.text("Edit User")
 						.onAction(eventHandler[0])
-						.graphic(FileUtil.getImageAsImageView("user")).build(),
-						MenuItemBuilder.create().text("Restore")
-								.onAction(eventHandler[1])
-								.graphic(FileUtil.getImageAsImageView("undo"))
-								.build(),
+						.graphic(
+								FileUtil.getImageAsImageView("edit-clear",
+										".gif")).build(),
 						MenuItemBuilder
 								.create()
-								.text("Delete")
-								.onAction(eventHandler[2])
+								.text("Delete User")
+								.onAction(eventHandler[1])
 								.graphic(FileUtil.getImageAsImageView("delete"))
 								.build()).build();
 	}
@@ -60,118 +63,110 @@ public class TableContextMenu {
 
 		return ContextMenuBuilder
 				.create()
-				.items(MenuItemBuilder.create().text("Edit")
+				.items(MenuItemBuilder
+						.create()
+						.text("Edit Material")
 						.onAction(eventHandler[0])
-						.graphic(FileUtil.getImageAsImageView("user")).build(),
-						MenuItemBuilder.create().text("Restore")
-								.onAction(eventHandler[1])
-								.graphic(FileUtil.getImageAsImageView("undo"))
-								.build(),
+						.graphic(
+								FileUtil.getImageAsImageView("edit-clear",
+										".gif")).build(),
 						MenuItemBuilder
 								.create()
-								.text("Delete")
-								.onAction(eventHandler[2])
+								.text("Delete Material")
+								.onAction(eventHandler[1])
 								.graphic(FileUtil.getImageAsImageView("delete"))
 								.build()).build();
 	}
 
-	// public TableContextMenu(EventHandler eventHandler1,
-	// EventHandler eventHandler2, EventHandler eventHandler3)
-	// throws URISyntaxException, MalformedURLException {
-	//
-	// getItems().addAll(
-	// MenuItemBuilder
-	// .create()
-	// .text("Restore")
-	// .graphic(
-	// ImageViewBuilder
-	// .create()
-	// .image(new Image(undoFile.toURI()
-	// .toURL().toString())).build())
-	// .onAction(eventHandler1).build(),
-	// MenuItemBuilder
-	// .create()
-	// .text("Delete")
-	// .onAction(eventHandler2)
-	// .graphic(
-	// ImageViewBuilder
-	// .create()
-	// .image(new Image(deleteFile.toURI()
-	// .toURL().toString())).build())
-	// .build(),
-	// SeparatorMenuItemBuilder.create().build(),
-	// MenuItemBuilder
-	// .create()
-	// .text("Print")
-	// .onAction(eventHandler3)
-	// .graphic(
-	// ImageViewBuilder
-	// .create()
-	// .image(new Image(printFile.toURI()
-	// .toURL().toString())).build())
-	// .build());
-	// setAutoFix(true);
-	// }
-	//
-	// public TableContextMenu(EventHandler eventHandler1,
-	// EventHandler eventHandler2) throws URISyntaxException,
-	// MalformedURLException {
-	//
-	// getItems().addAll(
-	// MenuItemBuilder
-	// .create()
-	// .text("Restore")
-	// .graphic(
-	// ImageViewBuilder
-	// .create()
-	// .image(new Image(undoFile.toURI()
-	// .toURL().toString())).build())
-	// .onAction(eventHandler1).build(),
-	// MenuItemBuilder
-	// .create()
-	// .text("Delete")
-	// .onAction(eventHandler2)
-	// .graphic(
-	// ImageViewBuilder
-	// .create()
-	// .image(new Image(deleteFile.toURI()
-	// .toURL().toString())).build())
-	// .build());
-	// setAutoFix(true);
-	// }
-	//
-	// public TableContextMenu(EventHandler eventHandler1, String type)
-	// throws URISyntaxException, MalformedURLException {
-	//
-	// switch (type) {
-	// case "Print":
-	// getItems().addAll(
-	// MenuItemBuilder
-	// .create()
-	// .text("Print")
-	// .onAction(eventHandler1)
-	// .graphic(
-	// ImageViewBuilder
-	// .create()
-	// .image(new Image(printFile.toURI()
-	// .toURL().toString()))
-	// .build()).build());
-	// break;
-	// case "Password":
-	// getItems().addAll(
-	// MenuItemBuilder
-	// .create()
-	// .text("Show Password")
-	// .onAction(eventHandler1)
-	// .graphic(
-	// ImageViewBuilder
-	// .create()
-	// .image(new Image(searchFile.toURI()
-	// .toURL().toString()))
-	// .build()).build());
-	// break;
-	// }
-	// setAutoFix(true);
-	// }
+	public static ContextMenu getAddMaterialContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
 
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder.create().text("Add Test")
+						.onAction(eventHandler[0])
+						.graphic(FileUtil.getImageAsImageView("context_add"))
+						.build(),
+						MenuItemBuilder
+								.create()
+								.text("Remove Test")
+								.onAction(eventHandler[1])
+								.graphic(
+										FileUtil.getImageAsImageView("context_delete"))
+								.build(),
+						MenuItemBuilder
+								.create()
+								.text("Duplicate Test")
+								.onAction(eventHandler[2])
+								.graphic(
+										FileUtil.getImageAsImageView("lightbulb"))
+								.build()).build();
+	}
+
+	public static ContextMenu getViewMaterialContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
+
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder.create().text("View Material")
+						.onAction(eventHandler[0])
+						.graphic(FileUtil.getImageAsImageView("lightbulb"))
+						.build()).build();
+	}
+
+	public static ContextMenu getAddHeatChartContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
+
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder.create().text("Add Record")
+						.onAction(eventHandler[0])
+						.graphic(FileUtil.getImageAsImageView("context_add"))
+						.build(),
+						MenuItemBuilder
+								.create()
+								.text("Add Sheet")
+								.onAction(eventHandler[1])
+								.graphic(
+										FileUtil.getImageAsImageView("context_add"))
+								.build(),
+						MenuItemBuilder
+								.create()
+								.text("Remove Record")
+								.onAction(eventHandler[2])
+								.graphic(
+										FileUtil.getImageAsImageView("context_delete"))
+								.build()).build();
+	}
+
+	public static ContextMenu getViewHeatChartContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
+
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder.create().text("View Heat Chart")
+						.onAction(eventHandler[0])
+						.graphic(FileUtil.getImageAsImageView("lightbulb"))
+						.build()).build();
+	}
+	
+	public static ContextMenu getEditHeatChartContextMenu(
+			EventHandler... eventHandler) throws MalformedURLException {
+
+		return ContextMenuBuilder
+				.create()
+				.items(MenuItemBuilder
+						.create()
+						.text("Edit Heat Chart")
+						.onAction(eventHandler[0])
+						.graphic(
+								FileUtil.getImageAsImageView("edit-clear",
+										".gif")).build(),
+						MenuItemBuilder
+								.create()
+								.text("Delete Heat Chart")
+								.onAction(eventHandler[1])
+								.graphic(FileUtil.getImageAsImageView("delete"))
+								.build()).build();
+	}	
 }

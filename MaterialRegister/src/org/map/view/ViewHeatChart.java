@@ -1,197 +1,57 @@
 package org.map.view;
 
-import java.util.List;
+import java.net.MalformedURLException;
 
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 
 import org.hibernate.HibernateException;
-import org.map.MaterialRegister;
-import org.map.calendar.DatePicker;
-import org.map.controls.TextBox;
-import org.map.hibernate.dao.HeatChartData;
+import org.map.controls.ViewBox;
 import org.map.hibernate.ddo.HeatChartMaster;
 import org.map.hibernate.ddo.HeatChartSheets;
-import org.map.hibernate.ddo.HeatChartSheetsId;
-import org.map.hibernate.ddo.MaterialMaster;
 import org.map.logger.LoggerUtil;
 import org.map.service.ServiceManager;
 import org.map.utils.Alert;
+import org.map.utils.Context;
+import org.map.utils.ControlsUtil;
+import org.map.utils.SearchBoxUtil;
+import org.map.utils.TableContextMenu;
+import org.map.utils.TableUtil;
 import org.map.utils.ViewLayout;
 
 public class ViewHeatChart extends TabPane {
-
-	private static ViewHeatChart viewHeatChart;
-
-	public static ViewHeatChart getViewHeatChart() {
-
-		return viewHeatChart;
-	}
 
 	public ViewHeatChart() {
 
 		Tab tab = new Tab("View Heat CHart : Search");
 
-		viewHeatChart = this;
 		try {
-			VBox main = new VBox(ViewLayout.H_SPACE);
-			main.getStyleClass().add("category-page");
-
-			Label header = new Label("View Heat Chart");
-			header.getStyleClass().add("page-header");
-			main.getChildren().add(header);
-
-			Label mailboxCategoryHeader = new Label("Search");
-			mailboxCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			mailboxCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			mailboxCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(mailboxCategoryHeader);
-
-			final HBox search1 = new HBox(ViewLayout.H_SPACE);
-			Label hcNumberFromLabel = new Label("Heat Chart No From");
-			hcNumberFromLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox hcNumberFromTextField = new TextBox(
-					"Heat Chart Number From");
-			Label hcNumberToLabel = new Label("Heat Chart No To");
-			hcNumberToLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final TextBox hcNumberToTextField = new TextBox(
-					"Heat Chart Number To");
-			final Button searchRecordButton1 = new Button("Search");
-			searchRecordButton1.getStyleClass().add("submit-button");
-			search1.getChildren().addAll(hcNumberFromLabel,
-					hcNumberFromTextField, hcNumberToLabel,
-					hcNumberToTextField, searchRecordButton1);
-
-			final HBox search2 = new HBox(ViewLayout.H_SPACE);
-			Label fromDateLabel = new Label("Date From");
-			fromDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final DatePicker fromDateTextField = new DatePicker();
-			Label toDateLabel = new Label("Date");
-			toDateLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-			final DatePicker toDateTextField = new DatePicker();
-			final Button searchRecordButton2 = new Button("Search");
-			searchRecordButton2.getStyleClass().add("submit-button");
-			search2.getChildren().addAll(fromDateLabel, fromDateTextField,
-					toDateLabel, toDateTextField, searchRecordButton2);
-			main.getChildren().addAll(search1, search2);
-
-			Label searchCategoryHeader = new Label("List");
-			searchCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-			searchCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-			searchCategoryHeader.getStyleClass().add("category-header");
-			main.getChildren().add(searchCategoryHeader);
-
-			final TableView<HeatChartMaster> tableMailbox = new TableView<>();
-			TableColumn MCol1 = new TableColumn("Chart Number");
-			MCol1.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-			MCol1.setCellValueFactory(new PropertyValueFactory<HeatChartMaster, String>(
-					"chartNumber"));
-			TableColumn MCol2 = new TableColumn("Equipment");
-			MCol2.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-			MCol2.setCellValueFactory(new PropertyValueFactory<HeatChartMaster, String>(
-					"equipment"));
-			TableColumn MCol3 = new TableColumn("customer");
-			MCol3.setPrefWidth(ViewLayout.COLUMN_WIDTH_MAX);
-			MCol3.setCellValueFactory(new PropertyValueFactory<HeatChartMaster, String>(
-					"customer"));
-			TableColumn MCol4 = new TableColumn("PO Details");
-			MCol4.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-			MCol4.setCellValueFactory(new PropertyValueFactory<HeatChartMaster, String>(
-					"poDetails"));
-			TableColumn MCol5 = new TableColumn("Drawing Number");
-			MCol5.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-			MCol5.setCellValueFactory(new PropertyValueFactory<HeatChartMaster, String>(
-					"drawingNumber"));
-			TableColumn MCol6 = new TableColumn("Surveyor");
-			MCol6.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-			MCol6.setCellValueFactory(new PropertyValueFactory<HeatChartMaster, String>(
-					"surveyor"));
-			TableColumn MCol7 = new TableColumn("Status");
-			MCol7.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-			MCol7.setCellValueFactory(new PropertyValueFactory<HeatChartMaster, String>(
-					"status"));
-			tableMailbox.getColumns().addAll(MCol1, MCol2, MCol3, MCol4, MCol5,
-					MCol6, MCol7);
-
-			ScrollPane tableScrollpane = new ScrollPane();
-			tableScrollpane.setPrefHeight(300);
-			tableScrollpane.setContent(tableMailbox);
-			main.getChildren().addAll(tableScrollpane);
+			VBox main = ViewLayout.getMainVBox("View Heat Chart", "Details");
 
 			final ObservableList<HeatChartMaster> mailboxData = FXCollections
 					.observableArrayList();
+			main.getChildren().addAll(
+					SearchBoxUtil.getHeatChartSearchBox("Heat Chart Number",
+							mailboxData));
+
+			final TableView<HeatChartMaster> tableMailbox = TableUtil
+					.createSearchHeatChartTable();
+
+			main.getChildren().add(ControlsUtil.makeScrollable(tableMailbox));
+
 			tableMailbox.setItems(mailboxData);
-
-			searchRecordButton1.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent e) {
-
-					try {
-						tableMailbox.getItems().clear();
-
-						List<HeatChartMaster> mailboxHcMasters = HeatChartData
-								.searchHeatChartDetailsHc(
-										hcNumberFromTextField.getText(),
-										hcNumberToTextField.getText());
-						mailboxData.setAll(mailboxHcMasters);
-					} catch (Exception ex) {
-						Alert.showAlert(
-								MaterialRegister.getMaterialRegister()
-										.getPrimaryStage(),
-								"Error",
-								"Error",
-								"Some error occured. Details...\n"
-										+ ex.getMessage());
-						LoggerUtil.getLogger().debug(ex);
-					}
-				}
-			});
-
-			searchRecordButton2.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent e) {
-
-					try {
-						tableMailbox.getItems().clear();
-
-						List<HeatChartMaster> mailboxHcMasters = HeatChartData
-								.searchHeatChartDetailsDt(
-										fromDateTextField.getSelectedDate(),
-										toDateTextField.getSelectedDate());
-						mailboxData.setAll(mailboxHcMasters);
-					} catch (Exception ex) {
-						Alert.showAlert(
-								MaterialRegister.getMaterialRegister()
-										.getPrimaryStage(),
-								"Error",
-								"Error",
-								"Some error occured. Details...\n"
-										+ ex.getMessage());
-						LoggerUtil.getLogger().debug(ex);
-					}
-				}
-			});
 
 			tableMailbox.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -212,21 +72,35 @@ public class ViewHeatChart extends TabPane {
 
 			});
 
-			ScrollPane scrollPane = new ScrollPane();
-			scrollPane.getStyleClass().addAll("noborder-scroll-pane",
-					"texture-bg");
-			scrollPane.setFitToWidth(true);
-			scrollPane.setContent(main);
+			EventHandler<ActionEvent> viewHeatChartEventHandler = new EventHandler<ActionEvent>() {
 
-			tab.setContent(scrollPane);
+				@Override
+				public void handle(ActionEvent e) {
+
+					HeatChartMaster heatChart = tableMailbox
+							.getSelectionModel().getSelectedItem();
+					if (heatChart != null) {
+
+						createViewTab(heatChart);
+					}
+				}
+			};
+
+			tableMailbox.setContextMenu(TableContextMenu
+					.getViewHeatChartContextMenu(viewHeatChartEventHandler));
+
+			tab.setContent(ControlsUtil.makeScrollable(main));
 			tab.setClosable(false);
 			getTabs().add(tab);
 			setSide(Side.TOP);
 		} catch (HibernateException e) {
 			LoggerUtil.getLogger().debug(e);
-			Alert.showAlert(MaterialRegister.getMaterialRegister()
-					.getPrimaryStage(), "Error", "Error",
+			Alert.showAlert(Context.getWindowStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
+		} catch (MalformedURLException ex) {
+			LoggerUtil.getLogger().debug(ex);
+			Alert.showAlert(Context.getWindowStage(), "Error", "Error",
+					"Some error occured. Details...\n" + ex.getMessage());
 		}
 	}
 
@@ -244,197 +118,81 @@ public class ViewHeatChart extends TabPane {
 		Tab tab = new Tab("View Heat Chart : " + heatChart.getChartNumber());
 		tab.setId(heatChart.getChartNumber());
 
-		final VBox main = new VBox(ViewLayout.H_SPACE) {
+		VBox main = ViewLayout.getMainVBox("Heat Chart", "Details");
 
-			@Override
-			protected double computePrefHeight(double width) {
+		GridPane form = new GridPane();
+		form.setHgap(ViewLayout.H_SPACE);
+		form.setVgap(ViewLayout.V_SPACE);
 
-				return Math.max(super.computePrefHeight(width), getParent()
-						.getBoundsInLocal().getHeight());
-			}
-		};
-		main.getStyleClass().add("category-page");
-
-		Label header = new Label("View Heat Chart");
-		header.getStyleClass().add("page-header");
-		main.getChildren().add(header);
-
-		Label detailCategoryHeader = new Label("Details");
-		detailCategoryHeader.setMaxWidth(Double.MAX_VALUE);
-		detailCategoryHeader.setMinHeight(Control.USE_PREF_SIZE);
-		detailCategoryHeader.getStyleClass().add("category-header");
-		main.getChildren().add(detailCategoryHeader);
-
-		final HBox detail1 = new HBox(ViewLayout.H_SPACE * 4.5);
 		Label equipmentLabel = new Label("Equipment");
 		equipmentLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final TextBox equipmentTextField = new TextBox("Equipment",
+
+		final ViewBox equipmentTextField = new ViewBox("Equipment",
 				heatChart.equipmentProperty());
+
 		Label customerLabel = new Label("Customer");
 		customerLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final TextBox customerTextField = new TextBox("Customer",
+
+		final ViewBox customerTextField = new ViewBox("Customer",
 				heatChart.customerProperty());
+
 		Label poDetailsLabel = new Label("PO Details");
 		poDetailsLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		detail1.getChildren().addAll(equipmentLabel, equipmentTextField,
-				customerLabel, customerTextField, poDetailsLabel);
-		main.getChildren().add(detail1);
 
-		final HBox detail2 = new HBox(ViewLayout.H_SPACE * 4.5);
+		final ViewBox poDetailsTextField = new ViewBox("PO Details",
+				heatChart.poDetailsProperty());
+
 		Label drawingLabel = new Label("Drawing No.");
 		drawingLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final TextBox drawingTextField = new TextBox("Drawing No.",
+
+		final ViewBox drawingTextField = new ViewBox("Drawing No.",
 				heatChart.drawingNumberProperty());
+
 		Label suryeyorLabel = new Label("Surveyor");
 		suryeyorLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
-		final TextBox suryeyorTextField = new TextBox("Suryeyor",
+
+		final ViewBox suryeyorTextField = new ViewBox("Suryeyor",
 				heatChart.surveyorProperty());
-		final TextBox poDetailsTextField = new TextBox("PO Details",
-				heatChart.poDetailsProperty());
-		detail2.getChildren().addAll(drawingLabel, drawingTextField,
-				suryeyorLabel, suryeyorTextField, poDetailsTextField);
-		main.getChildren().add(detail2);
 
-		final TableView<HeatChartSheets> table = new TableView<>();
-		TableColumn Col1 = new TableColumn("Sr. No.");
-		Col1.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col1.setCellValueFactory(new PropertyValueFactory<HeatChartSheets, Integer>(
-				"sequenceNumber"));
-		Col1.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, Integer>, ObservableIntegerValue>() {
+		Label tagNumberLabel = new Label("Tag Number");
+		suryeyorLabel.setPrefWidth(ViewLayout.LABEL_WIDTH);
 
-			@Override
-			public ObservableIntegerValue call(
-					CellDataFeatures<HeatChartSheets, Integer> p) {
+		final ViewBox tagNumberTextField = new ViewBox("Tag Number",
+				heatChart.tagNumberProperty());
 
-				return p.getValue().sequenceNumberProperty();
-			}
-		});
-		Col1.setSortable(true);
-		Col1.setSortType(TableColumn.SortType.ASCENDING);
-		TableColumn Col2 = new TableColumn("Sheet No.");
-		Col2.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col2.setCellValueFactory(new PropertyValueFactory<HeatChartSheets, HeatChartSheetsId>(
-				"sheetNumber"));
-		Col2.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, Integer>, ObservableIntegerValue>() {
+		form.add(equipmentLabel, 0, 0);
+		form.add(equipmentTextField, 1, 0);
+		form.add(customerLabel, 2, 0);
+		form.add(customerTextField, 3, 0);
+		form.add(poDetailsLabel, 4, 0);
+		form.add(poDetailsTextField, 5, 0);
+		form.add(drawingLabel, 0, 1);
+		form.add(drawingTextField, 1, 1);
+		form.add(suryeyorLabel, 2, 1);
+		form.add(suryeyorTextField, 3, 1);
+		form.add(tagNumberLabel, 4, 1);
+		form.add(tagNumberTextField, 5, 1);
 
-			@Override
-			public ObservableIntegerValue call(
-					CellDataFeatures<HeatChartSheets, Integer> p) {
+		main.getChildren().addAll(form);
 
-				return p.getValue().getId().sheetNumberProperty();
-			}
-		});
-
-		TableColumn Col3 = new TableColumn("Part No");
-		Col3.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col3.setCellValueFactory(new PropertyValueFactory<HeatChartSheets, String>(
-				"partNumber"));
-		TableColumn Col4 = new TableColumn("Part Name(s)");
-		Col4.setPrefWidth(ViewLayout.COLUMN_WIDTH_MAX);
-		Col4.setCellValueFactory(new PropertyValueFactory<HeatChartSheets, String>(
-				"partName"));
-		TableColumn Col5 = new TableColumn("Material Specification");
-		Col5.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		TableColumn Col51 = new TableColumn("Specified");
-		Col51.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		TableColumn Col511 = new TableColumn("Size");
-		Col511.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col511.setCellValueFactory(new PropertyValueFactory<HeatChartSheets, String>(
-				"speciedSize"));
-		TableColumn Col512 = new TableColumn("Grade");
-		Col512.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col512.setCellValueFactory(new PropertyValueFactory<HeatChartSheets, String>(
-				"speciedGrade"));
-		TableColumn Col52 = new TableColumn("Utilized");
-		Col52.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		TableColumn Col521 = new TableColumn("Size");
-		Col521.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col521.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, MaterialMaster>, ObservableValue<String>>() {
-
-			@Override
-			public ObservableValue<String> call(
-					CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
-
-				return p.getValue().getMaterialmaster().sizeProperty();
-			}
-		});
-		TableColumn Col522 = new TableColumn("Grade");
-		Col522.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col522.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, MaterialMaster>, ObservableValue<String>>() {
-
-			@Override
-			public ObservableValue<String> call(
-					CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
-
-				return p.getValue().getMaterialmaster().getSpecification()
-						.specificationNameProperty();
-			}
-		});
-		TableColumn Col53 = new TableColumn("Check / Testing");
-		Col53.setPrefWidth(ViewLayout.COLUMN_WIDTH_MAX);
-		Col53.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, HeatChartSheetsId>, ObservableValue<String>>() {
-
-			@Override
-			public ObservableValue<String> call(
-					CellDataFeatures<HeatChartSheets, HeatChartSheetsId> p) {
-
-				return p.getValue().getId().ctNumberProperty();
-			}
-		});
-		Col51.getColumns().addAll(Col511, Col512);
-		Col52.getColumns().addAll(Col521, Col522);
-		Col5.getColumns().addAll(Col51, Col52, Col53);
-		TableColumn Col6 = new TableColumn("Test Certificate");
-		Col6.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		TableColumn Col61 = new TableColumn("Number");
-		Col61.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col61.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, MaterialMaster>, ObservableValue<String>>() {
-
-			@Override
-			public ObservableValue<String> call(
-					CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
-
-				return p.getValue().getMaterialmaster().reportNumberProperty();
-			}
-		});
-		TableColumn Col62 = new TableColumn("Date");
-		Col62.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col62.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, MaterialMaster>, ObservableValue<String>>() {
-
-			@Override
-			public ObservableValue<String> call(
-					CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
-
-				return p.getValue().getMaterialmaster().reportDateProperty();
-			}
-		});
-		TableColumn Col63 = new TableColumn("Laboratory");
-		Col63.setPrefWidth(ViewLayout.COLUMN_WIDTH);
-		Col63.setCellValueFactory(new Callback<CellDataFeatures<HeatChartSheets, MaterialMaster>, ObservableValue<String>>() {
-
-			@Override
-			public ObservableValue<String> call(
-					CellDataFeatures<HeatChartSheets, MaterialMaster> p) {
-
-				return p.getValue().getMaterialmaster().getLaboratory()
-						.laboratoryNameProperty();
-			}
-		});
-		Col6.getColumns().addAll(Col61, Col62, Col63);
-		table.getColumns().addAll(Col1, Col2, Col3, Col4, Col5, Col6);
-
-		HeatChartSheets hs = new HeatChartSheets();
-		hs.getId().setChartNumber(heatChart.getChartNumber());
 		final ObservableList<HeatChartSheets> data = FXCollections
-				.observableArrayList(hs);
+				.observableArrayList();
+
+		TableView<HeatChartSheets> table = TableUtil
+				.createViewHeatChartSheetTable();
+
+		data.setAll(heatChart.getHeatChartSheets());
 		table.setItems(data);
+
+		main.getChildren().addAll(ControlsUtil.makeScrollable(table));
 
 		final HBox buttons = new HBox(ViewLayout.H_SPACE);
 		buttons.setTranslateY(32);
 		final Button printButton = new Button("Print");
 		printButton.getStyleClass().add("submit-button");
 		buttons.getChildren().addAll(printButton);
-		main.getChildren().addAll(table, buttons);
+
+		main.getChildren().addAll(buttons);
 
 		printButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -445,6 +203,7 @@ public class ViewHeatChart extends TabPane {
 			}
 		});
 
+		tab.setContent(ControlsUtil.makeScrollable(main));
 		getTabs().add(tab);
 	}
 }

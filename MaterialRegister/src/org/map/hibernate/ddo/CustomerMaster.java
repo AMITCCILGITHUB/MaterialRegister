@@ -23,27 +23,17 @@ public class CustomerMaster implements Serializable, Comparable<CustomerMaster> 
 		this.customerCode = new SimpleIntegerProperty(0);
 		this.customerName = new SimpleStringProperty("");
 		this.remarks = new SimpleStringProperty("");
+		
 		this.status = "TRUE";
 		this.createdBy = "YSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public CustomerMaster(int customerCode, String customerName,
-			String remarks, String status, String createdBy, Date createdDate) {
-
-		this.customerCode = new SimpleIntegerProperty(customerCode);
-		this.customerName = new SimpleStringProperty(customerName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public CustomerMaster(CustomerMaster vm) {
 
-		setCustomerCode(vm.getCustomerCode());
-		setCustomerName(vm.getCustomerName());
-		setRemarks(vm.getRemarks());
+		this.customerCode = new SimpleIntegerProperty(vm.getCustomerCode());
+		this.customerName = new SimpleStringProperty(vm.getCustomerName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -125,18 +115,18 @@ public class CustomerMaster implements Serializable, Comparable<CustomerMaster> 
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(CustomerMaster vm) {
+	public void resetTo(CustomerMaster vm) {
 
-		setCustomerCode(vm.getCustomerCode());
-		setCustomerName(vm.getCustomerName());
-		setRemarks(vm.getRemarks());
+		this.customerCode.set(vm.getCustomerCode());
+		this.customerName.set(vm.getCustomerName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.customerCode.set(0);
 		this.customerName.set("");

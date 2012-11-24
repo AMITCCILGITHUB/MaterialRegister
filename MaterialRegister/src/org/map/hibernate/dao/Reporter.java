@@ -17,12 +17,12 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.map.hibernate.ddo.HeatChartMaster;
-import org.map.hibernate.ddo.MaterialMaster;
+import org.map.hibernate.ddo.MaterialRegister;
 import org.map.utils.AppProperties;
 
 public class Reporter {
 
-	public static String printMaterialRegisterReport(List<MaterialMaster> data)
+	public static String printMaterialRegisterReport(List<MaterialRegister> data)
 			throws JRException, IOException {
 
 		JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(

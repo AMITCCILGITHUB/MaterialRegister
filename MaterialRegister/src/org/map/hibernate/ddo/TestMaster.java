@@ -23,27 +23,17 @@ public class TestMaster implements Serializable, Comparable<TestMaster> {
 		this.testCode = new SimpleIntegerProperty(0);
 		this.testName = new SimpleStringProperty("");
 		this.remarks = new SimpleStringProperty("");
+		
 		this.status = "TRUE";
 		this.createdBy = "YSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
 
-	public TestMaster(int testCode, String testName, String remarks,
-			String status, String createdBy, Date createdDate) {
-
-		this.testCode = new SimpleIntegerProperty(testCode);
-		this.testName = new SimpleStringProperty(testName);
-		this.remarks = new SimpleStringProperty(remarks);
-		this.status = status;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-	}
-
 	public TestMaster(TestMaster vm) {
 
-		setTestCode(vm.getTestCode());
-		setTestName(vm.getTestName());
-		setRemarks(vm.getRemarks());
+		this.testCode = new SimpleIntegerProperty(vm.getTestCode());
+		this.testName = new SimpleStringProperty(vm.getTestName());
+		this.remarks = new SimpleStringProperty(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
@@ -125,18 +115,18 @@ public class TestMaster implements Serializable, Comparable<TestMaster> {
 		this.createdDate = createdDate;
 	}
 
-	public void resetDetails(TestMaster vm) {
+	public void resetTo(TestMaster vm) {
 
-		setTestCode(vm.getTestCode());
-		setTestName(vm.getTestName());
-		setRemarks(vm.getRemarks());
+		this.testCode.set(vm.getTestCode());
+		this.testName.set(vm.getTestName());
+		this.remarks.set(vm.getRemarks());
 
 		this.status = vm.getStatus();
 		this.createdBy = vm.getCreatedBy();
 		this.createdDate = vm.getCreatedDate();
 	}
 
-	public void reset() {
+	public void clean() {
 
 		this.testCode.set(0);
 		this.testName.set("");
