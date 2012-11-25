@@ -1,4 +1,4 @@
-package org.map.login;
+package org.map.view;
 
 import java.net.MalformedURLException;
 

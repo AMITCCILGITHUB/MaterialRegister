@@ -165,7 +165,7 @@ public class CustomerComboBox extends Region {
 						}
 					} else {
 						List<CustomerMaster> resultList = ValidationData
-								.getCustomerList();
+								.getCustomerList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

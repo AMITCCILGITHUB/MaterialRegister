@@ -11,6 +11,7 @@
 	<field name="poDetails" class="java.lang.String"/>
 	<field name="drawingNumber" class="java.lang.String"/>
 	<field name="surveyor" class="java.lang.String"/>
+	<field name="tagNumber" class="java.lang.String"/>
 	<field name="heatchartsheets" class="java.util.List"/>
 	<title>
 		<band height="96" splitType="Stretch">

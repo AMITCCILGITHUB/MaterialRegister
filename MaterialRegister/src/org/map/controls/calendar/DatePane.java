@@ -1,4 +1,4 @@
-package org.map.calendar;
+package org.map.controls.calendar;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;

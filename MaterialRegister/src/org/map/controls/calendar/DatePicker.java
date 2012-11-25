@@ -1,4 +1,4 @@
-package org.map.calendar;
+package org.map.controls.calendar;
 
 import java.text.DateFormat;
 import java.text.ParseException;

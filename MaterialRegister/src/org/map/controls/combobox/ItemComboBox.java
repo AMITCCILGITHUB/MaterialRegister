@@ -165,7 +165,7 @@ public class ItemComboBox extends Region {
 						}
 					} else {
 						List<ItemMaster> resultList = ValidationData
-								.getItemList();
+								.getItemList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

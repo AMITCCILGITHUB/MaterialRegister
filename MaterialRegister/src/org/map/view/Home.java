@@ -1,4 +1,4 @@
-package org.map;
+package org.map.view;
 
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
@@ -145,6 +145,7 @@ public class Home {
 			public void handle(MouseEvent event) {
 
 				if (!windowButtons.isMaximized()) {
+					
 					primaryStage.setX(event.getScreenX() - mouseDragOffsetX);
 					primaryStage.setY(event.getScreenY() - mouseDragOffsetY);
 				}

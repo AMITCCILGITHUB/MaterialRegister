@@ -105,12 +105,50 @@ public class MaterialData {
 		Transaction transaction = session.beginTransaction();
 
 		material.setMaterialCode(getNextMaterialCode());
+		
+		if(material.getInspectionAgency().getAgencyCode() <= 1000){
+			
+			ValidationData.insertAgency(material.getInspectionAgency());
+		}
+
+		if(material.getSpecification().getSpecificationCode() <= 1000){
+			
+			ValidationData.insertSpecification(material.getSpecification());
+		}
+
+		if(material.getItem().getItemCode() <= 1000){
+			
+			ValidationData.insertItem(material.getItem());
+		}
 
 		int nextTestCode = getNextTestCode();
 		for (MaterialTests materialTest : material.getMaterialTests()) {
-			if (materialTest.getTestCode() == 0) {
+			
+			if (materialTest.getTestCode() <= 1000) {
+				
 				materialTest.setTestCode(nextTestCode);
 				materialTest.setMaterialMaster(material);
+				
+				if(materialTest.getTest().getTestCode() <= 1000){
+					
+					ValidationData.insertTest(materialTest.getTest());
+				}
+				
+				if(materialTest.getCustomer().getCustomerCode() <= 1000){
+					
+					ValidationData.insertCustomer(materialTest.getCustomer());
+				}
+
+				if(materialTest.getLaboratory().getLaboratoryCode() <= 1000){
+					
+					ValidationData.insertLaboratory(materialTest.getLaboratory());
+				}
+				
+				if(materialTest.getResult().getResultCode() <= 1000){
+					
+					ValidationData.insertResult(materialTest.getResult());
+				}
+
 				nextTestCode++;
 			}
 		}
@@ -126,11 +164,49 @@ public class MaterialData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
+		if(material.getInspectionAgency().getAgencyCode() <= 1000){
+			
+			ValidationData.insertAgency(material.getInspectionAgency());
+		}
+
+		if(material.getSpecification().getSpecificationCode() <= 1000){
+			
+			ValidationData.insertSpecification(material.getSpecification());
+		}
+
+		if(material.getItem().getItemCode() <= 1000){
+			
+			ValidationData.insertItem(material.getItem());
+		}
+		
 		int nextTestCode = getNextTestCode();
 		for (MaterialTests materialTest : material.getMaterialTests()) {
+			
 			if (materialTest.getTestCode() == 0) {
+				
 				materialTest.setTestCode(nextTestCode);
 				materialTest.setMaterialMaster(material);
+				
+				if(materialTest.getTest().getTestCode() <= 1000){
+					
+					ValidationData.insertTest(materialTest.getTest());
+				}
+				
+				if(materialTest.getCustomer().getCustomerCode() <= 1000){
+					
+					ValidationData.insertCustomer(materialTest.getCustomer());
+				}
+
+				if(materialTest.getLaboratory().getLaboratoryCode() <= 1000){
+					
+					ValidationData.insertLaboratory(materialTest.getLaboratory());
+				}
+				
+				if(materialTest.getResult().getResultCode() <= 1000){
+					
+					ValidationData.insertResult(materialTest.getResult());
+				}
+				
 				nextTestCode++;
 			}
 		}

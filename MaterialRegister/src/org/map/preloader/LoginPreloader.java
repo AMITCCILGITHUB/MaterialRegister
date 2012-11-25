@@ -3,7 +3,7 @@ package org.map.preloader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import org.map.Home;
+import org.map.view.Home;
 
 import javafx.application.Preloader;
 import javafx.scene.Scene;

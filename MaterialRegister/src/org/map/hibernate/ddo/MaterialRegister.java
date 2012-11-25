@@ -12,38 +12,40 @@ import javafx.beans.property.SimpleStringProperty;
 public class MaterialRegister implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	private SimpleIntegerProperty materialCode;
 	private SimpleStringProperty ctNumber;
-	private AgencyProperty inspectionAgency;
-	private SpecificationProperty specification;
-	private ItemProperty item;
+	private SimpleStringProperty inspectionAgency;
+	private SimpleStringProperty specification;
+	private SimpleStringProperty item;
 	private SimpleStringProperty size;
 	private SimpleIntegerProperty quantity;
 	private SimpleStringProperty heatNumber;
 	private SimpleStringProperty plateNumber;
-	private String status;
-	private String createdBy;
-	private Date createdDate;
 	private SimpleIntegerProperty testCode;
 	private SimpleStringProperty sampleId;
-	private TestProperty test;
-	private CustomerProperty customer;
+	private SimpleStringProperty test;
+	private SimpleStringProperty customer;
 	private SimpleStringProperty equipments;
-	private LaboratoryProperty laboratory;
+	private SimpleStringProperty laboratory;
 	private SimpleStringProperty reportDate;
 	private SimpleStringProperty reportNumber;
-	private ResultProperty result;
+	private SimpleStringProperty result;
 	private SimpleStringProperty remarks;
 	private SimpleStringProperty witnessedBy;
 	private SimpleStringProperty failureReason;
+
+	private String status;
+	private String createdBy;
+	private Date createdDate;
 
 	public MaterialRegister() {
 
 		this.materialCode = new SimpleIntegerProperty(1);
 		this.ctNumber = new SimpleStringProperty("");
-		this.inspectionAgency = new AgencyProperty();
-		this.specification = new SpecificationProperty();
-		this.item = new ItemProperty();
+		this.inspectionAgency = new SimpleStringProperty("");
+		this.specification = new SimpleStringProperty("");
+		this.item = new SimpleStringProperty("");
 		this.size = new SimpleStringProperty("");
 		this.quantity = new SimpleIntegerProperty(1);
 		this.heatNumber = new SimpleStringProperty("");
@@ -51,13 +53,13 @@ public class MaterialRegister implements Serializable {
 
 		this.testCode = new SimpleIntegerProperty(0);
 		this.sampleId = new SimpleStringProperty("");
-		this.test = new TestProperty();
-		this.customer = new CustomerProperty();
+		this.test = new SimpleStringProperty("");
+		this.customer = new SimpleStringProperty("");
 		this.equipments = new SimpleStringProperty("");
-		this.laboratory = new LaboratoryProperty();
+		this.laboratory = new SimpleStringProperty("");
 		this.reportNumber = new SimpleStringProperty("");
 		this.reportDate = new SimpleStringProperty("");
-		this.result = new ResultProperty();
+		this.result = new SimpleStringProperty("");
 		this.remarks = new SimpleStringProperty("");
 		this.witnessedBy = new SimpleStringProperty("");
 		this.failureReason = new SimpleStringProperty("");
@@ -71,9 +73,9 @@ public class MaterialRegister implements Serializable {
 
 		this.materialCode = new SimpleIntegerProperty(material.getMaterialCode());
 		this.ctNumber = new SimpleStringProperty(material.getCtNumber());
-		this.inspectionAgency = new AgencyProperty(material.getInspectionAgency());
-		this.specification = new SpecificationProperty(material.getSpecification());
-		this.item = new ItemProperty(material.getItem());
+		this.inspectionAgency = new SimpleStringProperty(material.getInspectionAgency());
+		this.specification = new SimpleStringProperty(material.getSpecification());
+		this.item = new SimpleStringProperty(material.getItem());
 		this.size = new SimpleStringProperty(material.getSize());
 		this.quantity = new SimpleIntegerProperty(material.getQuantity());
 		this.heatNumber = new SimpleStringProperty(material.getHeatNumber());
@@ -81,13 +83,13 @@ public class MaterialRegister implements Serializable {
 
 		this.testCode = new SimpleIntegerProperty(material.getTestCode());
 		this.sampleId = new SimpleStringProperty(material.getSampleId());
-		this.test = new TestProperty(material.getTest());
-		this.customer = new CustomerProperty(material.getCustomer());
+		this.test = new SimpleStringProperty(material.getTest());
+		this.customer = new SimpleStringProperty(material.getCustomer());
 		this.equipments = new SimpleStringProperty(material.getEquipments());
-		this.laboratory = new LaboratoryProperty(material.getLaboratory());
+		this.laboratory = new SimpleStringProperty(material.getLaboratory());
 		this.reportNumber = new SimpleStringProperty(material.getReportNumber());
 		this.reportDate = new SimpleStringProperty(material.getReportDate());
-		this.result = new ResultProperty(material.getResult());
+		this.result = new SimpleStringProperty(material.getResult());
 		this.remarks = new SimpleStringProperty(material.getRemarks());
 		this.witnessedBy = new SimpleStringProperty(material.getWitnessedBy());
 		this.failureReason = new SimpleStringProperty(material.getFailureReason());
@@ -126,32 +128,32 @@ public class MaterialRegister implements Serializable {
 		return this.ctNumber;
 	}
 
-	public AgencyMaster getInspectionAgency() {
+	public String getInspectionAgency() {
 
 		return this.inspectionAgency.get();
 	}
 
-	public void setInspectionAgency(AgencyMaster inspectionAgency) {
+	public void setInspectionAgency(String inspectionAgency) {
 
 		this.inspectionAgency.set(inspectionAgency);
 	}
 
-	public AgencyProperty inspectionAgencyProperty() {
+	public SimpleStringProperty inspectionAgencyProperty() {
 
 		return this.inspectionAgency;
 	}
 
-	public ItemMaster getItem() {
+	public String getItem() {
 
 		return this.item.get();
 	}
 
-	public void setItem(ItemMaster item) {
+	public void setItem(String item) {
 
 		this.item.set(item);
 	}
 
-	public ItemProperty itemProperty() {
+	public SimpleStringProperty itemProperty() {
 
 		return this.item;
 	}
@@ -216,17 +218,17 @@ public class MaterialRegister implements Serializable {
 		return this.plateNumber;
 	}
 
-	public SpecificationMaster getSpecification() {
+	public String getSpecification() {
 
 		return this.specification.get();
 	}
 
-	public void setSpecification(SpecificationMaster specification) {
+	public void setSpecification(String specification) {
 
 		this.specification.set(specification);
 	}
 
-	public SpecificationProperty specificationProperty() {
+	public SimpleStringProperty specificationProperty() {
 
 		return this.specification;
 	}
@@ -261,32 +263,32 @@ public class MaterialRegister implements Serializable {
 		return this.sampleId;
 	}
 
-	public TestMaster getTest() {
+	public String getTest() {
 
 		return this.test.get();
 	}
 
-	public void setTest(TestMaster test) {
+	public void setTest(String test) {
 
 		this.test.set(test);
 	}
 
-	public TestProperty testProperty() {
+	public SimpleStringProperty testProperty() {
 
 		return this.test;
 	}
 
-	public CustomerMaster getCustomer() {
+	public String getCustomer() {
 
 		return this.customer.get();
 	}
 
-	public void setCustomer(CustomerMaster customer) {
+	public void setCustomer(String customer) {
 
 		this.customer.set(customer);
 	}
 
-	public CustomerProperty customerProperty() {
+	public SimpleStringProperty customerProperty() {
 
 		return this.customer;
 	}
@@ -306,17 +308,17 @@ public class MaterialRegister implements Serializable {
 		return this.equipments;
 	}
 
-	public LaboratoryMaster getLaboratory() {
+	public String getLaboratory() {
 
 		return this.laboratory.get();
 	}
 
-	public void setLaboratory(LaboratoryMaster laboratory) {
+	public void setLaboratory(String laboratory) {
 
 		this.laboratory.set(laboratory);
 	}
 
-	public LaboratoryProperty laboratoryProperty() {
+	public SimpleStringProperty laboratoryProperty() {
 
 		return this.laboratory;
 	}
@@ -351,17 +353,17 @@ public class MaterialRegister implements Serializable {
 		return this.reportDate;
 	}
 
-	public ResultMaster getResult() {
+	public String getResult() {
 
 		return this.result.get();
 	}
 
-	public void setResult(ResultMaster result) {
+	public void setResult(String result) {
 
 		this.result.set(result);
 	}
 
-	public ResultProperty resultProperty() {
+	public SimpleStringProperty resultProperty() {
 
 		return this.result;
 	}
@@ -449,22 +451,22 @@ public class MaterialRegister implements Serializable {
 
 			register.setMaterialCode(master.getMaterialCode());
 			register.setCtNumber(master.getCtNumber());
-			register.setInspectionAgency(master.getInspectionAgency());
-			register.setSpecification(master.getSpecification());
-			register.setItem(master.getItem());
+			register.setInspectionAgency(master.getInspectionAgency().getAgencyName());
+			register.setSpecification(master.getSpecification().getSpecificationName());
+			register.setItem(master.getItem().getItemName());
 			register.setSize(master.getSize());
 			register.setHeatNumber(master.getHeatNumber());
 			register.setPlateNumber(master.getPlateNumber());
 
 			register.setTestCode(test.getTestCode());
 			register.setSampleId(test.getSampleId());
-			register.setTest(test.getTest());
-			register.setCustomer(test.getCustomer());
+			register.setTest(test.getTest().getTestName());
+			register.setCustomer(test.getCustomer().getCustomerName());
 			register.setEquipments(test.getEquipments());
-			register.setLaboratory(test.getLaboratory());
+			register.setLaboratory(test.getLaboratory().getLaboratoryName());
 			register.setReportNumber(test.getReportNumber());
 			register.setReportDate(test.getReportDate());
-			register.setResult(test.getResult());
+			register.setResult(test.getResult().getResultName());
 			register.setRemarks(test.getRemarks());
 			register.setWitnessedBy(test.getWitnessedBy());
 			register.setFailureReason(test.getFailureReason());

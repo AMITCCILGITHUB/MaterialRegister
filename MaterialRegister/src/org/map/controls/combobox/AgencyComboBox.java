@@ -165,7 +165,7 @@ public class AgencyComboBox extends Region {
 						}
 					} else {
 						List<AgencyMaster> resultList = ValidationData
-								.getAgencyList();
+								.getAgencyList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

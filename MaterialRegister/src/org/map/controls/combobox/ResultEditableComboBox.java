@@ -210,7 +210,7 @@ public class ResultEditableComboBox extends Region {
 						}
 					} else {
 						List<ResultMaster> resultList = ValidationData
-								.getResultList();
+								.getResultList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

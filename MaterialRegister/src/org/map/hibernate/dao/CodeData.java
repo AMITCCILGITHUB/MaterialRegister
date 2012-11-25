@@ -26,6 +26,20 @@ public class CodeData {
 		return codes;
 	}
 
+	public static List<CodeMaster> getCodes(String codeName) {
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<CodeMaster> codes = session.createCriteria(CodeMaster.class)
+				.add(Restrictions.like("codeName", codeName)).list();
+
+		transaction.commit();
+		session.close();
+
+		return codes;
+	}
+
 	public static int getNextCodeNumber() throws HibernateException {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -35,9 +49,9 @@ public class CodeData {
 				.setProjection(Projections.max("codeNumber")).uniqueResult();
 
 		int codeNumber = 1001;
-		if(result != null)
+		if (result != null)
 			codeNumber = (int) result + 1;
-		
+
 		transaction.commit();
 		session.close();
 

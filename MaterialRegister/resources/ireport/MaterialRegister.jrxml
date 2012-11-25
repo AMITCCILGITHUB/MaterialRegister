@@ -50,7 +50,7 @@
 	<field name="specification" class="java.lang.String">
 		<fieldDescription><![CDATA[specification]]></fieldDescription>
 	</field>
-	<field name="tests" class="java.lang.String">
+	<field name="test" class="java.lang.String">
 		<fieldDescription><![CDATA[tests]]></fieldDescription>
 	</field>
 	<field name="customer" class="java.lang.String">

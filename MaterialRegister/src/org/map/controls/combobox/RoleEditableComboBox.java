@@ -210,7 +210,7 @@ public class RoleEditableComboBox extends Region {
 						}
 					} else {
 						List<RoleMaster> resultList = ValidationData
-								.getRoleList();
+								.getRoleList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

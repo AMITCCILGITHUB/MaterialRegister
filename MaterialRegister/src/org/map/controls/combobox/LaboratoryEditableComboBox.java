@@ -210,7 +210,7 @@ public class LaboratoryEditableComboBox extends Region {
 						}
 					} else {
 						List<LaboratoryMaster> resultList = ValidationData
-								.getLaboratoryList();
+								.getLaboratoryList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

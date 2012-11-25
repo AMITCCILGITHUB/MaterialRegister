@@ -165,7 +165,7 @@ public class SpecificationComboBox extends Region {
 						}
 					} else {
 						List<SpecificationMaster> resultList = ValidationData
-								.getSpecificationList();
+								.getSpecificationList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

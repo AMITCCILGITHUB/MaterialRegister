@@ -165,7 +165,7 @@ public class TestComboBox extends Region {
 						}
 					} else {
 						List<TestMaster> resultList = ValidationData
-								.getTestList();
+								.getTestList(textBox.getText().trim());
 
 						if (resultList.size() > 0) {
 							populateMenu(resultList);

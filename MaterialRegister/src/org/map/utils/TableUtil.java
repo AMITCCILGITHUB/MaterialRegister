@@ -589,7 +589,7 @@ public class TableUtil {
 			public StringProperty call(
 					CellDataFeatures<MaterialRegister, String> p) {
 
-				return p.getValue().getInspectionAgency().agencyNameProperty();
+				return p.getValue().inspectionAgencyProperty();
 			}
 		});
 
@@ -605,7 +605,7 @@ public class TableUtil {
 			public StringProperty call(
 					CellDataFeatures<MaterialRegister, String> p) {
 
-				return p.getValue().getItem().itemNameProperty();
+				return p.getValue().itemProperty();
 			}
 		});
 
@@ -640,8 +640,7 @@ public class TableUtil {
 			public StringProperty call(
 					CellDataFeatures<MaterialRegister, String> p) {
 
-				return p.getValue().getSpecification()
-						.specificationNameProperty();
+				return p.getValue().specificationProperty();
 			}
 		});
 
@@ -655,7 +654,7 @@ public class TableUtil {
 			public StringProperty call(
 					CellDataFeatures<MaterialRegister, String> p) {
 
-				return p.getValue().getTest().testNameProperty();
+				return p.getValue().testProperty();
 			}
 		});
 
@@ -669,7 +668,7 @@ public class TableUtil {
 			public StringProperty call(
 					CellDataFeatures<MaterialRegister, String> p) {
 
-				return p.getValue().getCustomer().customerNameProperty();
+				return p.getValue().customerProperty();
 			}
 		});
 
@@ -688,7 +687,7 @@ public class TableUtil {
 			public StringProperty call(
 					CellDataFeatures<MaterialRegister, String> p) {
 
-				return p.getValue().getLaboratory().laboratoryNameProperty();
+				return p.getValue().laboratoryProperty();
 			}
 		});
 
@@ -715,7 +714,7 @@ public class TableUtil {
 			public StringProperty call(
 					CellDataFeatures<MaterialRegister, String> p) {
 
-				return p.getValue().getResult().resultNameProperty();
+				return p.getValue().resultProperty();
 			}
 		});
 

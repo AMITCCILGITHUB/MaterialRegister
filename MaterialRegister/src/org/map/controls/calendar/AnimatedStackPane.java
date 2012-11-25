@@ -1,4 +1,4 @@
-package org.map.calendar;
+package org.map.controls.calendar;
 
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;

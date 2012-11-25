@@ -9,7 +9,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 
-import org.map.calendar.DatePicker;
+import org.map.controls.calendar.DatePicker;
 import org.map.hibernate.ddo.MaterialMaster;
 
 public class DatePickerCellFactory

@@ -161,15 +161,12 @@ public class CodeComboBox extends Region {
 			public void changed(ObservableValue<? extends String> observable,
 					String oldValue, String newValue) {
 
-				System.out.println("Name " + textNameBox.isFocused());
-				System.out.println("Value " + textValueBox.isFocused());
-
 				if (textNameBox.getText().length() == 0) {
 					if (resultContextMenu != null) {
 						resultContextMenu.hide();
 					}
 				} else {
-					List<CodeMaster> resultList = CodeData.getCodes();
+					List<CodeMaster> resultList = CodeData.getCodes(textNameBox.getText());
 
 					if (resultList.size() > 0) {
 						populateMenu(resultList);

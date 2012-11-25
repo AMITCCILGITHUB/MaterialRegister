@@ -1,4 +1,4 @@
-package org.map.calendar;
+package org.map.controls.calendar;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

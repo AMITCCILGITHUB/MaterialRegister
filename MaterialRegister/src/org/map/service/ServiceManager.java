@@ -9,7 +9,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.concurrent.Worker.State;
 
-import org.map.Home;
 import org.map.hibernate.dao.UserData;
 import org.map.hibernate.ddo.AgencyMaster;
 import org.map.hibernate.ddo.CodeMaster;
@@ -25,6 +24,7 @@ import org.map.hibernate.ddo.TestMaster;
 import org.map.hibernate.ddo.UserMaster;
 import org.map.utils.Alert;
 import org.map.utils.Context;
+import org.map.view.Home;
 
 public class ServiceManager {
 
@@ -40,10 +40,12 @@ public class ServiceManager {
 
 				if (newState == Worker.State.SUCCEEDED) {
 					if (uvs.getValue()) {
+						
 						Context.getLoginSatusbar().hide();
 						Context.setLoggedUser(UserData.getUserDetails(user
 								.getUserName()));
 						
+						Context.getLoginStage().hide();
 						Home mr = new Home();
 						try {
 							mr.show();
@@ -51,8 +53,6 @@ public class ServiceManager {
 							Alert.showAlert(Context.getLoginStage(),
 									"Invalid Login", "Error", e.getMessage());
 						}
-
-						Context.getLoginStage().hide();
 					} else {
 						Alert.showAlert(Context.getLoginStage(),
 								"Invalid Login", "Error",

@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.map.hibernate.HibernateUtil;
 import org.map.hibernate.ddo.AgencyMaster;
 import org.map.hibernate.ddo.CustomerMaster;
@@ -39,6 +40,18 @@ public class ValidationData {
 		return roleList;
 	}
 
+	public static List<RoleMaster> getRoleList(String roleName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<RoleMaster> roleList = session.createCriteria(RoleMaster.class)
+				.add(Restrictions.eq("roleName", roleName)).list();
+
+		transaction.commit();
+		session.close();
+		return roleList;
+	}
+	
 	public static List<String> getValidationNameList(String validationType) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
@@ -170,6 +183,16 @@ public class ValidationData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
+		if (agency.getAgencyCode() <= 1000) {
+
+			agency.setAgencyCode(getNextValidationNumber("Agency"));
+		}
+
+		if (agency.getRemarks().trim().length() <= 0) {
+
+			agency.setRemarks(agency.getAgencyName());
+		}
+
 		session.save(agency);
 
 		transaction.commit();
@@ -180,6 +203,16 @@ public class ValidationData {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
+
+		if (customer.getCustomerCode() <= 1000) {
+
+			customer.setCustomerCode(getNextValidationNumber("Customer"));
+		}
+
+		if (customer.getRemarks().trim().length() <= 0) {
+
+			customer.setRemarks(customer.getCustomerName());
+		}
 
 		session.save(customer);
 
@@ -192,18 +225,38 @@ public class ValidationData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
+		if (item.getItemCode() <= 1000) {
+
+			item.setItemCode(getNextValidationNumber("Item"));
+		}
+
+		if (item.getRemarks().trim().length() <= 0) {
+
+			item.setRemarks(item.getItemName());
+		}
+
 		session.save(item);
 
 		transaction.commit();
 		session.close();
 	}
 
-	public static void insertLaboratory(LaboratoryMaster lab) {
+	public static void insertLaboratory(LaboratoryMaster laboratory) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		session.save(lab);
+		if (laboratory.getLaboratoryCode() <= 1000) {
+
+			laboratory.setLaboratoryCode(getNextValidationNumber("Laboratory"));
+		}
+
+		if (laboratory.getRemarks().trim().length() <= 0) {
+
+			laboratory.setRemarks(laboratory.getLaboratoryName());
+		}
+
+		session.save(laboratory);
 
 		transaction.commit();
 		session.close();
@@ -214,18 +267,39 @@ public class ValidationData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
+		if (result.getResultCode() <= 1000) {
+
+			result.setResultCode(getNextValidationNumber("Result"));
+		}
+
+		if (result.getRemarks().trim().length() <= 0) {
+
+			result.setRemarks(result.getResultName());
+		}
+
 		session.save(result);
 
 		transaction.commit();
 		session.close();
 	}
 
-	public static void insertSpecification(SpecificationMaster spec) {
+	public static void insertSpecification(SpecificationMaster specification) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		session.save(spec);
+		if (specification.getSpecificationCode() <= 1000) {
+
+			specification
+					.setSpecificationCode(getNextValidationNumber("Specification"));
+		}
+
+		if (specification.getRemarks().trim().length() <= 0) {
+
+			specification.setRemarks(specification.getSpecificationName());
+		}
+
+		session.save(specification);
 
 		transaction.commit();
 		session.close();
@@ -480,6 +554,104 @@ public class ValidationData {
 
 		List<TestMaster> testList = session.createCriteria(TestMaster.class)
 				.list();
+
+		transaction.commit();
+		session.close();
+
+		return testList;
+	}
+
+	public static List<AgencyMaster> getAgencyList(String agencyName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<AgencyMaster> agencyList = session
+				.createCriteria(AgencyMaster.class)
+				.add(Restrictions.like("agencyName", agencyName)).list();
+
+		transaction.commit();
+		session.close();
+
+		return agencyList;
+	}
+
+	public static List<CustomerMaster> getCustomerList(String customerName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<CustomerMaster> customerList = session
+				.createCriteria(CustomerMaster.class)
+				.add(Restrictions.like("customerName", customerName)).list();
+
+		transaction.commit();
+		session.close();
+
+		return customerList;
+	}
+
+	public static List<ItemMaster> getItemList(String itemName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<ItemMaster> itemList = session.createCriteria(ItemMaster.class)
+				.add(Restrictions.like("itemName", itemName)).list();
+
+		transaction.commit();
+		session.close();
+
+		return itemList;
+	}
+
+	public static List<LaboratoryMaster> getLaboratoryList(String laboratoryName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<LaboratoryMaster> laboratoryList = session
+				.createCriteria(LaboratoryMaster.class)
+				.add(Restrictions.like("laboratoryName", laboratoryName)).list();
+
+		transaction.commit();
+		session.close();
+
+		return laboratoryList;
+	}
+
+	public static List<ResultMaster> getResultList(String resultName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<ResultMaster> resultList = session
+				.createCriteria(ResultMaster.class)
+				.add(Restrictions.like("resultName", resultName)).list();
+
+		transaction.commit();
+		session.close();
+
+		return resultList;
+	}
+
+	public static List<SpecificationMaster> getSpecificationList(
+			String specificationName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<SpecificationMaster> specificationList = session
+				.createCriteria(SpecificationMaster.class)
+				.add(Restrictions.like("specificationName", specificationName))
+				.list();
+
+		transaction.commit();
+		session.close();
+
+		return specificationList;
+	}
+
+	public static List<TestMaster> getTestList(String testName) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = session.beginTransaction();
+
+		List<TestMaster> testList = session.createCriteria(TestMaster.class)
+				.add(Restrictions.like("testName", testName)).list();
 
 		transaction.commit();
 		session.close();
