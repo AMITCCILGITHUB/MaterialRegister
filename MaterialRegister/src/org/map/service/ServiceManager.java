@@ -40,11 +40,11 @@ public class ServiceManager {
 
 				if (newState == Worker.State.SUCCEEDED) {
 					if (uvs.getValue()) {
-						
+
 						Context.getLoginSatusbar().hide();
 						Context.setLoggedUser(UserData.getUserDetails(user
 								.getUserName()));
-						
+
 						Context.getLoginStage().hide();
 						Home mr = new Home();
 						try {
@@ -75,6 +75,9 @@ public class ServiceManager {
 			List<MaterialRegister> data) {
 
 		final PrintMaterialRegister pmr = new PrintMaterialRegister(data);
+
+		Context.getWindowBottomText().textProperty()
+				.bind(Bindings.format("%s", pmr.stateProperty()));
 
 		pmr.stateProperty().addListener(new ChangeListener<State>() {
 
@@ -141,12 +144,12 @@ public class ServiceManager {
 					State oldValue, State newState) {
 
 				if (newState == Worker.State.SUCCEEDED) {
-					
+
 					Alert.showAlert(Context.getWindowStage(), "Alert", "Alert",
 							"User details saved successfully.");
 
 				} else if (newState == Worker.State.FAILED) {
-					
+
 					Alert.showAlert(Context.getWindowStage(), "Error", "Error",
 							"Some error cooured. Details : "
 									+ sud.getException().getCause());

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.map.hibernate.ddo.HeatChartMaster;
+import org.map.hibernate.ddo.HeatChartSheetRegister;
 import org.map.hibernate.ddo.MaterialRegister;
 import org.map.utils.AppProperties;
 
@@ -29,7 +29,7 @@ public class Reporter {
 				data);
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
 
-		Map parameters = new HashMap();
+		Map<String, Object> parameters = new HashMap<String, Object>();
 
 		File matFile = new File("resources/ireport/MaterialRegister.jasper");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(
@@ -49,12 +49,17 @@ public class Reporter {
 			throws JRException, IOException, URISyntaxException {
 
 		JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(
-				Arrays.asList(data));
+				HeatChartSheetRegister.getHeatChartSheetList(data
+						.getHeatChartSheets()));
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss");
 
-		Map parameters = new HashMap();
-		File subReportFile = new File("resources/ireport/");
-		parameters.put("SUBREPORT_DIR", subReportFile.getAbsolutePath());
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("equipment", data.getEquipment());
+		parameters.put("customer", data.getCustomer());
+		parameters.put("poDetails", data.getPoDetails());
+		parameters.put("drawingNumber", data.getDrawingNumber());
+		parameters.put("surveyor", data.getSurveyor());
+		parameters.put("tagNumber", data.getTagNumber());
 
 		File heatFile = new File("resources/ireport/HeatChart.jasper");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(

@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.map.hibernate.HibernateUtil;
@@ -44,14 +45,16 @@ public class ValidationData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<RoleMaster> roleList = session.createCriteria(RoleMaster.class)
-				.add(Restrictions.eq("roleName", roleName)).list();
+		List<RoleMaster> roleList = session
+				.createCriteria(RoleMaster.class)
+				.add(Restrictions
+						.like("roleName", roleName, MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();
 		return roleList;
 	}
-	
+
 	public static List<String> getValidationNameList(String validationType) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
@@ -567,7 +570,8 @@ public class ValidationData {
 
 		List<AgencyMaster> agencyList = session
 				.createCriteria(AgencyMaster.class)
-				.add(Restrictions.like("agencyName", agencyName)).list();
+				.add(Restrictions.like("agencyName", agencyName,
+						MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();
@@ -581,7 +585,8 @@ public class ValidationData {
 
 		List<CustomerMaster> customerList = session
 				.createCriteria(CustomerMaster.class)
-				.add(Restrictions.like("customerName", customerName)).list();
+				.add(Restrictions.like("customerName", customerName,
+						MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();
@@ -593,8 +598,10 @@ public class ValidationData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<ItemMaster> itemList = session.createCriteria(ItemMaster.class)
-				.add(Restrictions.like("itemName", itemName)).list();
+		List<ItemMaster> itemList = session
+				.createCriteria(ItemMaster.class)
+				.add(Restrictions
+						.like("itemName", itemName, MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();
@@ -608,7 +615,8 @@ public class ValidationData {
 
 		List<LaboratoryMaster> laboratoryList = session
 				.createCriteria(LaboratoryMaster.class)
-				.add(Restrictions.like("laboratoryName", laboratoryName)).list();
+				.add(Restrictions.like("laboratoryName", laboratoryName,
+						MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();
@@ -622,7 +630,8 @@ public class ValidationData {
 
 		List<ResultMaster> resultList = session
 				.createCriteria(ResultMaster.class)
-				.add(Restrictions.like("resultName", resultName)).list();
+				.add(Restrictions.like("resultName", resultName,
+						MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();
@@ -637,8 +646,8 @@ public class ValidationData {
 
 		List<SpecificationMaster> specificationList = session
 				.createCriteria(SpecificationMaster.class)
-				.add(Restrictions.like("specificationName", specificationName))
-				.list();
+				.add(Restrictions.like("specificationName", specificationName,
+						MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();
@@ -650,8 +659,10 @@ public class ValidationData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<TestMaster> testList = session.createCriteria(TestMaster.class)
-				.add(Restrictions.like("testName", testName)).list();
+		List<TestMaster> testList = session
+				.createCriteria(TestMaster.class)
+				.add(Restrictions
+						.like("testName", testName, MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();

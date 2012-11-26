@@ -39,8 +39,7 @@ public class MaterialData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		int materialNumber = (int) session
-				.createCriteria(MaterialMaster.class)
+		int materialNumber = (int) session.createCriteria(MaterialMaster.class)
 				.setProjection(Projections.max("materialCode")).uniqueResult() + 1;
 
 		transaction.commit();
@@ -67,14 +66,13 @@ public class MaterialData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		Object result = session
-				.createCriteria(MaterialMaster.class)
+		Object result = session.createCriteria(MaterialMaster.class)
 				.setProjection(Projections.max("materialCode")).uniqueResult();
 
 		int materialCode = 1001;
-		if(result != null)
+		if (result != null)
 			materialCode = (int) result + 1;
-		
+
 		transaction.commit();
 		session.close();
 
@@ -90,9 +88,9 @@ public class MaterialData {
 				.setProjection(Projections.max("testCode")).uniqueResult();
 
 		int testCode = 1001;
-		if(result != null)
+		if (result != null)
 			testCode = (int) result + 1;
-		
+
 		transaction.commit();
 		session.close();
 
@@ -105,47 +103,48 @@ public class MaterialData {
 		Transaction transaction = session.beginTransaction();
 
 		material.setMaterialCode(getNextMaterialCode());
-		
-		if(material.getInspectionAgency().getAgencyCode() <= 1000){
-			
+
+		if (material.getInspectionAgency().getAgencyCode() <= 1000) {
+
 			ValidationData.insertAgency(material.getInspectionAgency());
 		}
 
-		if(material.getSpecification().getSpecificationCode() <= 1000){
-			
+		if (material.getSpecification().getSpecificationCode() <= 1000) {
+
 			ValidationData.insertSpecification(material.getSpecification());
 		}
 
-		if(material.getItem().getItemCode() <= 1000){
-			
+		if (material.getItem().getItemCode() <= 1000) {
+
 			ValidationData.insertItem(material.getItem());
 		}
 
 		int nextTestCode = getNextTestCode();
 		for (MaterialTests materialTest : material.getMaterialTests()) {
-			
+
 			if (materialTest.getTestCode() <= 1000) {
-				
+
 				materialTest.setTestCode(nextTestCode);
 				materialTest.setMaterialMaster(material);
-				
-				if(materialTest.getTest().getTestCode() <= 1000){
-					
+
+				if (materialTest.getTest().getTestCode() <= 1000) {
+
 					ValidationData.insertTest(materialTest.getTest());
 				}
-				
-				if(materialTest.getCustomer().getCustomerCode() <= 1000){
-					
+
+				if (materialTest.getCustomer().getCustomerCode() <= 1000) {
+
 					ValidationData.insertCustomer(materialTest.getCustomer());
 				}
 
-				if(materialTest.getLaboratory().getLaboratoryCode() <= 1000){
-					
-					ValidationData.insertLaboratory(materialTest.getLaboratory());
+				if (materialTest.getLaboratory().getLaboratoryCode() <= 1000) {
+
+					ValidationData.insertLaboratory(materialTest
+							.getLaboratory());
 				}
-				
-				if(materialTest.getResult().getResultCode() <= 1000){
-					
+
+				if (materialTest.getResult().getResultCode() <= 1000) {
+
 					ValidationData.insertResult(materialTest.getResult());
 				}
 
@@ -164,49 +163,50 @@ public class MaterialData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		if(material.getInspectionAgency().getAgencyCode() <= 1000){
-			
+		if (material.getInspectionAgency().getAgencyCode() <= 1000) {
+
 			ValidationData.insertAgency(material.getInspectionAgency());
 		}
 
-		if(material.getSpecification().getSpecificationCode() <= 1000){
-			
+		if (material.getSpecification().getSpecificationCode() <= 1000) {
+
 			ValidationData.insertSpecification(material.getSpecification());
 		}
 
-		if(material.getItem().getItemCode() <= 1000){
-			
+		if (material.getItem().getItemCode() <= 1000) {
+
 			ValidationData.insertItem(material.getItem());
 		}
-		
+
 		int nextTestCode = getNextTestCode();
 		for (MaterialTests materialTest : material.getMaterialTests()) {
-			
+
 			if (materialTest.getTestCode() == 0) {
-				
+
 				materialTest.setTestCode(nextTestCode);
 				materialTest.setMaterialMaster(material);
-				
-				if(materialTest.getTest().getTestCode() <= 1000){
-					
+
+				if (materialTest.getTest().getTestCode() <= 1000) {
+
 					ValidationData.insertTest(materialTest.getTest());
 				}
-				
-				if(materialTest.getCustomer().getCustomerCode() <= 1000){
-					
+
+				if (materialTest.getCustomer().getCustomerCode() <= 1000) {
+
 					ValidationData.insertCustomer(materialTest.getCustomer());
 				}
 
-				if(materialTest.getLaboratory().getLaboratoryCode() <= 1000){
-					
-					ValidationData.insertLaboratory(materialTest.getLaboratory());
+				if (materialTest.getLaboratory().getLaboratoryCode() <= 1000) {
+
+					ValidationData.insertLaboratory(materialTest
+							.getLaboratory());
 				}
-				
-				if(materialTest.getResult().getResultCode() <= 1000){
-					
+
+				if (materialTest.getResult().getResultCode() <= 1000) {
+
 					ValidationData.insertResult(materialTest.getResult());
 				}
-				
+
 				nextTestCode++;
 			}
 		}
@@ -303,6 +303,7 @@ public class MaterialData {
 
 		transaction.commit();
 		session.close();
+
 		return ctNumbers;
 	}
 
@@ -358,7 +359,7 @@ public class MaterialData {
 									.sqlFormula("cast(substring(substring_index(Ct_Number, '-', 1), 6) as unsigned) asc"))
 					.list();
 		}
-		
+
 		transaction.commit();
 		session.close();
 		return materials;

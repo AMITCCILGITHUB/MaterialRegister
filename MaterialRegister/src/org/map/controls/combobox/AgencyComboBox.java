@@ -3,6 +3,7 @@ package org.map.controls.combobox;
 import java.util.Iterator;
 import java.util.List;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,6 +14,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -54,7 +56,7 @@ public class AgencyComboBox extends Region {
 
 		textBox.setPromptText(promptText);
 		agencyProperty.bindBidirectional(agency);
-		
+
 		textBox.textProperty().bindBidirectional(
 				agencyProperty.get().agencyNameProperty());
 	}
@@ -69,6 +71,13 @@ public class AgencyComboBox extends Region {
 
 		textBox = new TextField();
 		textBox.setPrefWidth(ViewLayout.TEXTBOX_WIDTH);
+
+		Tooltip tip = new Tooltip();
+		tip.textProperty().bind(
+				Bindings.format("Agency Code: %s\nAgency Name: %s",
+						agencyProperty.get().agencyCodeProperty(),
+						agencyProperty.get().agencyNameProperty()));
+		textBox.setTooltip(tip);
 
 		errorButton = new Button();
 		errorButton.getStyleClass().add("error-button");
@@ -159,11 +168,15 @@ public class AgencyComboBox extends Region {
 					String oldValue, String newValue) {
 
 				if (textBox.isFocused() == true) {
+
 					if (textBox.getText().length() == 0) {
+
 						if (resultContextMenu != null) {
+
 							resultContextMenu.hide();
 						}
 					} else {
+
 						List<AgencyMaster> resultList = ValidationData
 								.getAgencyList(textBox.getText().trim());
 
@@ -174,6 +187,7 @@ public class AgencyComboBox extends Region {
 										10, -5);
 							}
 						} else {
+
 							populateMenu("No matches");
 							if (!resultContextMenu.isShowing()) {
 								resultContextMenu.show(textBox, Side.BOTTOM,
@@ -205,7 +219,7 @@ public class AgencyComboBox extends Region {
 		menuItem.getStyleClass().add("result-menu-item");
 		resultContextMenu.getItems().add(menuItem);
 	}
-	
+
 	private void populateMenu(List<AgencyMaster> resultList) {
 
 		resultContextMenu.getItems().clear();

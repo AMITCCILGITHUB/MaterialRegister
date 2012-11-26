@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.map.hibernate.HibernateUtil;
@@ -31,8 +32,10 @@ public class CodeData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<CodeMaster> codes = session.createCriteria(CodeMaster.class)
-				.add(Restrictions.like("codeName", codeName)).list();
+		List<CodeMaster> codes = session
+				.createCriteria(CodeMaster.class)
+				.add(Restrictions
+						.like("codeName", codeName, MatchMode.ANYWHERE)).list();
 
 		transaction.commit();
 		session.close();

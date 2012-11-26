@@ -77,7 +77,7 @@ public class SearchBox extends Region {
 						contextMenu.hide();
 					}
 				} else {
-					ArrayList results = (ArrayList) MaterialData
+					ArrayList<String> results = (ArrayList<String>) MaterialData
 							.searchMaterialDetails(textBox.getText().trim());
 
 					if (results.size() > 0) {
@@ -86,8 +86,7 @@ public class SearchBox extends Region {
 						populateMenu("No matches");
 					}
 					if (!contextMenu.isShowing()) {
-						contextMenu.show(textBox, Side.BOTTOM,
-								10, -5);
+						contextMenu.show(textBox, Side.BOTTOM, 10, -5);
 					}
 					contextMenu.requestFocus();
 				}
@@ -162,7 +161,7 @@ public class SearchBox extends Region {
 
 				@Override
 				public void handle(ActionEvent actionEvent) {
-					Context.changePageArea("View Material");
+					Context.changePageArea("View Material", result);
 				}
 			});
 		}

@@ -15,8 +15,8 @@ public class HeatChartSheetRegister implements Serializable,
 	private static final long serialVersionUID = 1L;
 
 	private SimpleIntegerProperty heatChartSheetCode;
-	private SimpleIntegerProperty sheetNumber;
 	private SimpleIntegerProperty sequenceNumber;
+	private SimpleIntegerProperty sheetNumber;
 
 	private SimpleStringProperty partNumber;
 	private SimpleStringProperty partName;

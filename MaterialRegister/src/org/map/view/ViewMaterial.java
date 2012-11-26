@@ -37,9 +37,12 @@ public class ViewMaterial extends TabPane {
 
 			final ObservableList<MaterialMaster> mailboxData = FXCollections
 					.observableArrayList();
-			main.getChildren().addAll(SearchBoxUtil.getMaterialSearchBox("CT Number", mailboxData));
+			main.getChildren().addAll(
+					SearchBoxUtil
+							.getMaterialSearchBox("CT Number", mailboxData));
 
-			final TableView<MaterialMaster> table = TableUtil.createSearchMaterialTable();
+			final TableView<MaterialMaster> table = TableUtil
+					.createSearchMaterialTable();
 
 			main.getChildren().add(ControlsUtil.makeScrollable(table));
 
@@ -52,7 +55,8 @@ public class ViewMaterial extends TabPane {
 
 					if (mouseEvent.getClickCount() == 2) {
 
-						MaterialMaster material = table.getSelectionModel().getSelectedItem();
+						MaterialMaster material = table.getSelectionModel()
+								.getSelectedItem();
 						if (material != null) {
 
 							createViewTab(material);
@@ -67,7 +71,8 @@ public class ViewMaterial extends TabPane {
 				@Override
 				public void handle(ActionEvent e) {
 
-					MaterialMaster material = table.getSelectionModel().getSelectedItem();
+					MaterialMaster material = table.getSelectionModel()
+							.getSelectedItem();
 					if (material != null) {
 
 						createViewTab(material);
@@ -82,9 +87,9 @@ public class ViewMaterial extends TabPane {
 			tab.setClosable(false);
 			getTabs().add(tab);
 			setSide(Side.TOP);
-			
+
 		} catch (Exception e) {
-			
+
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(Context.getWindowStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
@@ -96,6 +101,7 @@ public class ViewMaterial extends TabPane {
 		for (Tab selTab : getTabs()) {
 			if (selTab.getId() != null
 					&& selTab.getId().equalsIgnoreCase(material.getCtNumber())) {
+
 				getSelectionModel().select(selTab);
 				return;
 			}
