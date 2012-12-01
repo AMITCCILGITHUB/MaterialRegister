@@ -159,26 +159,31 @@ public class TestComboBox extends Region {
 					String oldValue, String newValue) {
 
 				if (textBox.isFocused() == true) {
+					
 					if (textBox.getText().length() == 0) {
+						
 						if (resultContextMenu != null) {
+							
 							resultContextMenu.hide();
 						}
 					} else {
+						
 						List<TestMaster> resultList = ValidationData
 								.getTestList(textBox.getText().trim());
 
-						if (resultList.size() > 0) {
-							populateMenu(resultList);
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
-						} else {
+						if (resultList.size() == 1
+								&& resultList.get(0).getTestCode() == 0) {
+
+							testProperty.set(resultList.get(0));
 							populateMenu("No matches");
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
+						} else {
+
+							populateMenu(resultList);
+						}
+
+						if (!resultContextMenu.isShowing()) {
+							resultContextMenu
+									.show(textBox, Side.BOTTOM, 10, -5);
 						}
 						resultContextMenu.requestFocus();
 					}

@@ -204,22 +204,31 @@ public class AgencyEditableComboBox extends Region {
 					String oldValue, String newValue) {
 
 				if (!textBox.isDisabled() && textBox.isFocused() == true) {
+					
 					if (textBox.getText().length() == 0) {
+						
 						if (resultContextMenu != null) {
+							
 							resultContextMenu.hide();
 						}
 					} else {
+						
 						List<AgencyMaster> resultList = ValidationData
 								.getAgencyList(textBox.getText().trim());
 
-						if (resultList.size() > 0) {
-							populateMenu(resultList);
-						} else {
+						if (resultList.size() == 1
+								&& resultList.get(0).getAgencyCode() == 0) {
+
+							agencyProperty.set(resultList.get(0));
 							populateMenu("No matches");
+						} else {
+
+							populateMenu(resultList);
 						}
+
 						if (!resultContextMenu.isShowing()) {
-							resultContextMenu.show(textBox, Side.BOTTOM,
-									10, -5);
+							resultContextMenu
+									.show(textBox, Side.BOTTOM, 10, -5);
 						}
 						resultContextMenu.requestFocus();
 					}

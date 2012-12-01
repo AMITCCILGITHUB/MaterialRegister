@@ -56,7 +56,7 @@ public class TestEditableComboBox extends Region {
 
 		textBox.setPromptText(promptText);
 		testProperty.bindBidirectional(test);
-		
+
 		textBox.textProperty().bindBidirectional(
 				testProperty.get().testNameProperty());
 	}
@@ -168,8 +168,6 @@ public class TestEditableComboBox extends Region {
 		editButton.resizeRelocate(getWidth() - 18, 6, 12, 13);
 	}
 
-	
-
 	private void showResults() {
 
 		textBox.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -212,18 +210,19 @@ public class TestEditableComboBox extends Region {
 						List<TestMaster> resultList = ValidationData
 								.getTestList(textBox.getText().trim());
 
-						if (resultList.size() > 0) {
-							populateMenu(resultList);
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
-						} else {
+						if (resultList.size() == 1
+								&& resultList.get(0).getTestCode() == 0) {
+
+							testProperty.set(resultList.get(0));
 							populateMenu("No matches");
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
+						} else {
+
+							populateMenu(resultList);
+						}
+
+						if (!resultContextMenu.isShowing()) {
+							resultContextMenu
+									.show(textBox, Side.BOTTOM, 10, -5);
 						}
 						resultContextMenu.requestFocus();
 					}
@@ -250,7 +249,7 @@ public class TestEditableComboBox extends Region {
 		menuItem.getStyleClass().add("result-menu-item");
 		resultContextMenu.getItems().add(menuItem);
 	}
-	
+
 	private void populateMenu(List<TestMaster> resultList) {
 
 		resultContextMenu.getItems().clear();

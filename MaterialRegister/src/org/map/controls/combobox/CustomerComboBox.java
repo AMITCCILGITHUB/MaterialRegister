@@ -54,7 +54,7 @@ public class CustomerComboBox extends Region {
 
 		textBox.setPromptText(promptText);
 		customerProperty.bindBidirectional(customer);
-		
+
 		textBox.textProperty().bindBidirectional(
 				customerProperty.get().customerNameProperty());
 	}
@@ -159,26 +159,31 @@ public class CustomerComboBox extends Region {
 					String oldValue, String newValue) {
 
 				if (textBox.isFocused() == true) {
+
 					if (textBox.getText().length() == 0) {
+
 						if (resultContextMenu != null) {
+
 							resultContextMenu.hide();
 						}
 					} else {
+
 						List<CustomerMaster> resultList = ValidationData
 								.getCustomerList(textBox.getText().trim());
 
-						if (resultList.size() > 0) {
-							populateMenu(resultList);
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
-						} else {
+						if (resultList.size() == 1
+								&& resultList.get(0).getCustomerCode() == 0) {
+
+							customerProperty.set(resultList.get(0));
 							populateMenu("No matches");
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
+						} else {
+
+							populateMenu(resultList);
+						}
+
+						if (!resultContextMenu.isShowing()) {
+							resultContextMenu
+									.show(textBox, Side.BOTTOM, 10, -5);
 						}
 						resultContextMenu.requestFocus();
 					}
@@ -205,7 +210,7 @@ public class CustomerComboBox extends Region {
 		menuItem.getStyleClass().add("result-menu-item");
 		resultContextMenu.getItems().add(menuItem);
 	}
-	
+
 	private void populateMenu(List<CustomerMaster> resultList) {
 
 		resultContextMenu.getItems().clear();

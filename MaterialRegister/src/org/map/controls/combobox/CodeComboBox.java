@@ -166,20 +166,22 @@ public class CodeComboBox extends Region {
 						resultContextMenu.hide();
 					}
 				} else {
+					
 					List<CodeMaster> resultList = CodeData.getCodes(textNameBox.getText());
 
-					if (resultList.size() > 0) {
-						populateMenu(resultList);
-						if (!resultContextMenu.isShowing()) {
-							resultContextMenu.show(textNameBox, Side.BOTTOM,
-									10, -5);
-						}
-					} else {
+					if (resultList.size() == 1
+							&& resultList.get(0).getCodeNumber() == 0) {
+
+						codeProperty.set(resultList.get(0));
 						populateMenu("No matches");
-						if (!resultContextMenu.isShowing()) {
-							resultContextMenu.show(textNameBox, Side.BOTTOM,
-									10, -5);
-						}
+					} else {
+
+						populateMenu(resultList);
+					}
+
+					if (!resultContextMenu.isShowing()) {
+						resultContextMenu
+								.show(textNameBox, Side.BOTTOM, 10, -5);
 					}
 					resultContextMenu.requestFocus();
 				}

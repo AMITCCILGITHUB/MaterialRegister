@@ -3,7 +3,6 @@ package org.map.controls.combobox;
 import java.util.Iterator;
 import java.util.List;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -14,7 +13,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -71,13 +69,6 @@ public class AgencyComboBox extends Region {
 
 		textBox = new TextField();
 		textBox.setPrefWidth(ViewLayout.TEXTBOX_WIDTH);
-
-		Tooltip tip = new Tooltip();
-		tip.textProperty().bind(
-				Bindings.format("Agency Code: %s\nAgency Name: %s",
-						agencyProperty.get().agencyCodeProperty(),
-						agencyProperty.get().agencyNameProperty()));
-		textBox.setTooltip(tip);
 
 		errorButton = new Button();
 		errorButton.getStyleClass().add("error-button");
@@ -180,19 +171,19 @@ public class AgencyComboBox extends Region {
 						List<AgencyMaster> resultList = ValidationData
 								.getAgencyList(textBox.getText().trim());
 
-						if (resultList.size() > 0) {
-							populateMenu(resultList);
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
+						if (resultList.size() == 1
+								&& resultList.get(0).getAgencyCode() == 0) {
+
+							agencyProperty.set(resultList.get(0));
+							populateMenu("No matches");
 						} else {
 
-							populateMenu("No matches");
-							if (!resultContextMenu.isShowing()) {
-								resultContextMenu.show(textBox, Side.BOTTOM,
-										10, -5);
-							}
+							populateMenu(resultList);
+						}
+
+						if (!resultContextMenu.isShowing()) {
+							resultContextMenu
+									.show(textBox, Side.BOTTOM, 10, -5);
 						}
 						resultContextMenu.requestFocus();
 					}

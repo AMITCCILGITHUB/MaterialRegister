@@ -32,15 +32,23 @@ public class CodeData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		List<CodeMaster> codes = session
+		List<CodeMaster> codeList = session
 				.createCriteria(CodeMaster.class)
 				.add(Restrictions
 						.like("codeName", codeName, MatchMode.ANYWHERE)).list();
 
+		if (codeList.size() == 0) {
+
+			CodeMaster code = new CodeMaster();
+			code.setCodeName(codeName);
+
+			codeList.add(code);
+		}
+
 		transaction.commit();
 		session.close();
 
-		return codes;
+		return codeList;
 	}
 
 	public static int getNextCodeNumber() throws HibernateException {

@@ -50,6 +50,14 @@ public class ValidationData {
 				.add(Restrictions
 						.like("roleName", roleName, MatchMode.ANYWHERE)).list();
 
+		if (roleList.size() == 0) {
+
+			RoleMaster role = new RoleMaster();
+			role.setRoleName(roleName);
+
+			roleList.add(role);
+		}
+		
 		transaction.commit();
 		session.close();
 		return roleList;
@@ -573,6 +581,14 @@ public class ValidationData {
 				.add(Restrictions.like("agencyName", agencyName,
 						MatchMode.ANYWHERE)).list();
 
+		if(agencyList.size() == 0) {
+
+			AgencyMaster agency = new AgencyMaster();
+			agency.setAgencyName(agencyName);
+			
+			agencyList.add(agency);
+		}
+		
 		transaction.commit();
 		session.close();
 
@@ -588,6 +604,14 @@ public class ValidationData {
 				.add(Restrictions.like("customerName", customerName,
 						MatchMode.ANYWHERE)).list();
 
+		if(customerList.size() == 0) {
+
+			CustomerMaster customer = new CustomerMaster();
+			customer.setCustomerName(customerName);
+			
+			customerList.add(customer);
+		}
+		
 		transaction.commit();
 		session.close();
 
@@ -603,6 +627,14 @@ public class ValidationData {
 				.add(Restrictions
 						.like("itemName", itemName, MatchMode.ANYWHERE)).list();
 
+		if(itemList.size() == 0) {
+
+			ItemMaster item = new ItemMaster();
+			item.setItemName(itemName);
+			
+			itemList.add(item);
+		}
+		
 		transaction.commit();
 		session.close();
 
@@ -618,6 +650,14 @@ public class ValidationData {
 				.add(Restrictions.like("laboratoryName", laboratoryName,
 						MatchMode.ANYWHERE)).list();
 
+		if(laboratoryList.size() == 0) {
+
+			LaboratoryMaster laboratory = new LaboratoryMaster();
+			laboratory.setLaboratoryName(laboratoryName);
+			
+			laboratoryList.add(laboratory);
+		}
+		
 		transaction.commit();
 		session.close();
 
@@ -633,6 +673,14 @@ public class ValidationData {
 				.add(Restrictions.like("resultName", resultName,
 						MatchMode.ANYWHERE)).list();
 
+		if(resultList.size() == 0) {
+
+			ResultMaster result = new ResultMaster();
+			result.setResultName(resultName);
+			
+			resultList.add(result);
+		}
+		
 		transaction.commit();
 		session.close();
 
@@ -649,6 +697,14 @@ public class ValidationData {
 				.add(Restrictions.like("specificationName", specificationName,
 						MatchMode.ANYWHERE)).list();
 
+		if(specificationList.size() == 0) {
+
+			SpecificationMaster specification = new SpecificationMaster();
+			specification.setSpecificationName(specificationName);
+			
+			specificationList.add(specification);
+		}
+		
 		transaction.commit();
 		session.close();
 
@@ -656,6 +712,7 @@ public class ValidationData {
 	}
 
 	public static List<TestMaster> getTestList(String testName) {
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
@@ -663,6 +720,14 @@ public class ValidationData {
 				.createCriteria(TestMaster.class)
 				.add(Restrictions
 						.like("testName", testName, MatchMode.ANYWHERE)).list();
+
+		if (testList.size() == 0) {
+
+			TestMaster test = new TestMaster();
+			test.setTestName(testName);
+
+			testList.add(test);
+		}
 
 		transaction.commit();
 		session.close();
