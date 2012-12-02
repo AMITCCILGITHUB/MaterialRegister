@@ -54,7 +54,7 @@ public class TestComboBox extends Region {
 
 		textBox.setPromptText(promptText);
 		testProperty.bindBidirectional(test);
-		
+
 		textBox.textProperty().bindBidirectional(
 				testProperty.get().testNameProperty());
 	}
@@ -159,15 +159,15 @@ public class TestComboBox extends Region {
 					String oldValue, String newValue) {
 
 				if (textBox.isFocused() == true) {
-					
+
 					if (textBox.getText().length() == 0) {
-						
+
 						if (resultContextMenu != null) {
-							
+
 							resultContextMenu.hide();
 						}
 					} else {
-						
+
 						List<TestMaster> resultList = ValidationData
 								.getTestList(textBox.getText().trim());
 
@@ -210,7 +210,7 @@ public class TestComboBox extends Region {
 		menuItem.getStyleClass().add("result-menu-item");
 		resultContextMenu.getItems().add(menuItem);
 	}
-	
+
 	private void populateMenu(List<TestMaster> resultList) {
 
 		resultContextMenu.getItems().clear();

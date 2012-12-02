@@ -1,5 +1,7 @@
 package org.map.view;
 
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import org.map.hibernate.dao.MaterialData;
+import org.map.hibernate.ddo.MaterialMaster;
 import org.map.hibernate.ddo.MaterialRegister;
 import org.map.logger.LoggerUtil;
 import org.map.service.ServiceManager;
@@ -28,10 +31,13 @@ public class ViewReport extends ScrollPane {
 		try {
 			VBox main = ViewLayout.getMainVBox("Material Register", "Details");
 
+			List<MaterialMaster> materials = MaterialData.getMaterialList();
+
 			final ObservableList<MaterialRegister> data = FXCollections
-					.observableArrayList(MaterialRegister
-							.getMaterialRegisterList(MaterialData
-									.getMaterialList()));
+					.observableArrayList();
+
+			if (materials.size() > 0)
+				data.setAll(MaterialRegister.getMaterialRegisterList(materials));
 
 			main.getChildren().addAll(
 					SearchBoxUtil.getRegisterSearchBox("CT Number", data));
