@@ -145,7 +145,7 @@ public class Home {
 			public void handle(MouseEvent event) {
 
 				if (!windowButtons.isMaximized()) {
-					
+
 					primaryStage.setX(event.getScreenX() - mouseDragOffsetX);
 					primaryStage.setY(event.getScreenY() - mouseDragOffsetY);
 				}
@@ -255,7 +255,6 @@ public class Home {
 			@Override
 			public void handle(ActionEvent event) {
 
-				Context.getLoggedUser().clean();
 				primaryStage.hide();
 				Context.getLoginStage().show();
 			}
@@ -292,9 +291,11 @@ public class Home {
 
 		Text statusText = TextBuilder.create().build();
 
-		Text copyrightText = TextBuilder.create()
+		Text copyrightText = TextBuilder
+				.create()
 				.textAlignment(TextAlignment.CENTER)
-				.text(" Developed and Maintened by \n\u00A9 MAP Consultancy Services").build();
+				.text(" Developed and Maintened by \n\u00A9 MAP Consultancy Services")
+				.build();
 
 		BorderPane bottom = BorderPaneBuilder.create().minHeight(32)
 				.maxWidth(Double.MAX_VALUE).maxHeight(Double.MAX_VALUE)

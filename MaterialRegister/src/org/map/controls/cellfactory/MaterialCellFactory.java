@@ -107,9 +107,9 @@ public class MaterialCellFactory
 				public void handle(KeyEvent keyEvent) {
 					if (keyEvent.getCode() == KeyCode.ENTER) {
 						setHeatChartSheet(textField.getText());
-						
+
 						int index = 1;
-						for(HeatChartSheets testSheet : data){
+						for (HeatChartSheets testSheet : data) {
 							testSheet.setSequenceNumber(index);
 							index++;
 						}
@@ -142,8 +142,8 @@ public class MaterialCellFactory
 								this.boundToCurrently);
 					}
 				}
-				
-				if(item.trim().length() == 0){
+
+				if (item.trim().length() == 0) {
 					data.get(getIndex()).getMaterialmaster().clean();
 					data.get(getIndex()).getMaterialtests().clean();
 				}
@@ -174,11 +174,11 @@ public class MaterialCellFactory
 				if (!matched) {
 					if (insertIndex != getIndex()) {
 						HeatChartSheets addTestSheet = new HeatChartSheets();
-						
+
 						addTestSheet.setHeatChartSheetCode(insertTestSheet.getHeatChartSheetCode());
 						addTestSheet.setSequenceNumber(insertTestSheet.getSequenceNumber());
 						addTestSheet.setSheetNumber(insertTestSheet.getSheetNumber());
-						
+
 						addTestSheet.setPartNumber(insertTestSheet.getPartNumber());
 						addTestSheet.setPartName(insertTestSheet.getPartName());
 						addTestSheet.setSpecifiedSize(insertTestSheet.getSpecifiedSize());
@@ -186,8 +186,9 @@ public class MaterialCellFactory
 
 						data.add(insertIndex, addTestSheet);
 					}
-					data.get(insertIndex).setMaterialmaster(new MaterialMaster(master));
-					data.get(insertIndex).setMaterialtests(new MaterialTests(materialTests));
+					data.get(insertIndex).getMaterialmaster().resetTo(master);
+					data.get(insertIndex).getMaterialtests()
+							.resetTo(materialTests);
 					insertIndex++;
 				}
 			}

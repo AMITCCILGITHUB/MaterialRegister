@@ -9,10 +9,11 @@ import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class MaterialRegister implements Serializable {
+public class MaterialRegister implements Serializable,
+		Comparable<MaterialRegister> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private SimpleIntegerProperty materialCode;
 	private SimpleStringProperty ctNumber;
 	private SimpleStringProperty inspectionAgency;
@@ -71,10 +72,13 @@ public class MaterialRegister implements Serializable {
 
 	public MaterialRegister(MaterialRegister material) {
 
-		this.materialCode = new SimpleIntegerProperty(material.getMaterialCode());
+		this.materialCode = new SimpleIntegerProperty(
+				material.getMaterialCode());
 		this.ctNumber = new SimpleStringProperty(material.getCtNumber());
-		this.inspectionAgency = new SimpleStringProperty(material.getInspectionAgency());
-		this.specification = new SimpleStringProperty(material.getSpecification());
+		this.inspectionAgency = new SimpleStringProperty(
+				material.getInspectionAgency());
+		this.specification = new SimpleStringProperty(
+				material.getSpecification());
 		this.item = new SimpleStringProperty(material.getItem());
 		this.size = new SimpleStringProperty(material.getSize());
 		this.quantity = new SimpleIntegerProperty(material.getQuantity());
@@ -92,12 +96,14 @@ public class MaterialRegister implements Serializable {
 		this.result = new SimpleStringProperty(material.getResult());
 		this.remarks = new SimpleStringProperty(material.getRemarks());
 		this.witnessedBy = new SimpleStringProperty(material.getWitnessedBy());
-		this.failureReason = new SimpleStringProperty(material.getFailureReason());
+		this.failureReason = new SimpleStringProperty(
+				material.getFailureReason());
 
 		this.status = material.getStatus();
 		this.createdBy = material.getCreatedBy();
 		this.createdDate = material.getCreatedDate();
-	}	
+	}
+
 	public int getMaterialCode() {
 
 		return this.materialCode.get();
@@ -443,7 +449,8 @@ public class MaterialRegister implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public static List<MaterialRegister> getMaterialRegisterList(MaterialMaster master) {
+	public static List<MaterialRegister> getMaterialRegisterList(
+			MaterialMaster master) {
 		List<MaterialRegister> registerList = new ArrayList<>();
 
 		for (MaterialTests test : master.getMaterialTests()) {
@@ -451,8 +458,10 @@ public class MaterialRegister implements Serializable {
 
 			register.setMaterialCode(master.getMaterialCode());
 			register.setCtNumber(master.getCtNumber());
-			register.setInspectionAgency(master.getInspectionAgency().getAgencyName());
-			register.setSpecification(master.getSpecification().getSpecificationName());
+			register.setInspectionAgency(master.getInspectionAgency()
+					.getAgencyName());
+			register.setSpecification(master.getSpecification()
+					.getSpecificationName());
 			register.setItem(master.getItem().getItemName());
 			register.setSize(master.getSize());
 			register.setHeatNumber(master.getHeatNumber());
@@ -487,5 +496,29 @@ public class MaterialRegister implements Serializable {
 		}
 
 		return registerList;
+	}
+
+	@Override
+	public int compareTo(MaterialRegister o) {
+		if (o instanceof MaterialRegister && o != null) {
+			return compareCtNumbers(this.ctNumber.getValue(), o.getCtNumber());
+		} else {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
+	}
+
+	private Integer compareCtNumbers(String ctNumber1, String ctNumber2) {
+		Integer year1 = Integer.parseInt(ctNumber1.substring(2, 4));
+		Integer year2 = Integer.parseInt(ctNumber2.substring(2, 4));
+
+		if (year1.compareTo(year2) == 0) {
+			Integer sequence1 = Integer.parseInt(ctNumber1.substring(5));
+			Integer sequence2 = Integer.parseInt(ctNumber2.substring(5));
+
+			return sequence1.compareTo(sequence2);
+
+		} else {
+			return year1.compareTo(year2);
+		}
 	}
 }

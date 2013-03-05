@@ -408,8 +408,8 @@ public class HeatChartSheetRegister implements Serializable,
 	public int compareTo(HeatChartSheetRegister o) {
 
 		if (o instanceof HeatChartSheetRegister && o != null) {
-			return this.heatChartSheetCode.getValue().compareTo(
-					o.getHeatChartSheetCode());
+			return this.sequenceNumber.getValue().compareTo(
+					o.getSequenceNumber());
 		} else {
 			throw new UnsupportedOperationException("Not supported yet.");
 		}

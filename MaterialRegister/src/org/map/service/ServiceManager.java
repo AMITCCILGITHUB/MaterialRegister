@@ -45,6 +45,7 @@ public class ServiceManager {
 						Context.setLoggedUser(UserData.getUserDetails(user
 								.getUserName()));
 
+						user.clean();
 						Context.getLoginStage().hide();
 						Home mr = new Home();
 						try {
@@ -54,11 +55,15 @@ public class ServiceManager {
 									"Invalid Login", "Error", e.getMessage());
 						}
 					} else {
+						user.clean();
+						Context.getLoginSatusbar().hide();
+
 						Alert.showAlert(Context.getLoginStage(),
 								"Invalid Login", "Error",
 								"Invalid user name or password.\nPlease try again.");
 					}
 				} else if (newState == Worker.State.FAILED) {
+					user.clean();
 					Context.getLoginSatusbar().hide();
 
 					Alert.showAlert(Context.getLoginStage(), "Error", "Error",

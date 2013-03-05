@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class MaterialMaster implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private SimpleIntegerProperty materialCode;
 	private SimpleStringProperty ctNumber;
 	private AgencyProperty inspectionAgency;
@@ -25,7 +25,7 @@ public class MaterialMaster implements Serializable {
 	private String status;
 	private String createdBy;
 	private Date createdDate;
-	private List<MaterialTests> materialTests = new ArrayList<>();
+	private List<MaterialTests> materialTests;
 
 	private StringBuilder validationMessage = new StringBuilder();
 
@@ -55,7 +55,8 @@ public class MaterialMaster implements Serializable {
 		this.ctNumber = new SimpleStringProperty(material.getCtNumber());
 		this.inspectionAgency = new AgencyProperty(
 				material.getInspectionAgency());
-		this.specification = new SpecificationProperty(material.getSpecification());
+		this.specification = new SpecificationProperty(
+				material.getSpecification());
 		this.item = new ItemProperty(material.getItem());
 		this.size = new SimpleStringProperty(material.getSize());
 		this.quantity = new SimpleIntegerProperty(material.getQuantity());
@@ -283,16 +284,16 @@ public class MaterialMaster implements Serializable {
 		this.createdBy = "SYSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
-	
+
 	public boolean isInvalid() {
-		
+
 		validationMessage = new StringBuilder();
 
 		if (this.inspectionAgency.get().getAgencyName().trim().length() <= 0) {
 
 			validationMessage.append("* Inspection agency is empty." + "\n");
 		}
-		
+
 		if (this.specification.get().getSpecificationName().trim().length() <= 0) {
 
 			validationMessage.append("* Specification is empty." + "\n");
@@ -307,24 +308,26 @@ public class MaterialMaster implements Serializable {
 
 			validationMessage.append("* Quantity is equal to zero." + "\n");
 		}
-		
+
 		if (validationMessage.length() <= 0) {
 
 			for (MaterialTests tests : this.materialTests) {
 
 				if (tests.getSampleId().trim().length() > 0) {
-					
+
 					if (tests.isInvalid()) {
-						
-						validationMessage.append("Sample ID: " + tests.getSampleId() + "\n" + tests.getValidationMessage());
+
+						validationMessage.append("Sample ID: "
+								+ tests.getSampleId() + "\n"
+								+ tests.getValidationMessage());
 					}
 				} else {
-					
+
 					validationMessage.append("* Sample ID is empty.");
 				}
 			}
 		}
-		
+
 		return (validationMessage.length() > 0);
 	}
 

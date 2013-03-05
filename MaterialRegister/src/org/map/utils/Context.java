@@ -10,7 +10,7 @@ import org.map.hibernate.ddo.UserMaster;
 public class Context {
 
 	private static HostServices hostServices = null;
-	private static UserMaster loggedUser = new UserMaster();
+	private static UserMaster loggedUser;
 	private static Stage loginStage = new Stage();
 	private static Stage windowStage = new Stage();
 	private static LoadingBar loginSatusbar = new LoadingBar();

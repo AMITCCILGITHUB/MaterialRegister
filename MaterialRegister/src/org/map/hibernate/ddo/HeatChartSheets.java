@@ -11,6 +11,7 @@ public class HeatChartSheets implements Serializable,
 		Comparable<HeatChartSheets> {
 
 	private static final long serialVersionUID = 1L;
+
 	private SimpleIntegerProperty heatChartSheetCode;
 	private SimpleIntegerProperty sheetNumber;
 	private SimpleIntegerProperty sequenceNumber;
@@ -23,7 +24,7 @@ public class HeatChartSheets implements Serializable,
 	private SimpleStringProperty partName;
 	private SimpleStringProperty specifiedSize;
 	private SimpleStringProperty specifiedGrade;
-	
+
 	private String status;
 	private String createdBy;
 	private Date createdDate;
@@ -63,8 +64,10 @@ public class HeatChartSheets implements Serializable,
 
 		this.partNumber = new SimpleStringProperty(hSheets.getPartNumber());
 		this.partName = new SimpleStringProperty(hSheets.getPartName());
-		this.specifiedSize = new SimpleStringProperty(hSheets.getSpecifiedSize());
-		this.specifiedGrade = new SimpleStringProperty(hSheets.getSpecifiedGrade());
+		this.specifiedSize = new SimpleStringProperty(
+				hSheets.getSpecifiedSize());
+		this.specifiedGrade = new SimpleStringProperty(
+				hSheets.getSpecifiedGrade());
 
 		this.status = hSheets.getStatus();
 		this.createdBy = hSheets.getCreatedBy();
@@ -108,7 +111,7 @@ public class HeatChartSheets implements Serializable,
 
 	public void setMaterialmaster(MaterialMaster materialmaster) {
 
-		this.materialmaster = materialmaster;
+		this.materialmaster.resetTo(materialmaster);
 	}
 
 	public MaterialTests getMaterialtests() {
@@ -118,7 +121,7 @@ public class HeatChartSheets implements Serializable,
 
 	public void setMaterialtests(MaterialTests materialtests) {
 
-		this.materialtests = materialtests;
+		this.materialtests.resetTo(materialtests);
 	}
 
 	public HeatChartMaster getHeatchartmaster() {
@@ -128,7 +131,7 @@ public class HeatChartSheets implements Serializable,
 
 	public void setHeatchartmaster(HeatChartMaster heatchartmaster) {
 
-		this.heatchartmaster = heatchartmaster;
+		this.heatchartmaster.resetTo(heatchartmaster);
 	}
 
 	public int getSequenceNumber() {
@@ -251,8 +254,10 @@ public class HeatChartSheets implements Serializable,
 
 		this.partNumber = new SimpleStringProperty(hSheets.getPartNumber());
 		this.partName = new SimpleStringProperty(hSheets.getPartName());
-		this.specifiedSize = new SimpleStringProperty(hSheets.getSpecifiedSize());
-		this.specifiedGrade = new SimpleStringProperty(hSheets.getSpecifiedGrade());
+		this.specifiedSize = new SimpleStringProperty(
+				hSheets.getSpecifiedSize());
+		this.specifiedGrade = new SimpleStringProperty(
+				hSheets.getSpecifiedGrade());
 
 		this.status = hSheets.getStatus();
 		this.createdBy = hSheets.getCreatedBy();
@@ -279,7 +284,7 @@ public class HeatChartSheets implements Serializable,
 		this.createdBy = "SYSTEM";
 		this.createdDate = Calendar.getInstance().getTime();
 	}
-	
+
 	@Override
 	public int compareTo(HeatChartSheets o) {
 

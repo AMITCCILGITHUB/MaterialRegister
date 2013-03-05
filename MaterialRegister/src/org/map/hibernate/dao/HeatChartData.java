@@ -17,7 +17,6 @@ import org.map.hibernate.HibernateUtil;
 import org.map.hibernate.OrderBySqlFormula;
 import org.map.hibernate.ddo.HeatChartMaster;
 import org.map.hibernate.ddo.HeatChartSheets;
-import org.map.hibernate.ddo.MaterialTests;
 
 public class HeatChartData {
 
@@ -27,16 +26,16 @@ public class HeatChartData {
 		Transaction transaction = session.beginTransaction();
 
 		heatChart.setHeatChartCode(getNextHeatChartCode());
-		
+
 		int nextSheetCode = getNextHeatChartSheetCode();
 		for (HeatChartSheets sheet : heatChart.getHeatChartSheets()) {
-			if(sheet.getHeatChartSheetCode() == 0){
+			if (sheet.getHeatChartSheetCode() == 0) {
 				sheet.setHeatChartSheetCode(nextSheetCode);
 				sheet.setHeatchartmaster(heatChart);
 				nextSheetCode++;
 			}
 		}
-		
+
 		session.save(heatChart);
 
 		transaction.commit();
@@ -47,6 +46,15 @@ public class HeatChartData {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
+
+		int nextSheetCode = getNextHeatChartSheetCode();
+		for (HeatChartSheets sheet : heatChart.getHeatChartSheets()) {
+			if (sheet.getHeatChartSheetCode() == 0) {
+				sheet.setHeatChartSheetCode(nextSheetCode);
+				sheet.setHeatchartmaster(heatChart);
+				nextSheetCode++;
+			}
+		}
 
 		session.update(heatChart);
 
@@ -64,9 +72,8 @@ public class HeatChartData {
 		transaction.commit();
 		session.close();
 	}
-	
-	public static String getNextChartNumber()
-			throws HibernateException {
+
+	public static String getNextChartNumber() throws HibernateException {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
@@ -176,33 +183,32 @@ public class HeatChartData {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		Object result = session
-		.createCriteria(HeatChartMaster.class)
-		.setProjection(Projections.max("heatChartCode")).uniqueResult();
-		
+		Object result = session.createCriteria(HeatChartMaster.class)
+				.setProjection(Projections.max("heatChartCode")).uniqueResult();
+
 		int heatChartCode = 1001;
-		if(result != null)
+		if (result != null)
 			heatChartCode = (int) result + 1;
 
 		transaction.commit();
 		session.close();
-		return heatChartCode;	
+		return heatChartCode;
 	}
-	
+
 	public static int getNextHeatChartSheetCode() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 
-		Object result = session
-		.createCriteria(HeatChartSheets.class)
-		.setProjection(Projections.max("heatChartSheetCode")).uniqueResult();
-		
+		Object result = session.createCriteria(HeatChartSheets.class)
+				.setProjection(Projections.max("heatChartSheetCode"))
+				.uniqueResult();
+
 		int heatChartCode = 1001;
-		if(result != null)
+		if (result != null)
 			heatChartCode = (int) result + 1;
 
 		transaction.commit();
 		session.close();
-		return heatChartCode;	
+		return heatChartCode;
 	}
 }

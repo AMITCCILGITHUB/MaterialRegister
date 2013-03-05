@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class HeatChartMaster implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
 	private SimpleIntegerProperty heatChartCode;
 	private SimpleStringProperty chartNumber;
 	private SimpleStringProperty equipment;
@@ -23,7 +24,7 @@ public class HeatChartMaster implements Serializable {
 	private String status;
 	private String createdBy;
 	private Date createdDate;
-	private List<HeatChartSheets> heatChartSheets = new ArrayList<>();
+	private List<HeatChartSheets> heatChartSheets;
 
 	public HeatChartMaster() {
 
@@ -252,7 +253,7 @@ public class HeatChartMaster implements Serializable {
 		this.surveyor.set("");
 		this.tagNumber.set("");
 
-		this.heatChartSheets = new ArrayList<>();
+		this.heatChartSheets.clear();
 
 		this.status = "TRUE";
 		this.createdBy = "SYSTEM";

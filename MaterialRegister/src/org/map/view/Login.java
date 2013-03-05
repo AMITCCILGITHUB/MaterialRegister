@@ -117,7 +117,7 @@ public class Login extends Application {
 			public void handle(ActionEvent event) {
 
 				if (Validator.validateUserLogin(user)) {
-					
+
 					Context.getLoginSatusbar().show();
 					ServiceManager.getUserValidationService(user).restart();
 				}
@@ -148,7 +148,7 @@ public class Login extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 
-				Context.getLoggedUser().clean();
+				user.clean();
 			}
 		});
 

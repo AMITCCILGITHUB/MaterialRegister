@@ -7,7 +7,7 @@ import java.util.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class MaterialTests implements Serializable {
+public class MaterialTests implements Serializable, Comparable<MaterialTests> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -72,7 +72,7 @@ public class MaterialTests implements Serializable {
 		this.witnessedBy = new SimpleStringProperty(witnessedBy);
 		this.failureReason = new SimpleStringProperty(failureReason);
 
-		this.materialMaster = materialMaster;
+		this.materialMaster = new MaterialMaster(materialMaster);
 
 		this.status = status;
 		this.createdBy = createdBy;
@@ -289,7 +289,7 @@ public class MaterialTests implements Serializable {
 
 	public void setMaterialMaster(MaterialMaster materialMaster) {
 
-		this.materialMaster = materialMaster;
+		this.materialMaster.resetTo(materialMaster);
 	}
 
 	public String getStatus() {
@@ -359,7 +359,7 @@ public class MaterialTests implements Serializable {
 		this.witnessedBy.set("");
 		this.failureReason.set("");
 
-		if(this.materialMaster.getMaterialCode() > 1000){
+		if (this.materialMaster.getMaterialCode() > 1000) {
 			this.materialMaster.clean();
 		}
 
@@ -426,5 +426,14 @@ public class MaterialTests implements Serializable {
 	public String getValidationMessage() {
 
 		return validationMessage.toString();
+	}
+
+	@Override
+	public int compareTo(MaterialTests o) {
+		if (o instanceof MaterialTests && o != null) {
+			return this.testCode.getValue().compareTo(o.getTestCode());
+		} else {
+			throw new UnsupportedOperationException("Not supported yet.");
+		}
 	}
 }

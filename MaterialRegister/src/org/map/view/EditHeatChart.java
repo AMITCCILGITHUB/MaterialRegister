@@ -114,9 +114,10 @@ public class EditHeatChart extends TabPane {
 						@Override
 						public void handle(ActionEvent arg0) {
 
-							PersistHeatChartDetails phc = ServiceManager.getHeatChartDetailsService(
-									heatChart, PersistType.DELETE);
-							
+							PersistHeatChartDetails phc = ServiceManager
+									.getHeatChartDetailsService(heatChart,
+											PersistType.DELETE);
+
 							phc.restart();
 
 							phc.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -129,7 +130,7 @@ public class EditHeatChart extends TabPane {
 							});
 						}
 					};
-					
+
 					Confirm.showConfirm(Context.getWindowStage(), "Confirm",
 							"Confirm", "Delete " + heatChart.getChartNumber()
 									+ ". Are you sure?", delUserEvent);
@@ -144,9 +145,9 @@ public class EditHeatChart extends TabPane {
 			tab.setClosable(false);
 			getTabs().add(tab);
 			setSide(Side.TOP);
-			
+
 		} catch (HibernateException | MalformedURLException e) {
-			
+
 			LoggerUtil.getLogger().debug(e);
 			Alert.showAlert(Context.getWindowStage(), "Error", "Error",
 					"Some error occured. Details...\n" + e.getMessage());
@@ -283,7 +284,7 @@ public class EditHeatChart extends TabPane {
 			public void handle(ActionEvent e) {
 
 				ServiceManager.getHeatChartDetailsService(heatChart,
-						PersistType.INSERT).restart();
+						PersistType.UPDATE).restart();
 			}
 		});
 		final Button printButton = new Button("Print");
@@ -344,7 +345,7 @@ public class EditHeatChart extends TabPane {
 
 				int index = table.getSelectionModel().getSelectedIndex();
 				if (index >= 0) {
-					
+
 					heatChart.getHeatChartSheets().remove(data.get(index));
 					data.remove(index);
 				}
