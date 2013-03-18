@@ -20,7 +20,6 @@ import javafx.scene.layout.Region;
 
 import org.map.hibernate.dao.ValidationData;
 import org.map.hibernate.ddo.LaboratoryMaster;
-import org.map.hibernate.ddo.LaboratoryMaster;
 import org.map.hibernate.ddo.LaboratoryProperty;
 import org.map.utils.ViewLayout;
 
@@ -55,7 +54,7 @@ public class LaboratoryComboBox extends Region {
 
 		textBox.setPromptText(promptText);
 		laboratoryProperty.bindBidirectional(laboratory);
-		
+
 		textBox.textProperty().bindBidirectional(
 				laboratoryProperty.get().laboratoryNameProperty());
 	}
@@ -160,15 +159,15 @@ public class LaboratoryComboBox extends Region {
 					String oldValue, String newValue) {
 
 				if (textBox.isFocused() == true) {
-					
+
 					if (textBox.getText().length() == 0) {
-						
+
 						if (resultContextMenu != null) {
-							
+
 							resultContextMenu.hide();
 						}
 					} else {
-						
+
 						List<LaboratoryMaster> resultList = ValidationData
 								.getLaboratoryList(textBox.getText().trim());
 
@@ -211,7 +210,7 @@ public class LaboratoryComboBox extends Region {
 		menuItem.getStyleClass().add("result-menu-item");
 		resultContextMenu.getItems().add(menuItem);
 	}
-	
+
 	private void populateMenu(List<LaboratoryMaster> resultList) {
 
 		resultContextMenu.getItems().clear();

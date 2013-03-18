@@ -20,7 +20,6 @@ import javafx.scene.layout.Region;
 
 import org.map.hibernate.dao.ValidationData;
 import org.map.hibernate.ddo.ItemMaster;
-import org.map.hibernate.ddo.ItemMaster;
 import org.map.hibernate.ddo.ItemProperty;
 import org.map.utils.ViewLayout;
 
@@ -55,7 +54,7 @@ public class ItemComboBox extends Region {
 
 		textBox.setPromptText(promptText);
 		itemProperty.bindBidirectional(item);
-		
+
 		textBox.textProperty().bindBidirectional(
 				itemProperty.get().itemNameProperty());
 	}
@@ -160,15 +159,15 @@ public class ItemComboBox extends Region {
 					String oldValue, String newValue) {
 
 				if (textBox.isFocused() == true) {
-					
+
 					if (textBox.getText().length() == 0) {
-						
+
 						if (resultContextMenu != null) {
-							
+
 							resultContextMenu.hide();
 						}
 					} else {
-						
+
 						List<ItemMaster> resultList = ValidationData
 								.getItemList(textBox.getText().trim());
 
@@ -211,7 +210,7 @@ public class ItemComboBox extends Region {
 		menuItem.getStyleClass().add("result-menu-item");
 		resultContextMenu.getItems().add(menuItem);
 	}
-	
+
 	private void populateMenu(List<ItemMaster> resultList) {
 
 		resultContextMenu.getItems().clear();

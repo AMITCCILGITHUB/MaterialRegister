@@ -1,11 +1,14 @@
 package org.map.controls;
 
-import org.map.utils.ViewLayout;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.CheckBoxBuilder;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
+
+import org.map.utils.ViewLayout;
 
 public class ViewCheckBox extends Region {
 
@@ -66,7 +69,8 @@ public class ViewCheckBox extends Region {
 					new ChangeListener<Boolean>() {
 
 						@Override
-						public void changed(ObservableValue ov,
+						public void changed(
+								ObservableValue<? extends Boolean> ov,
 								Boolean old_val, Boolean new_val) {
 
 							value.set(checkBox.isSelected() ? 1 : (checkBox

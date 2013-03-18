@@ -60,7 +60,7 @@ public class CustomComboBox extends Region {
 		setPrefSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 		setMaxSize(ViewLayout.REGION_WIDTH, ViewLayout.REGION_HEIGHT);
 
-		comboBox = new ComboBox();
+		comboBox = new ComboBox<String>();
 		comboBox.getStyleClass().add("result-combo-box");
 		comboBox.setPrefWidth(ViewLayout.TEXTBOX_WIDTH);
 
