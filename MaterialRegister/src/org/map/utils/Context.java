@@ -6,6 +6,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import org.map.hibernate.ddo.UserMaster;
+import org.map.service.ServiceManager;
 
 public class Context {
 
@@ -83,9 +84,8 @@ public class Context {
 	}
 
 	public static void changePageArea(final String pageName) {
-		Context.getPageArea().getChildren()
-				.setAll(PageUtil.getPageView(pageName));
-		// ServiceManager.getChangePageViewService(pageName).restart();
+
+		ServiceManager.getChangePageViewService(pageName).restart();
 	}
 
 	public static void changePageArea(final String pageName,
